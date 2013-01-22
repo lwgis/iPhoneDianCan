@@ -59,6 +59,7 @@
     }
     //初始化右边切换按钮
     UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [rightButton setFrame:CGRectMake(0, 0, 30, 30)];
     [rightButton setBackgroundImage:[UIImage imageNamed:@"switchMap"]forState:UIControlStateNormal];
     [rightButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
     [rightButton setTitle:@"地图" forState:UIControlStateNormal];
