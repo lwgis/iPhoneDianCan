@@ -1,0 +1,16 @@
+//
+// Prefix header for all source files of the 'iPhoneDianCan' target in the 'iPhoneDianCan' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_4_0
+#warning "This project uses features only available in iOS SDK 4.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#endif
+#define screenHeight [[UIScreen mainScreen] bounds].size.height-20 //设备屏幕高度
+#define tabBarHeight 49 //tabar的高度
