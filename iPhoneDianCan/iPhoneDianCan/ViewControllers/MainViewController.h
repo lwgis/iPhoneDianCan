@@ -10,5 +10,5 @@
 #import "RestaurantController.h"
 #import "TabView.h"
 @interface MainViewController : UIViewController
-@property(nonatomic,assign)TabView *tabView;
+@property(nonatomic,retain)TabView *tabView;
 @end

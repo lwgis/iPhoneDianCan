@@ -24,7 +24,6 @@
 #import "AFJSONRequestOperation.h"
 
 
-static NSString * const kAFAppDotNetAPIBaseURLString = @"http://192.168.1.104:8080/ChihuoPlatform/rest";
 
 @implementation AFRestAPIClient
 
@@ -32,7 +31,7 @@ static NSString * const kAFAppDotNetAPIBaseURLString = @"http://192.168.1.104:80
     static AFRestAPIClient *_sharedClient = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _sharedClient = [[AFRestAPIClient alloc] initWithBaseURL:[NSURL URLWithString:kAFAppDotNetAPIBaseURLString]];
+        _sharedClient = [[AFRestAPIClient alloc] initWithBaseURL:[NSURL URLWithString:SERVERADDRESS]];
     });
     
     return _sharedClient;

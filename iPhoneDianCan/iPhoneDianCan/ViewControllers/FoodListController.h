@@ -10,5 +10,6 @@
 
 @interface FoodListController : UIViewController<UITableViewDataSource,UITableViewDelegate>
 @property NSInteger rid;// 餐厅id
-
+@property(nonatomic,retain)UITableView *table;
+@property(nonatomic,retain)NSMutableArray *allCatagores;//所有种类
 @end

@@ -9,21 +9,25 @@
 #import "RestaurantUser.h"
 
 @implementation RestaurantUser
--(id)initWithRid:(NSInteger)rid name:(NSString *)name{
+@synthesize rid,name;
+-(id)initWithRid:(NSInteger)aRid name:(NSString *)aName{
     self=[super init];
     if (self) {
-        _rid=rid;
-        _name=name;
+        rid=aRid;
+        self.name=aName;
     }
     return self;
 }
 -(id)initWithDictionary:(NSDictionary *)dictionary{
     self=[super init];
     if (self&&dictionary&&dictionary.count>0) {
-        _rid=(NSInteger)[dictionary valueForKey:@"id"] ;
-        _name=[dictionary valueForKey:@"name"];
+        rid=(NSInteger)[dictionary valueForKey:@"id"] ;
+        self.name=[dictionary valueForKey:@"name"];
     }
     return self;
 }
-
+-(void)dealloc{
+    [name release];
+    [super dealloc];
+}
 @end

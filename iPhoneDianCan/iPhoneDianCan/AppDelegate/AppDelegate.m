@@ -37,10 +37,10 @@
     self.tabBarController = [[[MyTabBarController alloc] init] autorelease];
     self.tabBarController.viewControllers = @[navMain, navOrderList];
     UIViewController *buttomViewController=[[UIViewController alloc] init];
-    buttomViewController.view=[[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, screenHeight)] autorelease];
+    buttomViewController.view=[[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, SCREENHEIGHT)] autorelease];
     [buttomViewController.view addSubview:self.tabBarController.view];
     //tab按钮视图
-    TabView *tabView=[[TabView alloc] initWithFrame:CGRectMake(0, screenHeight-tabBarHeight, 320, tabBarHeight)];
+    TabView *tabView=[[TabView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT-TABBARHEIGHT, 320, TABBARHEIGHT)];
     tabView.delegate=self.tabBarController;
 //    tabView.hidden=YES;
     tabView.backgroundColor=[UIColor clearColor];
@@ -49,7 +49,7 @@
     mainViewController.tabView=tabView;    
     [tabView release];
     //设置百度地图key
-    BMKMapManager *mapManager=[[BMKMapManager alloc] init];
+    mapManager=[[BMKMapManager alloc] init];
    BOOL ret= [mapManager start:@"7E781CD995FDD3089381C0EDD67126D0A335528E" generalDelegate:self];
     if (!ret) {
 		NSLog(@"manager start failed!");

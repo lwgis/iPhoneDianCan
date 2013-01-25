@@ -17,7 +17,7 @@
 -(id)init{
     self=[super init];
     if (self) {
-        UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, screenHeight-40)];
+        UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-40)];
         view.backgroundColor=[UIColor redColor];
         self.view=view;
         self.title = NSLocalizedString(@"Second", @"Second");

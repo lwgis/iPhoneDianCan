@@ -16,7 +16,7 @@
     [btnFoodlist addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     [btnFoodlist setBackgroundImage:[UIImage imageNamed:buttonImageName] forState:UIControlStateNormal];
     [btnFoodlist setBackgroundImage:[UIImage imageNamed:buttonImageSelectedName] forState:UIControlStateSelected];
-    [btnFoodlist setFrame:CGRectMake(btnTag*80, 0, 320/4, tabBarHeight)];
+    [btnFoodlist setFrame:CGRectMake(btnTag*80, 0, 320/4, TABBARHEIGHT)];
     [btnFoodlist setTitleEdgeInsets:UIEdgeInsetsMake(30, 0, 0, 0)];
     [btnFoodlist setTitle:name forState:UIControlStateNormal];
     [btnFoodlist setTitle:name forState:UIControlStateSelected];

@@ -17,7 +17,7 @@
 -(id)init{
     self = [super init];
     if (self) {
-        [self.view setFrame:CGRectMake(0, 0, 320, screenHeight-tabBarHeight)];
+        [self.view setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-TABBARHEIGHT)];
     }
     return  self;
 }
@@ -31,17 +31,17 @@
             view.hidden = YES;
         }
         else{
-            [view setFrame:CGRectMake(0, 0, 320, screenHeight-tabBarHeight)];
+            [view setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-TABBARHEIGHT)];
         }
     }
-    [self.tabBar setFrame: CGRectMake(0, screenHeight-tabBarHeight, 320, tabBarHeight)];
+    [self.tabBar setFrame: CGRectMake(0, SCREENHEIGHT-TABBARHEIGHT, 320, TABBARHEIGHT)];
     NSLog(@"%d",self.selectedIndex);
 }
 -(void)tabWasSelected:(NSInteger)index{
     self.selectedIndex=index;
 }
 -(void)updateContentViewSizeWithHidden:(BOOL)hidden{
-    float tabHeight=tabBarHeight;
+    float tabHeight=TABBARHEIGHT;
     if (hidden) {
         tabHeight=0;
     }
@@ -52,10 +52,14 @@
             view.hidden = YES;
         }
         else{
-            [view setFrame:CGRectMake(0, 0, 320, screenHeight-tabHeight)];
+            [view setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-tabHeight)];
         }
     }
     
+}
+-(void)dealloc{
+    [tabView release];
+    [super dealloc];
 }
 - (void)didReceiveMemoryWarning
 {

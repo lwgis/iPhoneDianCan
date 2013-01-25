@@ -13,7 +13,7 @@
 #import "AFRestAPIClient.h"
 #import "UIImageView+AFNetworking.h"
 #import "Restaurant.h"
-
+#import "BMKPointAnnotation+Restaurant.h"
 @interface RestaurantController ()
 @end
 
@@ -22,7 +22,7 @@
 -(id)init{
     self=[super init];
     if (self) {
-        [self.view setFrame:CGRectMake(0, 0, 320, screenHeight-49)];
+        [self.view setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-45)];
         self.view.backgroundColor=[UIColor grayColor];
         self.title=@"餐厅列表";
         //初始化map
@@ -31,7 +31,7 @@
         bmkMapView.delegate=self;
         [self.view addSubview:bmkMapView];
         //初始化tableView
-        table=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, screenHeight-49-44)];
+        table=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-44)];
         table.separatorStyle=UITableViewCellSeparatorStyleNone;
         UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mapTableViewBg"]];
         self.table.backgroundView = bgImageView;
@@ -58,8 +58,8 @@
         }];
     }
     //初始化右边切换按钮
-    UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    [rightButton setFrame:CGRectMake(0, 0, 30, 30)];
+    UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [rightButton setFrame:CGRectMake(0, 0, 50, 30)];
     [rightButton setBackgroundImage:[UIImage imageNamed:@"switchMap"]forState:UIControlStateNormal];
     [rightButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
     [rightButton setTitle:@"地图" forState:UIControlStateNormal];
@@ -115,6 +115,7 @@
 				 reuseIdentifier:SectionsTableIdentifier] autorelease];
     }
     cell.backgroundColor=[UIColor grayColor];
+    NSLog(@"restaurant.name=%@",allRestaurants);
     NSString *key=[allRestaurants.allKeys objectAtIndex:row];
     Restaurant *restaurant=[self.allRestaurants valueForKey:key];
     cell.textLabel.text = restaurant.name;
@@ -131,6 +132,7 @@
     annotation.coordinate = coor;
     annotation.title = restaurant.name;
     annotation.subtitle=@"超级难吃";
+    annotation.indexPath=indexPath;
     [bmkMapView addAnnotation:annotation];
     [annotation release];
     return cell;
@@ -139,10 +141,10 @@
 {
     return 80;
 }
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-     FoodListController*foodListController=[[FoodListController alloc] init];
-    NSString *key=[allRestaurants.allKeys objectAtIndex:indexPath.row];
+//跳转到菜单列表
+- (void)pushToFoodList:(NSInteger)row {
+    FoodListController*foodListController=[[FoodListController alloc] init];
+    NSString *key=[allRestaurants.allKeys objectAtIndex:row];
     Restaurant *restaurant=[allRestaurants objectForKey:key];
     foodListController.rid=restaurant.rid;
     foodListController.title=restaurant.name;
@@ -154,6 +156,11 @@
     [self.navigationController pushViewController:foodListController animated:YES];
     [foodListController release];
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    [self pushToFoodList:indexPath.row];
+}
 #pragma mark -
 #pragma mark BMKMapViewDelegate
 //更新位置以后
@@ -163,8 +170,8 @@
     newRegion.span.latitudeDelta  = 0.01;
     newRegion.span.longitudeDelta = 0.01;
     [mapView setRegion:newRegion animated:YES];
-    [self.table reloadData];
-    [UIView animateWithDuration:1 animations:^{
+    [table reloadData];
+    [UIView animateWithDuration:0.1 animations:^{
         self.table.alpha=1;
         bmkMapView.alpha=1;
     }];
@@ -177,6 +184,7 @@
         newAnnotationView.pinColor=BMKPinAnnotationColorRed;
         newAnnotationView.animatesDrop=YES;
         UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        rightButton.tag=((BMKPointAnnotation*)annotation).indexPath.row;
         [rightButton addTarget:self action:@selector(showDetails:) forControlEvents:UIControlEventTouchUpInside];
         newAnnotationView.rightCalloutAccessoryView = rightButton;
         UIImageView *headImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dcs.jpg"]];
@@ -186,6 +194,9 @@
         return [newAnnotationView autorelease];
     }
     return nil;
+}
+-(void)showDetails:(UIButton *)sender{
+    [self pushToFoodList:sender.tag];
 }
 -(void)dealloc{
     [bmkMapView release];
