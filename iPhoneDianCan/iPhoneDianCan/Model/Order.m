@@ -17,6 +17,7 @@
         NSNumber *numNumber=[dictionary valueForKey:@"number"];
         number=numNumber.integerValue;
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
         [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
         self.starttime= [dateFormatter dateFromString:[dictionary valueForKey:@"starttime"]];
         [dateFormatter release];

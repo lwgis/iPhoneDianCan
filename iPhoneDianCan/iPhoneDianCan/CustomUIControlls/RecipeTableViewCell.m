@@ -11,32 +11,39 @@
 #import "UIImageView+AFNetworking.h"
 #import "AppDelegate.h"
 @implementation RecipeTableViewCell
-@synthesize recipe = _recipe,zoomButton;
+@synthesize recipe = _recipe,zoomButton,addRecipeBtn,removeRecipeBtn;
+
 -(id)init{
     self=[super init];
     return self;
 }
+
 -(void)setRecipe:(Recipe *)recipe{
     _recipe=recipe;
     self.textLabel.text=recipe.name;
-    self.detailTextLabel.text=[NSString stringWithFormat:@"%.2f",recipe.price];
+    self.detailTextLabel.text=[NSString stringWithFormat:@"¥ %.2f",recipe.price];
 
     NSString *imageUrlString=IMAGESERVERADDRESS;
     imageUrlString=[NSString stringWithFormat:@"%@%@",imageUrlString,recipe.imageUrl];
     [self.imageView setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"imageWaiting"]];
-//    [self.imageView setImage:[UIImage imageNamed:@"imageWaiting"]];
-//    AFImageRequestOperation *ope=[AFImageRequestOperation imageRequestOperationWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrlString]] success:^(UIImage *image) {
-//        [self.imageView setImage:image];
-//    }];
-//    [ope start];
-
+    /*
+    [self.imageView setImage:[UIImage imageNamed:@"imageWaiting"]];
+    AFImageRequestOperation *ope=[AFImageRequestOperation imageRequestOperationWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrlString]] success:^(UIImage *image) {
+        [self.imageView setImage:image];
+    }];
+    [ope start];
+     */
     self.textLabel.backgroundColor=[UIColor clearColor];
     self.detailTextLabel.backgroundColor=[UIColor clearColor];
     [zoomButton addTarget:self action:@selector(zoomImage) forControlEvents:UIControlEventTouchUpInside];
+    self.addRecipeBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    [addRecipeBtn setFrame:CGRectMake(270, 30, 40, 40)];
+    [addRecipeBtn setBackgroundImage:[UIImage imageNamed:@"addRecipeBtn"] forState:UIControlStateNormal];
     [self setNeedsLayout];
 
 
 }
+
 -(void)zoomImage{
     NSString *imageUrlString=IMAGESERVERADDRESS;
     imageUrlString=[NSString stringWithFormat:@"%@%@",imageUrlString,_recipe.imageUrl];
@@ -60,53 +67,60 @@
     [appDelegate.window.rootViewController.view addSubview:zoomImageBgView];
     [zoomImageView release];
     [zoomImageBgView release];
-//    AFImageRequestOperation *ope=[AFImageRequestOperation imageRequestOperationWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrlString]] success:^(UIImage *image) {
-//        [zoomImageView setImage:image];
-//    }];
-//    [ope start];
+    AFImageRequestOperation *ope=[AFImageRequestOperation imageRequestOperationWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrlString]] success:^(UIImage *image) {
+        [zoomImageView setImage:image];
+    }];
+    [ope start];
 }
+
 -(void)zoomClose:(UIButton *)sender{
     [sender.superview removeFromSuperview];
 }
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
         UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"restaurantTableCellBg"]];
         self.backgroundView = bgImageView;
         [bgImageView release];
-        zoomButton=[UIButton buttonWithType:UIButtonTypeCustom];
+        self.zoomButton=[UIButton buttonWithType:UIButtonTypeCustom];
         [zoomButton setFrame:CGRectMake(5.0f, 5.0f, 70.0f, 70.0f)];
         [self addSubview:zoomButton];
         UIView *backView = [[UIView alloc] initWithFrame:self.frame];
         self.selectedBackgroundView = backView;
         self.selectedBackgroundView.backgroundColor = [UIColor clearColor];
         [backView release];
+        self.selectionStyle=UITableViewCellSelectionStyleNone;
     }
     return self;
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated{
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
 }
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    self.imageView.frame = CGRectMake(5.0f, 5.0f, 70.0f, 70.0f);
-    self.textLabel.frame = CGRectMake(80.0f, 10.0f, 240.0f, 20.0f);
+    self.imageView.frame = CGRectMake(5.0f, 5.0f, 80.0f, 80.0f);
+    self.textLabel.frame = CGRectMake(90.0f, 10.0f, 240.0f, 20.0f);
 //    self.detailTextLabel.contentMode=UIViewContentModeBottomRight;
-    self.detailTextLabel.frame = CGRectMake(280.0f, 30.0f, 40.0f, 20.0f);
+//    self.detailTextLabel.frame = CGRectMake(280.0f, 30.0f, 40.0f, 20.0f);
+    self.detailTextLabel.font=[UIFont boldSystemFontOfSize:15];
     self.detailTextLabel.textColor=[UIColor redColor];
     self.selectedBackgroundView.backgroundColor = [UIColor clearColor];
     self.textLabel.highlightedTextColor=[UIColor blackColor];
     self.detailTextLabel.highlightedTextColor=[UIColor redColor];
+    [self.contentView addSubview :addRecipeBtn];
+
 }
 
 -(void)dealloc{
+    [zoomButton release];
+    [addRecipeBtn release];
     [super dealloc];
 }
 @end

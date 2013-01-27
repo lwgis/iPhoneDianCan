@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "RestaurantController.h"
 #import "TabView.h"
-@interface MainViewController : UIViewController
+#import "ZBarSDK.h"
+@interface MainViewController : UIViewController<UIAlertViewDelegate,ZBarReaderDelegate>
 @property(nonatomic,retain)TabView *tabView;
 @end

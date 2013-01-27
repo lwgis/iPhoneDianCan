@@ -131,7 +131,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 80;
+    return 90;
 }
 //- (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
 //    NSMutableArray *array=[[[NSMutableArray alloc] init] autorelease];

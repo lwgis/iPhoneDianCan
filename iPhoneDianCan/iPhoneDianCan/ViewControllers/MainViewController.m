@@ -14,7 +14,10 @@
 #import "AFRestAPIClient.h"
 #import "UIImageView+AFNetworking.h"
 #import "Order.h"
-
+#import "OrderItem.h"
+#import "TextAlertView.h"
+#import "MyZBarReaderViewController.h"
+#import "AppDelegate.h"
 @implementation MainViewController
 @synthesize tabView;
 -(id)init{
@@ -77,20 +80,51 @@
     }
 
 -(void)btnCheckIn{
-    NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
-    NSString *pathOrder=[NSString stringWithFormat:@"restaurants/2/orders/code/5707"];
-    NSString *udid=[ud objectForKey:@"udid"];
-    [[AFRestAPIClient sharedClient] setDefaultHeader:@"X-device" value:udid];
-    [[AFRestAPIClient sharedClient] postPath:pathOrder parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"返回实体: %@", responseObject);
-//        NSLog(@"返回头: %@", [operation.response allHeaderFields] );
-        Order *order=[[Order alloc] initWithDictionary:responseObject];
-        NSLog(@"%@",order.orderItems);
-        [order release];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"错误: %@", error);
-    }];
-
+//    NSString *pathOrder=[NSString stringWithFormat:@"restaurants/2/orders/code/5707"];
+//    [[AFRestAPIClient sharedClient] postPath:pathOrder parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        Order *order=[[Order alloc] initWithDictionary:responseObject];
+//        for (OrderItem *oi in order.orderItems) {
+//            NSLog(@"%@",oi.recipe.name);
+//        }
+//        NSLog(@"%@",order.starttime);
+//
+//        [order release];
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        NSLog(@"错误: %@", error);
+//    }];
+    TextAlertView *tat=[[TextAlertView alloc] init];
+    [tat setDelegate:self];
+    [tat show];
+    [tat release];
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    NSLog(@"%d",buttonIndex);
+    if (buttonIndex==3) {
+        MyZBarReaderViewController *reader = [[MyZBarReaderViewController alloc] init];
+        reader.readerDelegate = self;
+        reader.supportedOrientationsMask = ZBarOrientationMaskAll;
+        reader.showsZBarControls=NO;
+        ZBarImageScanner *scanner = reader.scanner;
+        
+        [scanner setSymbology: ZBAR_I25
+                       config: ZBAR_CFG_ENABLE
+                           to: 0];
+        AppDelegate *appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
+        [appDelegate.window.rootViewController presentModalViewController:reader animated:YES];
+        [reader release];
+    }
+}
+- (void) imagePickerController: (UIImagePickerController*) reader
+ didFinishPickingMediaWithInfo: (NSDictionary*) info
+{
+    id<NSFastEnumeration> results =
+    [info objectForKey: ZBarReaderControllerResults];
+    ZBarSymbol *symbol = nil;
+    for(symbol in results)
+        break;
+    
+    [reader dismissModalViewControllerAnimated: YES];
+    NSLog(@"scandata%@",symbol.data) ;
 }
 - (void)didReceiveMemoryWarning
 {

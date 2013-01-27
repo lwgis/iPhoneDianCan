@@ -76,9 +76,14 @@
             NSString *string=[dn objectForKey:@"deviceid"];
             [ud setValue:string forKey:@"udid"];
             [ud synchronize];
+            [[AFRestAPIClient sharedClient] setDefaultHeader:@"X-device" value:string];
+
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"错误: %@", error);
         }];
+    }
+    else{
+        [[AFRestAPIClient sharedClient] setDefaultHeader:@"X-device" value:udid];
     }
         return YES;
 }

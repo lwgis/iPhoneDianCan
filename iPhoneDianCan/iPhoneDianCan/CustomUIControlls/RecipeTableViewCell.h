@@ -13,4 +13,7 @@
 }
 @property(nonatomic,assign)Recipe *recipe;
 @property(nonatomic,retain)UIButton *zoomButton;
+@property(nonatomic,retain)UIButton *addRecipeBtn;
+@property(nonatomic,retain)UIButton *removeRecipeBtn;
+
 @end
