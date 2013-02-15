@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TextAlertView : UIAlertView
+@interface TextAlertView : UIAlertView<UITextViewDelegate>
 @property NSInteger code;
 @property(nonatomic,retain)UITextView *codeTexView;
 @end

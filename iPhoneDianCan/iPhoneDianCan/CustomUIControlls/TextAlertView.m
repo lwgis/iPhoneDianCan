@@ -12,20 +12,20 @@
 
 
 @implementation TextAlertView
-@synthesize codeTexView;
+@synthesize codeTexView,code;
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
         codeTexView=[[UITextView alloc] initWithFrame:CGRectMake(90.0f, 55.0f, 120.0f, 30.0f)];
+        codeTexView.delegate=self;
         [codeTexView setKeyboardType:UIKeyboardTypeNumberPad];
         codeTexView.textColor=[UIColor orangeColor];
         codeTexView.font = [UIFont boldSystemFontOfSize:28];
         codeTexView.layer.borderColor = [UIColor grayColor].CGColor;
         codeTexView.layer.cornerRadius =10.0;
         codeTexView.textAlignment=UITextAlignmentCenter;
-
         [self addSubview:codeTexView];
         [codeTexView becomeFirstResponder];
     }
@@ -43,7 +43,7 @@
         }
     }
   
-    UIImageView *imageBgView=[[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 300.0f, 200.0f)];
+    UIImageView *imageBgView=[[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 300.0f, 150.0f)];
     [imageBgView setImage:[UIImage imageNamed:@"alertViewBg"]];
     [self addSubview:imageBgView];
     [imageBgView release];
@@ -53,22 +53,16 @@
     codeLabel.font = [UIFont boldSystemFontOfSize:18];
     codeLabel.textColor=[UIColor whiteColor];
     codeLabel.textAlignment=UITextAlignmentCenter;
-    codeLabel.text=@"请向服务员询问开台码或扫描二维码";
+    codeLabel.text=@"请向服务员询问开台码";
     [self addSubview:codeLabel];
     [codeLabel release];
-    UIButton *codeScanBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-    codeScanBtn.tag=3;
-    [codeScanBtn addTarget:self action:@selector(buttonTouch:) forControlEvents:UIControlEventTouchUpInside];
-    [codeScanBtn setImage:[UIImage imageNamed:@"codeScanBtn"] forState:UIControlStateNormal];
-    [codeScanBtn setFrame:CGRectMake(125, 90, 50, 50)];
-    [self addSubview:codeScanBtn];
     UIButton *codeNoBtn=[UIButton buttonWithType:UIButtonTypeCustom];
     codeNoBtn.tag=0;
     [codeNoBtn addTarget:self action:@selector(buttonTouch:) forControlEvents:UIControlEventTouchUpInside];
     [codeNoBtn setBackgroundImage:[UIImage imageNamed:@"alertYesNoBtn"] forState:UIControlStateNormal];
     codeNoBtn.titleLabel.font=[UIFont boldSystemFontOfSize:20];
     [codeNoBtn setTitle:@"取消" forState:UIControlStateNormal];
-    [codeNoBtn setFrame:CGRectMake(20, 145, 120, 45)];
+    [codeNoBtn setFrame:CGRectMake(20, 90, 120, 45)];
     [self addSubview:codeNoBtn];
     UIButton *codeYesBtn=[UIButton buttonWithType:UIButtonTypeCustom];
     codeYesBtn.tag=1;
@@ -76,7 +70,7 @@
     [codeYesBtn setBackgroundImage:[UIImage imageNamed:@"alertYesNoBtn"] forState:UIControlStateNormal];
     codeYesBtn.titleLabel.font=[UIFont boldSystemFontOfSize:20];
     [codeYesBtn setTitle:@"开台" forState:UIControlStateNormal];
-    [codeYesBtn setFrame:CGRectMake(160, 145, 120, 45)];
+    [codeYesBtn setFrame:CGRectMake(160, 90, 120, 45)];
     [self addSubview:codeYesBtn];
 }
 -(void)buttonTouch:(UIButton *)sender{
@@ -93,7 +87,7 @@
 }
 - (void) show {
     [super show];
-    self.bounds = CGRectMake(0, 0, 300,200);
+    self.bounds = CGRectMake(0, 0, 300,150);
     
 }
 /*
@@ -104,6 +98,17 @@
     // Drawing code
 }
 */
+#pragma mark -
+#pragma mark UITextViewDelegate
+-(void)textViewDidChange:(UITextView *)textView{
+    if (textView.text==nil) {
+        self.code=0;
+    }
+    else{
+        NSNumber *num=(NSNumber*)textView.text;
+        self.code=num.integerValue;
+    }
+}
 -(void)dealloc{
     [codeTexView release];
     [super dealloc];

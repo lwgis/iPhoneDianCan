@@ -18,25 +18,20 @@
 @end
 
 @implementation RestaurantController
-@synthesize table,allRestaurants;
+@synthesize table,allRestaurants,bmkMapView;
 -(id)init{
     self=[super init];
     if (self) {
         [self.view setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-45)];
         self.view.backgroundColor=[UIColor grayColor];
         self.title=@"餐厅列表";
-        //初始化map
-        bmkMapView=[[BMKMapView alloc] initWithFrame:self.view.frame];
-        bmkMapView.alpha=0;
-        bmkMapView.delegate=self;
-        [self.view addSubview:bmkMapView];
         //初始化tableView
         table=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-44)];
         table.separatorStyle=UITableViewCellSeparatorStyleNone;
         UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mapTableViewBg"]];
         self.table.backgroundView = bgImageView;
         [bgImageView release];
-        table.alpha=0;
+        //    table.alpha=0;
         [self.view addSubview:table];
         self.table.delegate=self;
         self.table.dataSource=self;
@@ -51,32 +46,38 @@
                 [restaurant release];
                 i++;
             }
-            bmkMapView.showsUserLocation=YES;
+            self.bmkMapView.showsUserLocation=YES;
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"错误: %@", error);
             
         }];
-    }
+        
+
     //初始化右边切换按钮
     UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [rightButton setFrame:CGRectMake(0, 0, 50, 30)];
-    [rightButton setBackgroundImage:[UIImage imageNamed:@"switchMap"]forState:UIControlStateNormal];
+    [rightButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
     [rightButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
     [rightButton setTitle:@"地图" forState:UIControlStateNormal];
     [rightButton addTarget:self action:@selector(rightBarButtonTouch:)forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
     self.navigationItem.rightBarButtonItem= rightItem;
     [rightItem release];
+    
+    isShowMapView=NO;
+    }
     return self;
 }
+
 -(void)rightBarButtonTouch:(UIButton *)sender{
-    if (sender.titleLabel.text==@"地图") {
+    if (!isShowMapView) {
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:1];
         [UIView setAnimationTransition: UIViewAnimationTransitionCurlUp forView:self.view cache:YES];
         [self.view bringSubviewToFront:bmkMapView];
         [UIView commitAnimations];
         [sender setTitle:@"列表" forState:UIControlStateNormal];
+        isShowMapView=YES;
     }else{
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:1];
@@ -84,11 +85,17 @@
         [self.view bringSubviewToFront:table];
         [UIView commitAnimations];
         [sender setTitle:@"地图" forState:UIControlStateNormal];
-
+        isShowMapView=NO;
     }
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    if (bmkMapView.delegate!=self) {
+        [self.bmkMapView setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-44)];
+       self.bmkMapView.delegate=self;
+       [self.view addSubview:self.bmkMapView];
+        [self.view bringSubviewToFront:table];
+    }
 }
 - (void)didReceiveMemoryWarning
 {
@@ -133,7 +140,7 @@
     annotation.title = restaurant.name;
     annotation.subtitle=@"超级难吃";
     annotation.indexPath=indexPath;
-    [bmkMapView addAnnotation:annotation];
+    [self.bmkMapView addAnnotation:annotation];
     [annotation release];
     return cell;
 }
@@ -143,9 +150,9 @@
 }
 //跳转到菜单列表
 - (void)pushToFoodList:(NSInteger)row {
-    FoodListController*foodListController=[[FoodListController alloc] init];
     NSString *key=[allRestaurants.allKeys objectAtIndex:row];
     Restaurant *restaurant=[allRestaurants objectForKey:key];
+    FoodListController*foodListController=[[FoodListController alloc] initWithRecipe:restaurant];
     foodListController.rid=restaurant.rid;
     foodListController.title=restaurant.name;
     UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
@@ -171,10 +178,10 @@
     newRegion.span.longitudeDelta = 0.01;
     [mapView setRegion:newRegion animated:YES];
     [table reloadData];
-    [UIView animateWithDuration:0.1 animations:^{
-        self.table.alpha=1;
-        bmkMapView.alpha=1;
-    }];
+//    [UIView animateWithDuration:0.1 animations:^{
+//        self.table.alpha=1;
+//        self.bmkMapView.alpha=1;
+//    }];
     mapView.showsUserLocation=NO;
 }
 //添加标注
@@ -184,8 +191,7 @@
         newAnnotationView.pinColor=BMKPinAnnotationColorRed;
         newAnnotationView.animatesDrop=YES;
         UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-        rightButton.tag=((BMKPointAnnotation*)annotation).indexPath.row;
-        [rightButton addTarget:self action:@selector(showDetails:) forControlEvents:UIControlEventTouchUpInside];
+         [rightButton addTarget:self action:@selector(showDetails:) forControlEvents:UIControlEventTouchUpInside];
         newAnnotationView.rightCalloutAccessoryView = rightButton;
         UIImageView *headImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dcs.jpg"]];
         [headImage setFrame:CGRectMake(0, 0, 30, 30)];

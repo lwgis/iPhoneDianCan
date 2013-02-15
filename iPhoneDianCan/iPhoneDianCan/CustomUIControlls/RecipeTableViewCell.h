@@ -15,5 +15,6 @@
 @property(nonatomic,retain)UIButton *zoomButton;
 @property(nonatomic,retain)UIButton *addRecipeBtn;
 @property(nonatomic,retain)UIButton *removeRecipeBtn;
-
+@property(nonatomic,retain)UILabel *countLabel;
+@property(nonatomic) NSInteger recipeCount;
 @end

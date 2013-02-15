@@ -9,7 +9,7 @@
 #import "Recipe.h"
 
 @implementation Recipe
-@synthesize rid,cid,name,price,imageUrl,description;
+@synthesize rid,cid,name,price,imageUrl,description,orderedCount;
 -(id)initWithDictionary:(NSDictionary *) dictionary{
     self=[super init];
     if (self) {

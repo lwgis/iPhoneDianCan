@@ -23,6 +23,7 @@
         [cancelBtn addTarget:self action:@selector(cancelClick) forControlEvents:UIControlEventTouchUpInside];
         [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
         [self.view addSubview:cancelBtn];
+        self.cameraFlashMode=UIImagePickerControllerCameraFlashModeOff;
     }
 return self;
 }

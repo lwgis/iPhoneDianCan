@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "MyTabBarController.h"
 #import "BMapKit.h"
+#import "Order.h"
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UITabBarControllerDelegate,BMKGeneralDelegate>{
     BMKMapManager *mapManager;
 }
 
 @property (strong, nonatomic) UIWindow *window;
-
 @property (strong, nonatomic) MyTabBarController *tabBarController;
 @property(nonatomic,strong)UINavigationController *navMain;//主页导航
 @property(nonatomic,strong) UINavigationController *navOrderList;//订单导航

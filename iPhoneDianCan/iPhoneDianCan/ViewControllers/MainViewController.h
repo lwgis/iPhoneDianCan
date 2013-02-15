@@ -10,6 +10,8 @@
 #import "RestaurantController.h"
 #import "TabView.h"
 #import "ZBarSDK.h"
+#import "BMapKit.h"
 @interface MainViewController : UIViewController<UIAlertViewDelegate,ZBarReaderDelegate>
 @property(nonatomic,retain)TabView *tabView;
+@property(nonatomic,retain)BMKMapView *bmkMapView;
 @end

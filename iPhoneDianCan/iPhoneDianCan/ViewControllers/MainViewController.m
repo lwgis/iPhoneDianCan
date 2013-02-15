@@ -19,16 +19,12 @@
 #import "MyZBarReaderViewController.h"
 #import "AppDelegate.h"
 @implementation MainViewController
-@synthesize tabView;
+@synthesize tabView,bmkMapView;
 -(id)init{
     self=[super init];
     if (self) {
-        self.view.backgroundColor=[UIColor grayColor];
-//        UIView *view=[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320,SCREENHEIGHT)];
-//        self.view=view;
         self.title = NSLocalizedString(@"First", @"First");
         self.tabBarItem.image = [UIImage imageNamed:@"first"];
-//        [view release];
         UIButton *btnRestaurant=[UIButton buttonWithType:UIButtonTypeCustom];
         btnRestaurant.tag=0;
         [btnRestaurant addTarget:self action:@selector(btnRestaurantClick) forControlEvents:UIControlEventTouchUpInside];
@@ -56,6 +52,9 @@
     }
     return self;
 }
+-(void)viewDidLoad{
+    [super viewDidLoad];
+}
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
 //    self.tabView.hidden=YES;
@@ -63,7 +62,6 @@
 
 
 }
-
 
 -(void)btnRestaurantClick{
     RestaurantController *restaurantController=[[RestaurantController alloc] init];
@@ -75,48 +73,33 @@
     [temporaryBarButtonItem release];
     self.tabView.hidden=NO;
     [self.tabView.delegate updateContentViewSizeWithHidden:NO];
+    if (bmkMapView==nil) {
+        bmkMapView=[[BMKMapView alloc] init];
+    }
+    restaurantController.bmkMapView=bmkMapView;
     [self.navigationController pushViewController:restaurantController animated:YES];
     [restaurantController release];
     }
 
 -(void)btnCheckIn{
-//    NSString *pathOrder=[NSString stringWithFormat:@"restaurants/2/orders/code/5707"];
-//    [[AFRestAPIClient sharedClient] postPath:pathOrder parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        Order *order=[[Order alloc] initWithDictionary:responseObject];
-//        for (OrderItem *oi in order.orderItems) {
-//            NSLog(@"%@",oi.recipe.name);
-//        }
-//        NSLog(@"%@",order.starttime);
-//
-//        [order release];
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        NSLog(@"错误: %@", error);
-//    }];
-    TextAlertView *tat=[[TextAlertView alloc] init];
-    [tat setDelegate:self];
-    [tat show];
-    [tat release];
+    MyZBarReaderViewController *reader = [[MyZBarReaderViewController alloc] init];
+    reader.readerDelegate = self;
+    reader.supportedOrientationsMask = ZBarOrientationMaskAll;
+    reader.showsZBarControls=NO;
+    ZBarImageScanner *scanner = reader.scanner;
+    
+    [scanner setSymbology: ZBAR_I25
+                   config: ZBAR_CFG_ENABLE
+                       to: 0];
+    AppDelegate *appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
+    [appDelegate.window.rootViewController presentModalViewController:reader animated:YES];
+    [reader release];
 }
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    NSLog(@"%d",buttonIndex);
-    if (buttonIndex==3) {
-        MyZBarReaderViewController *reader = [[MyZBarReaderViewController alloc] init];
-        reader.readerDelegate = self;
-        reader.supportedOrientationsMask = ZBarOrientationMaskAll;
-        reader.showsZBarControls=NO;
-        ZBarImageScanner *scanner = reader.scanner;
-        
-        [scanner setSymbology: ZBAR_I25
-                       config: ZBAR_CFG_ENABLE
-                           to: 0];
-        AppDelegate *appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
-        [appDelegate.window.rootViewController presentModalViewController:reader animated:YES];
-        [reader release];
-    }
-}
+
+
+
 - (void) imagePickerController: (UIImagePickerController*) reader
- didFinishPickingMediaWithInfo: (NSDictionary*) info
-{
+ didFinishPickingMediaWithInfo: (NSDictionary*) info{
     id<NSFastEnumeration> results =
     [info objectForKey: ZBarReaderControllerResults];
     ZBarSymbol *symbol = nil;
@@ -124,15 +107,17 @@
         break;
     
     [reader dismissModalViewControllerAnimated: YES];
-    NSLog(@"scandata%@",symbol.data) ;
+    NSLog(@"scandata===%@",symbol.data) ;
 }
-- (void)didReceiveMemoryWarning
-{
+
+- (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 -(void)dealloc{
-//    [restaurantController release];
+//    [restaurantController release]
+    [bmkMapView release];
     [tabView release];
     [super dealloc];
 }

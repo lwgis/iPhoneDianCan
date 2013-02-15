@@ -15,6 +15,7 @@
 @property (nonatomic,retain)NSString *description;
 @property (nonatomic,retain)NSString *imageUrl;
 @property double price;
+@property NSInteger orderedCount;
 -(id)initWithDictionary:(NSDictionary *) dictionary;
 
 @end
