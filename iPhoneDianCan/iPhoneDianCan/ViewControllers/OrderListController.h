@@ -5,9 +5,10 @@
 //  Created by 李炜 on 13-1-1.
 //  Copyright (c) 2013年 ztb. All rights reserved.
 //
-
 #import <UIKit/UIKit.h>
-
-@interface OrderListController : UIViewController
-
+#import "Order.h"
+@interface OrderListController : UIViewController<UITableViewDataSource,UITableViewDelegate>
+@property(nonatomic,retain)UITableView *table;
+@property(nonatomic,retain)Order *currentOrder;
+@property(nonatomic,retain)NSMutableArray *allCatagores;//所有已点种类
 @end

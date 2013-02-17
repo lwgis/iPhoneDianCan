@@ -11,8 +11,9 @@
 #import "UIImageView+AFNetworking.h"
 #import "AppDelegate.h"
 #import "FoodListController.h"
+#import "Category.h"
 @implementation RecipeTableViewCell
-@synthesize recipe = _recipe,zoomButton,addRecipeBtn,removeRecipeBtn,countLabel,recipeCount=_recipeCount;
+@synthesize recipe = _recipe,zoomButton,addRecipeBtn,removeRecipeBtn,countLabel,recipeCount=_recipeCount,indexPath,isAllowRemoveCell;
 -(id)init{
     self=[super init];
     return self;
@@ -23,7 +24,22 @@
     if (_recipeCount<=0) {
         [self.countLabel setText:@""];
         _recipeCount=0;
-        [self.removeRecipeBtn removeFromSuperview];
+        if (isAllowRemoveCell) {
+            UITableView *tv=(UITableView *)self.superview;
+            FoodListController *flCon=(FoodListController *)tv.delegate;
+            Category *category=[flCon.allCatagores objectAtIndex:indexPath.section];
+            [category.allRecipes removeObjectAtIndex:indexPath.row];
+            [tv beginUpdates];
+            [tv deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
+            [tv endUpdates];
+            if (category.allRecipes.count==0) {
+                [flCon.allCatagores removeObjectAtIndex:indexPath.section];
+            }
+            [tv reloadData];
+        }
+        else{
+            [self.removeRecipeBtn removeFromSuperview];
+        }
     }
     else{
         [self.countLabel setText:[NSString stringWithFormat:@"%d 份",_recipeCount]];
@@ -122,6 +138,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
+        isAllowRemoveCell=NO;
         UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"restaurantTableCellBg"]];
         self.backgroundView = bgImageView;
         [bgImageView release];
@@ -178,6 +195,7 @@
     [addRecipeBtn release];
     [countLabel release];
     [removeRecipeBtn release];
+    [indexPath release];
     [super dealloc];
 }
 @end

@@ -94,6 +94,7 @@
     self.currentOrder=order;
     for (Category *category in self.allCatagores) {
         for (Recipe *recipe in category.allRecipes) {
+            recipe.orderedCount=0;
             for (OrderItem *oItem in self.currentOrder.orderItems) {
                 if (recipe.rid==oItem.recipe.rid) {
                     recipe.orderedCount=oItem.count;
@@ -224,7 +225,7 @@
     headerLabel.textColor = [UIColor whiteColor];
     headerLabel.font = [UIFont boldSystemFontOfSize:18];
     Category *category=[allCatagores objectAtIndex:section];
-    headerLabel.text=category.name;
+    headerLabel.text=[NSString stringWithFormat:@"%@(%d)", category.name,category.allRecipes.count];
     [headerLabel sizeToFit];
     CGRect rect=headerLabel.frame;
     rect.origin.x=(320.0f-rect.size.width)/2;
@@ -252,7 +253,7 @@
             [self.navigationItem setHidesBackButton:YES];
             self.currentOrder=order;
             UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            [rightButton setFrame:CGRectMake(0, 0, 35, 35)];
+            [rightButton setFrame:CGRectMake(0, 0, 45, 35)];
             [rightButton setBackgroundImage:[UIImage imageNamed:@"refreshOrder"]forState:UIControlStateNormal];
             [rightButton addTarget:self action:@selector(refreshOrder)forControlEvents:UIControlEventTouchUpInside];
             UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
@@ -267,6 +268,7 @@
         
     }
 }
+//刷新菜单
 -(void)refreshOrder{
     NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
     NSNumber *oidNum=[ud valueForKey:@"oid"];
