@@ -37,9 +37,11 @@
     [self.tabBar setFrame: CGRectMake(0, SCREENHEIGHT-TABBARHEIGHT, 320, TABBARHEIGHT)];
     NSLog(@"%d",self.selectedIndex);
 }
+
 -(void)tabWasSelected:(NSInteger)index{
     self.selectedIndex=index;
 }
+
 -(void)updateContentViewSizeWithHidden:(BOOL)hidden{
     float tabHeight=TABBARHEIGHT;
     if (hidden) {
@@ -57,12 +59,13 @@
     }
     
 }
+
 -(void)dealloc{
     [tabView release];
     [super dealloc];
 }
-- (void)didReceiveMemoryWarning
-{
+
+- (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }

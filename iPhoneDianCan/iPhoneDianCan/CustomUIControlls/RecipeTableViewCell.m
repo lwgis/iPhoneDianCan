@@ -10,8 +10,10 @@
 #import "Recipe.h"
 #import "UIImageView+AFNetworking.h"
 #import "AppDelegate.h"
-#import "FoodListController.h"
+#import "OrderListController.h"
 #import "Category.h"
+#import <QuartzCore/QuartzCore.h>
+#import "FoodListController.h"
 @implementation RecipeTableViewCell
 @synthesize recipe = _recipe,zoomButton,addRecipeBtn,removeRecipeBtn,countLabel,recipeCount=_recipeCount,indexPath,isAllowRemoveCell;
 -(id)init{
@@ -26,16 +28,20 @@
         _recipeCount=0;
         if (isAllowRemoveCell) {
             UITableView *tv=(UITableView *)self.superview;
-            FoodListController *flCon=(FoodListController *)tv.delegate;
-            Category *category=[flCon.allCatagores objectAtIndex:indexPath.section];
+            OrderListController *olCon=(OrderListController *)tv.delegate;
+            Category *category=[olCon.allCategores objectAtIndex:indexPath.section];
             [category.allRecipes removeObjectAtIndex:indexPath.row];
             [tv beginUpdates];
-            [tv deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
-            [tv endUpdates];
             if (category.allRecipes.count==0) {
-                [flCon.allCatagores removeObjectAtIndex:indexPath.section];
+                [olCon.allCategores removeObjectAtIndex:indexPath.section];
+                [tv deleteSections:[NSIndexSet indexSetWithIndex:indexPath.section] withRowAnimation:UITableViewRowAnimationFade];
             }
-            [tv reloadData];
+            else{
+            [tv deleteRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationFade];
+            }
+            [tv endUpdates];
+            [self performSelector:@selector(reloadTableViewData)
+                       withObject:nil afterDelay:0.2];
         }
         else{
             [self.removeRecipeBtn removeFromSuperview];
@@ -44,6 +50,17 @@
     else{
         [self.countLabel setText:[NSString stringWithFormat:@"%d 份",_recipeCount]];
         [self.contentView addSubview:self.removeRecipeBtn];
+    }
+
+}
+
+-(void)reloadTableViewData{
+    UITableView *tv=(UITableView *)self.superview;
+    [tv reloadData];
+    OrderListController *olCon=(OrderListController *)tv.delegate;
+    if (olCon.allCategores.count==0) {
+        [self performSelector:@selector(reloadTableViewData)
+                   withObject:nil afterDelay:1.0];
     }
 }
 
@@ -68,20 +85,54 @@
     [zoomButton addTarget:self action:@selector(zoomImage) forControlEvents:UIControlEventTouchUpInside];
     [self setNeedsLayout];
 }
+
 -(void)addRecipe{
-    self.recipeCount++;
-    self.recipe.orderedCount++;
-    NSLog(@"contentView subview coutn=%d",self.contentView.subviews.count);
     NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
     NSNumber *numRid=[ud valueForKey:@"rid"];
     NSNumber *numOid=[ud valueForKey:@"oid"];
+    if (numOid==nil) {
+        return;
+    }
+    self.recipeCount++;
+    self.recipe.orderedCount++;
     [Order addRicpeWithRid:numRid.integerValue RecipeId:self.recipe.rid Oid:numOid.integerValue Order:^(Order *order) {
-//        UITableView *tv=(UITableView *)self.superview;
-//        FoodListController *flCon=(FoodListController *)tv.delegate;
+        UITableView *tv=(UITableView *)self.superview;
+        FoodListController *flCon=(FoodListController *)tv.delegate;
 //        [flCon synchronizeOrder:order];
+        if (isAllowRemoveCell) {
+            flCon.title=[NSString stringWithFormat:@"总价：￥%.2f",order.price];
+        }
     } failure:^{
     }];
+    UIImageView *animationImageView=[[UIImageView alloc] initWithImage:self.imageView.image];
+    UITableView *tv=(UITableView *)self.superview;
+    CGPoint point= tv.contentOffset;
+    [animationImageView setFrame:CGRectMake(self.frame.origin.x-point.x+5,self.frame.origin.y-point.y+45+5, 25, 25)];
+    animationImageView.tag=100;
+    [tv.superview addSubview:animationImageView];
+
+
+    CGMutablePathRef thePath =  CGPathCreateMutable();
+    CGPathMoveToPoint(thePath, NULL, animationImageView.frame.origin.x, animationImageView.frame.origin.y);
+    CGPathAddLineToPoint(thePath, NULL, animationImageView.frame.origin.x+32, animationImageView.frame.origin.y-60);
+    CGPathAddLineToPoint(thePath, NULL, animationImageView.frame.origin.x+64, animationImageView.frame.origin.y-80);
+    CGPathAddLineToPoint(thePath, NULL, animationImageView.frame.origin.x+96, animationImageView.frame.origin.y-60);
+    CGPathAddLineToPoint(thePath, NULL, animationImageView.frame.origin.x+128, animationImageView.frame.origin.y);
+    CGPathAddLineToPoint(thePath, NULL, animationImageView.frame.origin.x+160, SCREENHEIGHT-44-20);
+    CAKeyframeAnimation *theAnimation =[CAKeyframeAnimation animationWithKeyPath:@"position"];
+    theAnimation.path=thePath;
+    theAnimation.duration=(SCREENHEIGHT-(self.frame.origin.y-point.y))/800;
+    NSLog(@"duration=%f",theAnimation.duration);
+    theAnimation.repeatCount = 1; 
+    theAnimation.autoreverses=NO;
+    theAnimation.cumulative=YES;
+    theAnimation.delegate=self;
+    [animationImageView.layer addAnimation:theAnimation forKey:@"animateLayer"]; // 添加动画。
+    CFRelease(thePath);
+    [animationImageView setFrame:CGRectMake(320, SCREENHEIGHT, 25, 25)];
+    [animationImageView release];
 }
+
 -(void)removeRecipe{
     self.recipeCount--;
     self.recipe.orderedCount--;
@@ -92,9 +143,12 @@
     NSNumber *numRid=[ud valueForKey:@"rid"];
     NSNumber *numOid=[ud valueForKey:@"oid"];
     [Order removeRicpeWithRid:numRid.integerValue RecipeId:self.recipe.rid Oid:numOid.integerValue Order:^(Order *order) {
-//        UITableView *tv=(UITableView *)self.superview;
-//        FoodListController *flCon=(FoodListController *)tv.delegate;
+        UITableView *tv=(UITableView *)self.superview;
+        FoodListController *flCon=(FoodListController *)tv.delegate;
 //        [flCon synchronizeOrder:order];
+        if (isAllowRemoveCell) {
+            flCon.title=[NSString stringWithFormat:@"总价：￥%.2f",order.price];
+        }
     } failure:^{
     }];
 
@@ -187,7 +241,16 @@
     self.selectedBackgroundView.backgroundColor = [UIColor clearColor];
     self.textLabel.highlightedTextColor=[UIColor blackColor];
     self.detailTextLabel.highlightedTextColor=[UIColor redColor];
+}
 
+-(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag{
+    if ([anim isKindOfClass:[CAKeyframeAnimation class]]) {
+        UITableView *tv=(UITableView *)self.superview;
+        UIImageView *im=(UIImageView *)[tv.superview viewWithTag:100];
+        if (im) {
+            [im removeFromSuperview];
+        }
+    }
 }
 
 -(void)dealloc{

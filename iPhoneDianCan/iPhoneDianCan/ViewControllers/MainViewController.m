@@ -20,6 +20,7 @@
 #import "AppDelegate.h"
 @implementation MainViewController
 @synthesize tabView,bmkMapView;
+
 -(id)init{
     self=[super init];
     if (self) {
@@ -52,9 +53,11 @@
     }
     return self;
 }
+
 -(void)viewDidLoad{
     [super viewDidLoad];
 }
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
 //    self.tabView.hidden=YES;
@@ -95,8 +98,6 @@
     [appDelegate.window.rootViewController presentModalViewController:reader animated:YES];
     [reader release];
 }
-
-
 
 - (void) imagePickerController: (UIImagePickerController*) reader
  didFinishPickingMediaWithInfo: (NSDictionary*) info{

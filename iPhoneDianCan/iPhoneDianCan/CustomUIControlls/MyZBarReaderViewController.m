@@ -27,9 +27,11 @@
     }
 return self;
 }
+
 -(void)cancelClick{
     [self dismissModalViewControllerAnimated:YES];
 }
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

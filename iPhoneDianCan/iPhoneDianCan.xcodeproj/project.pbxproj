@@ -33,8 +33,12 @@
 		D06B9D7516AA1AB600D9C826 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D06B9D7416AA1AB600D9C826 /* CoreLocation.framework */; };
 		D06B9D7716AA1ABF00D9C826 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D06B9D7616AA1ABF00D9C826 /* QuartzCore.framework */; };
 		D06B9D7916AA240700D9C826 /* navRightBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = D06B9D7816AA240700D9C826 /* navRightBtn.png */; };
+		D07201ED16E16D5900DD5636 /* categoryTableViewBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D07201EC16E16D5900DD5636 /* categoryTableViewBg@2x.png */; };
+		D07201F116E1919900DD5636 /* categoryTablecellSelectBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D07201F016E1919900DD5636 /* categoryTablecellSelectBg@2x.png */; };
 		D07BB1681693CEE30048716D /* CustomizedNavBarBg.png in Resources */ = {isa = PBXBuildFile; fileRef = D07BB1661693CEE30048716D /* CustomizedNavBarBg.png */; };
 		D07BB1691693CEE30048716D /* CustomizedNavBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D07BB1671693CEE30048716D /* CustomizedNavBarBg@2x.png */; };
+		D084CB7A16DE58CF0076D74F /* BadgeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D084CB7916DE58CF0076D74F /* BadgeButton.m */; };
+		D084CB7E16DE63260076D74F /* labelCount@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D084CB7D16DE63260076D74F /* labelCount@2x.png */; };
 		D085E04316B3A25300CD08AE /* alertViewBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D085E04216B3A25300CD08AE /* alertViewBg@2x.png */; };
 		D085E04A16B3B7CF00CD08AE /* codeScanBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D085E04916B3B7CF00CD08AE /* codeScanBtn@2x.png */; };
 		D085E04C16B3C04800CD08AE /* alertYesNoBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D085E04B16B3C04800CD08AE /* alertYesNoBtn@2x.png */; };
@@ -69,15 +73,18 @@
 		D0C627E816B1032200B57684 /* imageZoomBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0C627E716B1032200B57684 /* imageZoomBg@2x.png */; };
 		D0C627EA16B122FC00B57684 /* recipeTableViewBg.png in Resources */ = {isa = PBXBuildFile; fileRef = D0C627E916B122FC00B57684 /* recipeTableViewBg.png */; };
 		D0C627F016B1310300B57684 /* restaurantTableHeadBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0C627EF16B1310300B57684 /* restaurantTableHeadBg@2x.png */; };
+		D0D389DE16E4791C0036F2D6 /* MyAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D389DD16E4791B0036F2D6 /* MyAlertView.m */; };
 		D0DB06A116B2846C0071945A /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = D0DB06A016B2846C0071945A /* Order.m */; };
 		D0DB06A516B2872A0071945A /* Desk.m in Sources */ = {isa = PBXBuildFile; fileRef = D0DB06A416B2872A0071945A /* Desk.m */; };
 		D0DB06AC16B29C5F0071945A /* OrderItem.m in Sources */ = {isa = PBXBuildFile; fileRef = D0DB06AB16B29C5E0071945A /* OrderItem.m */; };
 		D0E4D55316B4D9CA0030BEBD /* removeRecipeBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0E4D55116B4D9CA0030BEBD /* removeRecipeBtn@2x.png */; };
 		D0E4D55416B4D9CA0030BEBD /* addRecipeBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0E4D55216B4D9CA0030BEBD /* addRecipeBtn@2x.png */; };
+		D0E5ED8E16E01428003F6F8F /* CategoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E5ED8D16E01428003F6F8F /* CategoryTableViewController.m */; };
 		D0E7741D16A0B5FA005764D8 /* CustomizedNavBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0E7741C16A0B5FA005764D8 /* CustomizedNavBg@2x.png */; };
 		D0E7742016A0B6DF005764D8 /* CustomizedTabBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0E7741F16A0B6DF005764D8 /* CustomizedTabBg@2x.png */; };
 		D0F3514D16CE27F900C327C9 /* refreshOrder.png in Resources */ = {isa = PBXBuildFile; fileRef = D0F3514C16CE27F900C327C9 /* refreshOrder.png */; };
 		D0F3EE2E16AB7D67004628C4 /* dcs.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D0F3EE2D16AB7D67004628C4 /* dcs.jpg */; };
+		D0F7858616E2FAE900F074BB /* WaiterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F7858516E2FAE900F074BB /* WaiterViewController.m */; };
 		D0F8DEB316A57E9C0043160A /* FoodListController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F8DEB216A57E9C0043160A /* FoodListController.m */; };
 		D0F8DEB616A57EDB0043160A /* OrderListController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F8DEB516A57EDB0043160A /* OrderListController.m */; };
 		D0F8DEB916A57EFB0043160A /* RestaurantController.mm in Sources */ = {isa = PBXBuildFile; fileRef = D0F8DEB816A57EFB0043160A /* RestaurantController.mm */; };
@@ -158,8 +165,13 @@
 		D06B9D7416AA1AB600D9C826 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D06B9D7616AA1ABF00D9C826 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D06B9D7816AA240700D9C826 /* navRightBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = navRightBtn.png; path = iPhoneDianCan/image/navRightBtn.png; sourceTree = "<group>"; };
+		D07201EC16E16D5900DD5636 /* categoryTableViewBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "categoryTableViewBg@2x.png"; path = "iPhoneDianCan/image/categoryTableViewBg@2x.png"; sourceTree = "<group>"; };
+		D07201F016E1919900DD5636 /* categoryTablecellSelectBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "categoryTablecellSelectBg@2x.png"; path = "iPhoneDianCan/image/categoryTablecellSelectBg@2x.png"; sourceTree = "<group>"; };
 		D07BB1661693CEE30048716D /* CustomizedNavBarBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CustomizedNavBarBg.png; path = iPhoneDianCan/image/CustomizedNavBarBg.png; sourceTree = "<group>"; };
 		D07BB1671693CEE30048716D /* CustomizedNavBarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CustomizedNavBarBg@2x.png"; path = "iPhoneDianCan/image/CustomizedNavBarBg@2x.png"; sourceTree = "<group>"; };
+		D084CB7816DE58CF0076D74F /* BadgeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BadgeButton.h; path = CustomUIControlls/BadgeButton.h; sourceTree = "<group>"; };
+		D084CB7916DE58CF0076D74F /* BadgeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BadgeButton.m; path = CustomUIControlls/BadgeButton.m; sourceTree = "<group>"; };
+		D084CB7D16DE63260076D74F /* labelCount@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "labelCount@2x.png"; path = "iPhoneDianCan/image/labelCount@2x.png"; sourceTree = "<group>"; };
 		D085E04216B3A25300CD08AE /* alertViewBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "alertViewBg@2x.png"; path = "iPhoneDianCan/image/alertViewBg@2x.png"; sourceTree = "<group>"; };
 		D085E04916B3B7CF00CD08AE /* codeScanBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "codeScanBtn@2x.png"; path = "iPhoneDianCan/image/codeScanBtn@2x.png"; sourceTree = "<group>"; };
 		D085E04B16B3C04800CD08AE /* alertYesNoBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "alertYesNoBtn@2x.png"; path = "iPhoneDianCan/image/alertYesNoBtn@2x.png"; sourceTree = "<group>"; };
@@ -198,7 +210,7 @@
 		D08D188C1696899D00398B90 /* MyTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyTabBarController.m; path = CustomUIControlls/MyTabBarController.m; sourceTree = "<group>"; };
 		D08D188E16968A6300398B90 /* TabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabView.h; path = AppDelegate/TabView.h; sourceTree = "<group>"; };
 		D08D188F16968A6300398B90 /* TabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabView.m; path = AppDelegate/TabView.m; sourceTree = "<group>"; };
-		D0B1E1A31692DAAE00FF07FC /* iPhoneDianCan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPhoneDianCan.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0B1E1A31692DAAE00FF07FC /* 淘吃客.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "淘吃客.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0B1E1A71692DAAE00FF07FC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D0B1E1A91692DAAE00FF07FC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D0B1E1AB1692DAAE00FF07FC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -222,6 +234,8 @@
 		D0C627E716B1032200B57684 /* imageZoomBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "imageZoomBg@2x.png"; path = "iPhoneDianCan/image/imageZoomBg@2x.png"; sourceTree = "<group>"; };
 		D0C627E916B122FC00B57684 /* recipeTableViewBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = recipeTableViewBg.png; path = iPhoneDianCan/image/recipeTableViewBg.png; sourceTree = "<group>"; };
 		D0C627EF16B1310300B57684 /* restaurantTableHeadBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "restaurantTableHeadBg@2x.png"; path = "iPhoneDianCan/image/restaurantTableHeadBg@2x.png"; sourceTree = "<group>"; };
+		D0D389DC16E4791B0036F2D6 /* MyAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyAlertView.h; path = CustomUIControlls/MyAlertView.h; sourceTree = "<group>"; };
+		D0D389DD16E4791B0036F2D6 /* MyAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyAlertView.m; path = CustomUIControlls/MyAlertView.m; sourceTree = "<group>"; };
 		D0DB069F16B2846C0071945A /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Order.h; path = Model/Order.h; sourceTree = "<group>"; };
 		D0DB06A016B2846C0071945A /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Order.m; path = Model/Order.m; sourceTree = "<group>"; };
 		D0DB06A316B2872A0071945A /* Desk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Desk.h; path = Model/Desk.h; sourceTree = "<group>"; };
@@ -230,10 +244,14 @@
 		D0DB06AB16B29C5E0071945A /* OrderItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OrderItem.m; path = Model/OrderItem.m; sourceTree = "<group>"; };
 		D0E4D55116B4D9CA0030BEBD /* removeRecipeBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "removeRecipeBtn@2x.png"; path = "iPhoneDianCan/image/removeRecipeBtn@2x.png"; sourceTree = "<group>"; };
 		D0E4D55216B4D9CA0030BEBD /* addRecipeBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "addRecipeBtn@2x.png"; path = "iPhoneDianCan/image/addRecipeBtn@2x.png"; sourceTree = "<group>"; };
+		D0E5ED8C16E01427003F6F8F /* CategoryTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CategoryTableViewController.h; path = ViewControllers/CategoryTableViewController.h; sourceTree = "<group>"; };
+		D0E5ED8D16E01428003F6F8F /* CategoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CategoryTableViewController.m; path = ViewControllers/CategoryTableViewController.m; sourceTree = "<group>"; };
 		D0E7741C16A0B5FA005764D8 /* CustomizedNavBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CustomizedNavBg@2x.png"; path = "iPhoneDianCan/image/CustomizedNavBg@2x.png"; sourceTree = "<group>"; };
 		D0E7741F16A0B6DF005764D8 /* CustomizedTabBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CustomizedTabBg@2x.png"; path = "iPhoneDianCan/image/CustomizedTabBg@2x.png"; sourceTree = "<group>"; };
 		D0F3514C16CE27F900C327C9 /* refreshOrder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = refreshOrder.png; path = iPhoneDianCan/image/refreshOrder.png; sourceTree = "<group>"; };
 		D0F3EE2D16AB7D67004628C4 /* dcs.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = dcs.jpg; path = iPhoneDianCan/image/dcs.jpg; sourceTree = "<group>"; };
+		D0F7858416E2FAE900F074BB /* WaiterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaiterViewController.h; path = iPhoneDianCan/ViewControllers/WaiterViewController.h; sourceTree = "<group>"; };
+		D0F7858516E2FAE900F074BB /* WaiterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaiterViewController.m; path = iPhoneDianCan/ViewControllers/WaiterViewController.m; sourceTree = "<group>"; };
 		D0F8DEB116A57E9C0043160A /* FoodListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FoodListController.h; path = ViewControllers/FoodListController.h; sourceTree = "<group>"; };
 		D0F8DEB216A57E9C0043160A /* FoodListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FoodListController.m; path = ViewControllers/FoodListController.m; sourceTree = "<group>"; };
 		D0F8DEB416A57EDB0043160A /* OrderListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OrderListController.h; path = ViewControllers/OrderListController.h; sourceTree = "<group>"; };
@@ -270,6 +288,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D0B1E1AC1692DAAE00FF07FC /* CoreGraphics.framework in Frameworks */,
 				D085E11216B4040900CD08AE /* AVFoundation.framework in Frameworks */,
 				D085E11016B403D200CD08AE /* libiconv.dylib in Frameworks */,
 				D085E10E16B403BA00CD08AE /* CoreMedia.framework in Frameworks */,
@@ -278,7 +297,6 @@
 				D06B9D7516AA1AB600D9C826 /* CoreLocation.framework in Frameworks */,
 				D0B1E1A81692DAAE00FF07FC /* UIKit.framework in Frameworks */,
 				D0B1E1AA1692DAAE00FF07FC /* Foundation.framework in Frameworks */,
-				D0B1E1AC1692DAAE00FF07FC /* CoreGraphics.framework in Frameworks */,
 				D085E10816B403A100CD08AE /* libzbar.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,6 +328,8 @@
 		D01C2FBF169ADC8E0071FA43 /* waiter */ = {
 			isa = PBXGroup;
 			children = (
+				D0F7858416E2FAE900F074BB /* WaiterViewController.h */,
+				D0F7858516E2FAE900F074BB /* WaiterViewController.m */,
 			);
 			name = waiter;
 			path = ..;
@@ -368,6 +388,7 @@
 				D0F8DEBB16A57F050043160A /* MainViewController.m */,
 				D06BD417169D6B6F006FCEB0 /* Restaurant */,
 				D0B1E1E11692DB7600FF07FC /* FoodList */,
+				D01C2FBF169ADC8E0071FA43 /* waiter */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -453,6 +474,10 @@
 				D04852DB16B364C300A6A097 /* TextAlertView.m */,
 				D085E11316B40D1600CD08AE /* MyZBarReaderViewController.h */,
 				D085E11416B40D1600CD08AE /* MyZBarReaderViewController.m */,
+				D084CB7816DE58CF0076D74F /* BadgeButton.h */,
+				D084CB7916DE58CF0076D74F /* BadgeButton.m */,
+				D0D389DC16E4791B0036F2D6 /* MyAlertView.h */,
+				D0D389DD16E4791B0036F2D6 /* MyAlertView.m */,
 			);
 			name = CustomUIControlls;
 			sourceTree = "<group>";
@@ -470,7 +495,7 @@
 		D0B1E1A41692DAAE00FF07FC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D0B1E1A31692DAAE00FF07FC /* iPhoneDianCan.app */,
+				D0B1E1A31692DAAE00FF07FC /* 淘吃客.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -502,7 +527,6 @@
 				D06BD419169D6CC9006FCEB0 /* Main */,
 				D08D188A169688DB00398B90 /* CustomUIControlls */,
 				D0B1E1E21692DB8400FF07FC /* OrderList */,
-				D01C2FBF169ADC8E0071FA43 /* waiter */,
 				D0B1E1AE1692DAAE00FF07FC /* Supporting Files */,
 			);
 			path = iPhoneDianCan;
@@ -535,6 +559,8 @@
 			children = (
 				D0F8DEB116A57E9C0043160A /* FoodListController.h */,
 				D0F8DEB216A57E9C0043160A /* FoodListController.m */,
+				D0E5ED8C16E01427003F6F8F /* CategoryTableViewController.h */,
+				D0E5ED8D16E01428003F6F8F /* CategoryTableViewController.m */,
 			);
 			name = FoodList;
 			sourceTree = "<group>";
@@ -551,6 +577,9 @@
 		D0B1E1E91692DBC900FF07FC /* image */ = {
 			isa = PBXGroup;
 			children = (
+				D07201F016E1919900DD5636 /* categoryTablecellSelectBg@2x.png */,
+				D07201EC16E16D5900DD5636 /* categoryTableViewBg@2x.png */,
+				D084CB7D16DE63260076D74F /* labelCount@2x.png */,
 				D0F3514C16CE27F900C327C9 /* refreshOrder.png */,
 				D0E4D55116B4D9CA0030BEBD /* removeRecipeBtn@2x.png */,
 				D0E4D55216B4D9CA0030BEBD /* addRecipeBtn@2x.png */,
@@ -639,7 +668,7 @@
 			);
 			name = iPhoneDianCan;
 			productName = iPhoneDianCan;
-			productReference = D0B1E1A31692DAAE00FF07FC /* iPhoneDianCan.app */;
+			productReference = D0B1E1A31692DAAE00FF07FC /* 淘吃客.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -717,6 +746,9 @@
 				D0E4D55316B4D9CA0030BEBD /* removeRecipeBtn@2x.png in Resources */,
 				D0E4D55416B4D9CA0030BEBD /* addRecipeBtn@2x.png in Resources */,
 				D0F3514D16CE27F900C327C9 /* refreshOrder.png in Resources */,
+				D084CB7E16DE63260076D74F /* labelCount@2x.png in Resources */,
+				D07201ED16E16D5900DD5636 /* categoryTableViewBg@2x.png in Resources */,
+				D07201F116E1919900DD5636 /* categoryTablecellSelectBg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -758,6 +790,10 @@
 				D0DB06AC16B29C5F0071945A /* OrderItem.m in Sources */,
 				D04852DC16B364C300A6A097 /* TextAlertView.m in Sources */,
 				D085E11516B40D1600CD08AE /* MyZBarReaderViewController.m in Sources */,
+				D084CB7A16DE58CF0076D74F /* BadgeButton.m in Sources */,
+				D0E5ED8E16E01428003F6F8F /* CategoryTableViewController.m in Sources */,
+				D0F7858616E2FAE900F074BB /* WaiterViewController.m in Sources */,
+				D0D389DE16E4791C0036F2D6 /* MyAlertView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -783,7 +819,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: FEI ZHAO";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: FEI ZHAO (6Q629F22TZ)";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -798,7 +834,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/iPhoneDianCan/libs/Release$(EFFECTIVE_PLATFORM_NAME)\"",
 					"/Users/liwei/dev/iPhoneDianCan/iPhoneDianCan/iPhoneDianCan/libs/Release-iphonesimulator",
@@ -806,11 +842,11 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
-					"-w",
 					"-lbaidumapapi",
 					"-all_load",
+					"-w",
 				);
-				PROVISIONING_PROFILE = "B82D9E5C-C611-4F49-A16F-E3EA36A78ADF";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "609E92F8-1EE2-498F-A956-44870B94013C";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = armv7;
@@ -825,7 +861,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: FEI ZHAO";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: FEI ZHAO (6Q629F22TZ)";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -833,7 +869,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"\"$(SRCROOT)/iPhoneDianCan/libs/Release$(EFFECTIVE_PLATFORM_NAME)\"",
 					"/Users/liwei/dev/iPhoneDianCan/iPhoneDianCan/iPhoneDianCan/libs/Release-iphonesimulator",
@@ -842,11 +878,11 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				OTHER_LDFLAGS = (
-					"-w",
 					"-lbaidumapapi",
 					"-all_load",
+					"-w",
 				);
-				PROVISIONING_PROFILE = "B82D9E5C-C611-4F49-A16F-E3EA36A78ADF";
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "609E92F8-1EE2-498F-A956-44870B94013C";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -867,7 +903,7 @@
 					"\"$(SRCROOT)/iPhoneDianCan/ZBarSDK\"",
 					"$(inherited)",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "淘吃客";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
@@ -886,7 +922,7 @@
 					"\"$(SRCROOT)/iPhoneDianCan/ZBarSDK\"",
 					"$(inherited)",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "淘吃客";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

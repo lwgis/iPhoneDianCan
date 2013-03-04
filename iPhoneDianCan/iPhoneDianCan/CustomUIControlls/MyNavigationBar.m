@@ -10,14 +10,14 @@
 
 @implementation MyNavigationBar
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
     }
     return self;
 }
+
 -(void)drawRect:(CGRect)rect{
     [super drawRect:rect];
 }

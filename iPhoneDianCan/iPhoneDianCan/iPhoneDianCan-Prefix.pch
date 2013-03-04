@@ -14,5 +14,8 @@
 #endif
 #define SCREENHEIGHT [[UIScreen mainScreen] bounds].size.height-20 //设备屏幕高度
 #define TABBARHEIGHT 49 //tabar的高度
+//#define SERVERADDRESS @"http://taochike.sinaapp.com/rest/1234567890/" //服务器地址
+//#define IMAGESERVERADDRESS @"http://taochike-menuimages.stor.sinaapp.com/" //图片服务器地址
 #define SERVERADDRESS @"http://192.168.1.200:8080/ChihuoPlatform/rest" //服务器地址
 #define IMAGESERVERADDRESS @"http://192.168.1.200:8080/MenuImages/" //图片服务器地址
+#define KBadgeNotification @"updateBadgeNotification" //点菜数目通知

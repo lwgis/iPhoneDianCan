@@ -10,6 +10,7 @@
 
 @implementation Category
 @synthesize cid,name,description,imageUrl,allRecipes;
+
 -(id)initWithDictionary:(NSDictionary *) dictionary{
     self=[super init];
     if (self) {
@@ -22,6 +23,7 @@
     }
     return self;
 }
+
 -(void)dealloc{
     [name release];
     [description release];
@@ -29,4 +31,5 @@
     [allRecipes release];
     [super dealloc];
 }
+
 @end

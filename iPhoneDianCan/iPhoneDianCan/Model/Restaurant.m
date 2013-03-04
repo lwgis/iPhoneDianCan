@@ -24,6 +24,7 @@
     }
     return self ;
 }
+
 -(id)initWithDictionary:(NSDictionary *)dictionary{
     self=[super init];
     if (self) {
@@ -41,6 +42,7 @@
     }
     return  self;
 }
+
 -(void)dealloc{
     [name release];
     [telephone release];
@@ -48,6 +50,7 @@
     [restaurantUser release];
     [super dealloc];
 }
+
 -(NSString *)description{
     return self.name;
 }

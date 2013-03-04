@@ -17,29 +17,61 @@
 #import "Order.h"
 #import "OrderItem.h"
 #import "Desk.h"
+#import <QuartzCore/QuartzCore.h>
 @interface FoodListController ()
 
 @end
 
 @implementation FoodListController
 
-@synthesize rid,table,allCatagores,currentOrder;
+@synthesize rid,table,catagoreTableView,categoryTableViewController,allCategores,currentOrder,panGestureRecognizer,tableCenterPoint;
+
+- (void)addTableShadow {
+    [table layer].shadowPath =[UIBezierPath bezierPathWithRect:CGRectMake(table.contentOffset.x, table.contentOffset.y, table.bounds.size.width, table.bounds.size.height)].CGPath;
+    [table layer].masksToBounds = NO;
+    [[table layer] setShadowOffset:CGSizeMake(-5.0, 0)];
+    [[table layer] setShadowRadius:5.0];
+    [[table layer] setShadowOpacity:0.5];
+    [[table layer] setShadowColor:[UIColor blackColor].CGColor];
+}
+
+#pragma mark - LocationCellDelegate
+-(void)LocationToCell:(NSIndexPath *)indexPath{
+    [UIView animateWithDuration:0.3 animations:^{
+        [table setCenter:CGPointMake(160, table.center.y)];
+    } completion:^(BOOL finished) {
+        tableCenterPoint=table.center;
+        table.scrollEnabled=YES;
+        [self.table selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+    }]; }
 
 -(id)initWithRecipe:(Restaurant *)restaurant{
     self=[super init];
     if (self) {
         self.rid=restaurant.rid;
         [self.view setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-45)];
+        categoryTableViewController=[[CategoryTableViewController alloc] init];
+        //初始化菜种类
+        catagoreTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 200, SCREENHEIGHT-49-45)];
+        catagoreTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+        UIImageView *catagoreTableViewBgView=[[UIImageView alloc] initWithFrame:table.frame];
+        [catagoreTableViewBgView setImage:[UIImage imageNamed:@"categoryTableViewBg"]];
+        catagoreTableView.backgroundView=catagoreTableViewBgView;
+        [catagoreTableViewBgView release];
+        [self.view addSubview:catagoreTableView];
+        //初始化所有菜列表
         table=[[UITableView alloc] initWithFrame:self.view.frame];
+        table.backgroundColor=[UIColor redColor];
         table.separatorStyle=UITableViewCellSeparatorStyleNone;
         UIImageView *tableBgView=[[UIImageView alloc] initWithFrame:table.frame];
         [tableBgView setImage:[UIImage imageNamed:@"recipeTableViewBg"]];
+        [self addTableShadow];
         table.backgroundView=tableBgView;
         [tableBgView release];
         table.dataSource=self;
         table.delegate=self;
         [self.view addSubview:table];
-        allCatagores=[[NSMutableArray alloc] init];
+        allCategores=[[NSMutableArray alloc] init];
         //初始化右边按钮
         UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [rightButton setFrame:CGRectMake(0, 0, 50, 30)];
@@ -50,37 +82,10 @@
         UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
         self.navigationItem.rightBarButtonItem= rightItem;
         [rightItem release];
+       
     }
     return self;
 
-}
-
--(id)init{
-    self=[super init];
-    if (self) {
-        [self.view setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-45)];
-        table=[[UITableView alloc] initWithFrame:self.view.frame];
-        table.separatorStyle=UITableViewCellSeparatorStyleNone;
-        UIImageView *tableBgView=[[UIImageView alloc] initWithFrame:table.frame];
-        [tableBgView setImage:[UIImage imageNamed:@"recipeTableViewBg"]];
-        table.backgroundView=tableBgView;
-        [tableBgView release];
-        table.dataSource=self;
-        table.delegate=self;
-        [self.view addSubview:table];
-        allCatagores=[[NSMutableArray alloc] init];
-        //初始化右边按钮
-        UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [rightButton setFrame:CGRectMake(0, 0, 50, 30)];
-        [rightButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
-        [rightButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
-        [rightButton setTitle:@"开台" forState:UIControlStateNormal];
-        [rightButton addTarget:self action:@selector(rightBarButtonTouch)forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
-        self.navigationItem.rightBarButtonItem= rightItem;
-        [rightItem release];
-    }
-    return self;
 }
 
 -(void)rightBarButtonTouch{
@@ -90,9 +95,29 @@
     [tat release];
 }
 
+-(void)leftBarButtonTouch{
+    if (tableCenterPoint.x==160) {
+            [UIView animateWithDuration:0.3 animations:^{
+                [table setCenter:CGPointMake(360, table.center.y)];
+            } completion:^(BOOL finished) {
+                tableCenterPoint=table.center;
+                table.scrollEnabled=NO;
+            }];
+    }
+    else{
+            [UIView animateWithDuration:0.3 animations:^{
+                [table setCenter:CGPointMake(160, table.center.y)];
+            } completion:^(BOOL finished) {
+                tableCenterPoint=table.center;
+                table.scrollEnabled=YES;
+            }];
+    }
+
+}
+
 - (void)synchronizeOrder:(Order *)order {
     self.currentOrder=order;
-    for (Category *category in self.allCatagores) {
+    for (Category *category in self.allCategores) {
         for (Recipe *recipe in category.allRecipes) {
             recipe.orderedCount=0;
             for (OrderItem *oItem in self.currentOrder.orderItems) {
@@ -119,9 +144,15 @@
         for (int i=0; i<list.count;i++) {
             NSDictionary *dn=[list objectAtIndex:i];
             Category *category=[[Category alloc] initWithDictionary:dn];
-            [allCatagores addObject:category];
+            [allCategores addObject:category];
             [category release];
         }
+        categoryTableViewController.allCategores=allCategores;
+        categoryTableViewController.catagoreTableView=catagoreTableView;
+        catagoreTableView.dataSource=categoryTableViewController;
+        catagoreTableView.delegate=categoryTableViewController;
+        [catagoreTableView reloadData];
+        categoryTableViewController.locationToCellDelegate=self;
         //请求所有菜
         [[AFRestAPIClient sharedClient] getPath:pathRepice parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             
@@ -129,7 +160,7 @@
             for (int i=0; i<list.count;i++) {
                 NSDictionary *dn=[list objectAtIndex:i];
                 Recipe *recipe=[[Recipe alloc] initWithDictionary:dn];
-                for (Category *category in allCatagores) {
+                for (Category *category in allCategores) {
                     if (recipe.cid==category.cid) {
                         [category.allRecipes addObject:recipe];
                     }
@@ -164,7 +195,8 @@
         NSLog(@"错误: %@", error);
         
     }];
-
+    panGestureRecognizer=[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragTableView:)];
+    [self.view addGestureRecognizer:panGestureRecognizer];
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -173,32 +205,83 @@
     if (oidNum!=nil) {
         [self.navigationItem setHidesBackButton:YES];
     }
-
+    [self refreshOrder];
     [super viewWillAppear:animated];
   }
 
 -(void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    tableCenterPoint=table.center;
 }
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+#pragma mark - 拖动菜列表
+-(void)dragTableView:(UIPanGestureRecognizer *)rec{
+    CGPoint point = [rec translationInView:self.view];
+    if (table.center.x<160) {
+        return;
+    }
+    [rec setTranslation:CGPointMake(0, 0) inView:self.view];
+    if((table.center.x + point.x)>160)
+    table.center = CGPointMake(table.center.x + point.x, table.center.y);
+    
+    if (rec.state==UIGestureRecognizerStateEnded) {
+        if (tableCenterPoint.x==160) {
+            if ((table.center.x-tableCenterPoint.x)>40) {
+                [UIView animateWithDuration:0.1*200/abs(table.center.x-tableCenterPoint.x) animations:^{
+                    [table setCenter:CGPointMake(360, table.center.y)];
+                } completion:^(BOOL finished) {
+                    tableCenterPoint=table.center;
+                    table.scrollEnabled=NO;
+                }];
+            }
+            else{
+                [UIView animateWithDuration:0.5*abs(table.center.x-tableCenterPoint.x)/40 animations:^{
+                    [table setCenter:CGPointMake(160, table.center.y)];
+                } completion:^(BOOL finished) {
+                    tableCenterPoint=table.center;
+                    table.scrollEnabled=YES;
+                }];
+
+            }
+        }
+        else{
+            if ((table.center.x-tableCenterPoint.x)<-40) {
+                [UIView animateWithDuration:0.1*200/abs(table.center.x-tableCenterPoint.x) animations:^{
+                    [table setCenter:CGPointMake(160, table.center.y)];
+                } completion:^(BOOL finished) {
+                    tableCenterPoint=table.center;
+                    table.scrollEnabled=YES;
+                }];
+            }
+            else{
+                [UIView animateWithDuration:0.5*abs(table.center.x-tableCenterPoint.x)/40  animations:^{
+                    [table setCenter:CGPointMake(360, table.center.y)];
+                } completion:^(BOOL finished) {
+                    tableCenterPoint=table.center;
+                    table.scrollEnabled=NO;
+                }];
+            }
+        }
+    }
+}
 
 #pragma mark -
 #pragma mark Table View Data Source Methods
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return  allCatagores.count;
+        return  allCategores.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    Category *category=[allCatagores objectAtIndex:section];
+    Category *category=[allCategores objectAtIndex:section];
     return category.allRecipes.count;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    Category *category=[allCatagores objectAtIndex:indexPath.section];
+    Category *category=[allCategores objectAtIndex:indexPath.section];
     Recipe *recipe=[category.allRecipes objectAtIndex:indexPath.row];
     static NSString *SectionsTableIdentifier = @"SectionsTableIdentifier";
     RecipeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:
@@ -210,10 +293,11 @@
     }
     cell.recipe=recipe;
     return cell;
+   
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 90;
+        return 90;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -224,7 +308,7 @@
     headerLabel.backgroundColor = [UIColor clearColor];
     headerLabel.textColor = [UIColor whiteColor];
     headerLabel.font = [UIFont boldSystemFontOfSize:18];
-    Category *category=[allCatagores objectAtIndex:section];
+    Category *category=[allCategores objectAtIndex:section];
     headerLabel.text=[NSString stringWithFormat:@"%@(%d)", category.name,category.allRecipes.count];
     [headerLabel sizeToFit];
     CGRect rect=headerLabel.frame;
@@ -261,6 +345,16 @@
             [rightItem release];
             [self synchronizeOrder:order];
             self.title=[NSString stringWithFormat:@"%@-%@",self.title,order.desk.name];
+            UIButton*leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            [leftButton setFrame:CGRectMake(0, 0, 50, 30)];
+            [leftButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
+            [leftButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
+            [leftButton setTitle:@"种类" forState:UIControlStateNormal];
+            [leftButton addTarget:self action:@selector(leftBarButtonTouch)forControlEvents:UIControlEventTouchUpInside];
+            UIBarButtonItem*leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
+            self.navigationItem.leftBarButtonItem= leftItem;
+            [leftItem release];
+
         } failure:^{
         }];
     }
@@ -268,6 +362,7 @@
         
     }
 }
+
 //刷新菜单
 -(void)refreshOrder{
     NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
@@ -279,10 +374,21 @@
         }];
     }
 }
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self addTableShadow];
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+}
+
 -(void)dealloc{
     [table release];
-    [allCatagores release];
+    [catagoreTableView release];
+    [categoryTableViewController release];
+    [allCategores release];
     [currentOrder release];
+    [panGestureRecognizer release];
     [super dealloc];
 }
 

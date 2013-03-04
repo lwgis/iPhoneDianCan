@@ -14,11 +14,10 @@
 #import "UIImageView+AFNetworking.h"
 #import "Restaurant.h"
 #import "BMKPointAnnotation+Restaurant.h"
-@interface RestaurantController ()
-@end
 
 @implementation RestaurantController
 @synthesize table,allRestaurants,bmkMapView;
+
 -(id)init{
     self=[super init];
     if (self) {
@@ -88,6 +87,7 @@
         isShowMapView=NO;
     }
 }
+
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     if (bmkMapView.delegate!=self) {
@@ -97,8 +97,8 @@
         [self.view bringSubviewToFront:table];
     }
 }
-- (void)didReceiveMemoryWarning
-{
+
+- (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
@@ -108,9 +108,11 @@
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return allRestaurants.count;
 }
+
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSUInteger row = [indexPath row];
     static NSString *SectionsTableIdentifier = @"SectionsTableIdentifier";
@@ -144,6 +146,7 @@
     [annotation release];
     return cell;
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 80;
@@ -168,6 +171,7 @@
     
     [self pushToFoodList:indexPath.row];
 }
+
 #pragma mark -
 #pragma mark BMKMapViewDelegate
 //更新位置以后
@@ -184,6 +188,7 @@
 //    }];
     mapView.showsUserLocation=NO;
 }
+
 //添加标注
 - (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation{
     if ([annotation isKindOfClass:[BMKPointAnnotation class]]) {
@@ -201,9 +206,11 @@
     }
     return nil;
 }
+
 -(void)showDetails:(UIButton *)sender{
     [self pushToFoodList:sender.tag];
 }
+
 -(void)dealloc{
     [bmkMapView release];
     [allRestaurants release];

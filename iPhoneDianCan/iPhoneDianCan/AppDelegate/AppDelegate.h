@@ -18,4 +18,5 @@
 @property (strong, nonatomic) MyTabBarController *tabBarController;
 @property(nonatomic,strong)UINavigationController *navMain;//主页导航
 @property(nonatomic,strong) UINavigationController *navOrderList;//订单导航
+@property(nonatomic,strong)TabView *tabView;
 @end

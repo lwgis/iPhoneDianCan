@@ -7,8 +7,8 @@
 //
 #import <UIKit/UIKit.h>
 #import "Order.h"
-@interface OrderListController : UIViewController<UITableViewDataSource,UITableViewDelegate>
+@interface OrderListController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 @property(nonatomic,retain)UITableView *table;
 @property(nonatomic,retain)Order *currentOrder;
-@property(nonatomic,retain)NSMutableArray *allCatagores;//所有已点种类
+@property(nonatomic,retain)NSMutableArray *allCategores;//所有已点种类
 @end

@@ -80,12 +80,14 @@ static char kAFImageRequestOperationObjectKey;
 #pragma mark -
 
 - (void)setImageWithURL:(NSURL *)url {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible =YES;
     [self setImageWithURL:url placeholderImage:nil];
 }
 
 - (void)setImageWithURL:(NSURL *)url 
        placeholderImage:(UIImage *)placeholderImage
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible =YES;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     [request setHTTPShouldHandleCookies:NO];
     [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];

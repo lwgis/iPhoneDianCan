@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "MainViewController.h"
 #import "OrderListController.h"
+#import "WaiterViewController.h"
 #import "TabView.h"
 #import "BMapKit.h"
 #import "AFJSONRequestOperation.h"
@@ -32,22 +33,22 @@
 
     MainViewController *mainViewController = [[[MainViewController alloc] init] autorelease];
     OrderListController *orderListController = [[[OrderListController alloc] init] autorelease];
+    WaiterViewController *waiterController=[[[WaiterViewController alloc] init] autorelease];
     UINavigationController *navOrderList = [[[UINavigationController alloc] initWithRootViewController:orderListController] autorelease];
     UINavigationController *navMain = [[[UINavigationController alloc] initWithRootViewController:mainViewController] autorelease];
+    UINavigationController *navWaiter = [[[UINavigationController alloc] initWithRootViewController:waiterController] autorelease];
     self.tabBarController = [[[MyTabBarController alloc] init] autorelease];
-    self.tabBarController.viewControllers = @[navMain, navOrderList];
+    self.tabBarController.viewControllers = @[navMain, navOrderList,navWaiter];
     UIViewController *buttomViewController=[[UIViewController alloc] init];
     buttomViewController.view=[[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, SCREENHEIGHT)] autorelease];
     [buttomViewController.view addSubview:self.tabBarController.view];
     //tab按钮视图
-    TabView *tabView=[[TabView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT-TABBARHEIGHT, 320, TABBARHEIGHT)];
-    tabView.delegate=self.tabBarController;
-//    tabView.hidden=YES;
-    tabView.backgroundColor=[UIColor clearColor];
-    [buttomViewController.view addSubview:tabView];
-    self.tabBarController.tabView=tabView;
-    mainViewController.tabView=tabView;    
-    [tabView release];
+     self.tabView=[[[TabView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT-TABBARHEIGHT, 320, TABBARHEIGHT)] autorelease];
+    self.tabView.delegate=self.tabBarController;
+   self.tabView.backgroundColor=[UIColor clearColor];
+    [buttomViewController.view addSubview:self.tabView];
+    self.tabBarController.tabView=self.tabView;
+    mainViewController.tabView=self.tabView;
     //设置百度地图key
     mapManager=[[BMKMapManager alloc] init];
    BOOL ret= [mapManager start:@"7E781CD995FDD3089381C0EDD67126D0A335528E" generalDelegate:self];

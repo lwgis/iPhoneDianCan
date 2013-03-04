@@ -27,5 +27,5 @@ typedef void(^failure)();
 +(void)rid:(NSInteger)rid Code:(NSInteger)code Order:(success)order failure:(failure)failure;//根据餐馆ID和开台码获取订单
 +(void)addRicpeWithRid:(NSInteger)rid RecipeId:(NSInteger)recipeId Oid:(NSInteger)oid Order:(success)order failure:(failure)failure;//加菜
 +(void)removeRicpeWithRid:(NSInteger)rid RecipeId:(NSInteger)recipeId Oid:(NSInteger)oid Order:(success)order failure:(failure)failure;//减菜
-
++(void)CheckOrderWithRid:(NSInteger)rid Oid:(NSInteger)oid Order:(success)order failure:(failure)failure;//申请结账
 @end

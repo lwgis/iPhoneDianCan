@@ -13,8 +13,7 @@
 
 @implementation TextAlertView
 @synthesize codeTexView,code;
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
@@ -31,6 +30,7 @@
     }
     return self;
 }
+
 -(void)layoutSubviews{
     //屏蔽系统的ImageView 和 UIButton
     for (UIView *v in [self subviews]) {
@@ -73,22 +73,15 @@
     [codeYesBtn setFrame:CGRectMake(160, 90, 120, 45)];
     [self addSubview:codeYesBtn];
 }
+
 -(void)buttonTouch:(UIButton *)sender{
     [self.delegate alertView:self clickedButtonAtIndex:sender.tag];
     [self dismissWithClickedButtonIndex:sender.tag animated:YES];
 }
--(void)showScanView{
-    UIViewController *vc=[[UIViewController alloc] init];
-    vc.view.backgroundColor=[UIColor orangeColor];
-    AppDelegate *appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
-    [appDelegate.window.rootViewController presentModalViewController:vc animated:YES];
-//    [appd.navigationController presentModalViewController:vc animated:YES];
-    [vc release];
-}
+
 - (void) show {
     [super show];
     self.bounds = CGRectMake(0, 0, 300,150);
-    
 }
 /*
 // Only override drawRect: if you perform custom drawing.
@@ -109,6 +102,7 @@
         self.code=num.integerValue;
     }
 }
+
 -(void)dealloc{
     [codeTexView release];
     [super dealloc];

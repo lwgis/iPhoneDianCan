@@ -14,6 +14,7 @@ NSIndexPath *_indexPath;
 -(void)setIndexPath:(NSIndexPath *)indexPath{
     _indexPath=indexPath;
 }
+
 -(NSIndexPath *)indexPath{
     return _indexPath;
 }

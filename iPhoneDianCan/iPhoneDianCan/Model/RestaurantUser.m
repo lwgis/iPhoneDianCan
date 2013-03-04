@@ -10,6 +10,7 @@
 
 @implementation RestaurantUser
 @synthesize rid,name;
+
 -(id)initWithRid:(NSInteger)aRid name:(NSString *)aName{
     self=[super init];
     if (self) {
@@ -18,6 +19,7 @@
     }
     return self;
 }
+
 -(id)initWithDictionary:(NSDictionary *)dictionary{
     self=[super init];
     if (self&&dictionary&&dictionary.count>0) {
@@ -26,6 +28,7 @@
     }
     return self;
 }
+
 -(void)dealloc{
     [name release];
     [super dealloc];
