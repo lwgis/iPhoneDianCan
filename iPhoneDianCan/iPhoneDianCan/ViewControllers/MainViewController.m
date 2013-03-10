@@ -26,6 +26,10 @@
     if (self) {
         self.title = NSLocalizedString(@"First", @"First");
         self.tabBarItem.image = [UIImage imageNamed:@"first"];
+        UIImageView *bgView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, SCREENHEIGHT)];
+        [bgView setImage:[UIImage imageNamed:@"recipeTableViewBg"]];
+        [self.view addSubview:bgView];
+        [bgView release];
         UIButton *btnRestaurant=[UIButton buttonWithType:UIButtonTypeCustom];
         btnRestaurant.tag=0;
         [btnRestaurant addTarget:self action:@selector(btnRestaurantClick) forControlEvents:UIControlEventTouchUpInside];
@@ -109,6 +113,30 @@
     
     [reader dismissModalViewControllerAnimated: YES];
     NSLog(@"scandata===%@",symbol.data) ;
+    NSString *dataString=[NSString stringWithFormat:@"%@",symbol.data];
+    NSArray *array = [dataString componentsSeparatedByString:@"_"];
+    NSLog(@"array:%@",array);
+    NSNumber *numRid=(NSNumber *)[array objectAtIndex:0];
+    NSNumber *numOid=(NSNumber *)[array objectAtIndex:1];
+    [Order rid:numRid.integerValue Oid:numOid.integerValue Order:^(Order *order) {
+        NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
+        [ud setValue:numOid forKey:@"oid"];
+        [ud setValue:numRid forKey:@"rid"];
+        [ud synchronize];
+        [Restaurant rid:numRid.integerValue Restaurant:^(Restaurant *restaurant) {
+            FoodListController*foodListController=[[FoodListController alloc] initWithRecipe:restaurant];
+            UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
+            temporaryBarButtonItem.title = @"返回";
+            [temporaryBarButtonItem setBackButtonBackgroundImage:[UIImage imageNamed:@"navBackButton"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+            self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
+            [temporaryBarButtonItem release];
+            [self.navigationController pushViewController:foodListController animated:YES];
+            [foodListController release];
+        } failure:^{
+        }];
+    } failure:^{
+        ;
+    }];
 }
 
 - (void)didReceiveMemoryWarning{

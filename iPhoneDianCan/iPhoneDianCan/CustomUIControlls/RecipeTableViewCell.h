@@ -16,6 +16,9 @@
 @property(nonatomic,retain)UIButton *addRecipeBtn;
 @property(nonatomic,retain)UIButton *removeRecipeBtn;
 @property(nonatomic,retain)UILabel *countLabel;
+@property(nonatomic,retain)UILabel *firstBadgeLabel;
+@property(nonatomic,retain)UILabel *secondBadgeLabel;
+
 @property(nonatomic) NSInteger recipeCount;
 @property(nonatomic,retain)NSIndexPath *indexPath;
 @property(nonatomic) BOOL isAllowRemoveCell;//是否允许UITableView将其移除

@@ -156,8 +156,6 @@
     NSString *key=[allRestaurants.allKeys objectAtIndex:row];
     Restaurant *restaurant=[allRestaurants objectForKey:key];
     FoodListController*foodListController=[[FoodListController alloc] initWithRecipe:restaurant];
-    foodListController.rid=restaurant.rid;
-    foodListController.title=restaurant.name;
     UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
     temporaryBarButtonItem.title = @"返回";
     [temporaryBarButtonItem setBackButtonBackgroundImage:[UIImage imageNamed:@"navBackButton"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];

@@ -32,8 +32,10 @@
     [super layoutSubviews];
     for (UIView *v in [self subviews]) {
         if ([v class] == [UIImageView class]){
-//            [v setHidden:YES];
             UIImageView *iv=(UIImageView *)v;
+            NSLog(@"%d",self.subviews.count);
+            if(iv.frame.size.height<300&&self.subviews.count>5)
+            [iv setHidden:YES];
             [iv setImage:[UIImage imageNamed:@"alertViewBg"]];
         }
         if ([v isKindOfClass:[UIButton class]] ||

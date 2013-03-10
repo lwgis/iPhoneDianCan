@@ -27,6 +27,7 @@
 		D040FA4B1694044B00B86C94 /* navButton.png in Resources */ = {isa = PBXBuildFile; fileRef = D040FA4A1694044B00B86C94 /* navButton.png */; };
 		D040FA5E169441DC00B86C94 /* foodlistTabButtonUnSelect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D040FA5C169441DB00B86C94 /* foodlistTabButtonUnSelect@2x.png */; };
 		D04852DC16B364C300A6A097 /* TextAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = D04852DB16B364C300A6A097 /* TextAlertView.m */; };
+		D049A92116E6F6A500A068D6 /* appIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D049A92016E6F6A500A068D6 /* appIcon@2x.png */; };
 		D04D2F3B16A592DD00CB10D2 /* Restaurant.m in Sources */ = {isa = PBXBuildFile; fileRef = D04D2F3A16A592DD00CB10D2 /* Restaurant.m */; };
 		D05537A916A6B3AE00160BB7 /* RestaurantUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D05537A816A6B3AE00160BB7 /* RestaurantUser.m */; };
 		D06B9D7016AA174A00D9C826 /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D06B9D6F16AA174A00D9C826 /* mapapi.bundle */; };
@@ -128,6 +129,7 @@
 		D040FA5C169441DB00B86C94 /* foodlistTabButtonUnSelect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "foodlistTabButtonUnSelect@2x.png"; path = "iPhoneDianCan/image/foodlistTabButtonUnSelect@2x.png"; sourceTree = "<group>"; };
 		D04852DA16B364C300A6A097 /* TextAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextAlertView.h; path = CustomUIControlls/TextAlertView.h; sourceTree = "<group>"; };
 		D04852DB16B364C300A6A097 /* TextAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextAlertView.m; path = CustomUIControlls/TextAlertView.m; sourceTree = "<group>"; };
+		D049A92016E6F6A500A068D6 /* appIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appIcon@2x.png"; sourceTree = "<group>"; };
 		D04D2F3916A592DD00CB10D2 /* Restaurant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Restaurant.h; path = Model/Restaurant.h; sourceTree = "<group>"; };
 		D04D2F3A16A592DD00CB10D2 /* Restaurant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Restaurant.m; path = Model/Restaurant.m; sourceTree = "<group>"; };
 		D05537A716A6B3AE00160BB7 /* RestaurantUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestaurantUser.h; path = Model/RestaurantUser.h; sourceTree = "<group>"; };
@@ -384,11 +386,10 @@
 		D06BD419169D6CC9006FCEB0 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				D06BD417169D6B6F006FCEB0 /* Restaurant */,
 				D0F8DEBA16A57F050043160A /* MainViewController.h */,
 				D0F8DEBB16A57F050043160A /* MainViewController.m */,
-				D06BD417169D6B6F006FCEB0 /* Restaurant */,
 				D0B1E1E11692DB7600FF07FC /* FoodList */,
-				D01C2FBF169ADC8E0071FA43 /* waiter */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -485,6 +486,7 @@
 		D0B1E1981692DAAE00FF07FC = {
 			isa = PBXGroup;
 			children = (
+				D049A92016E6F6A500A068D6 /* appIcon@2x.png */,
 				D0B1E1E91692DBC900FF07FC /* image */,
 				D0B1E1AD1692DAAE00FF07FC /* iPhoneDianCan */,
 				D0B1E1A61692DAAE00FF07FC /* Frameworks */,
@@ -524,9 +526,10 @@
 				D0F8DECA16A584C60043160A /* AFNetworking */,
 				D0B1E1DC1692DB4700FF07FC /* Appdelegate */,
 				D003EED716A567DC0082B35C /* Model */,
-				D06BD419169D6CC9006FCEB0 /* Main */,
 				D08D188A169688DB00398B90 /* CustomUIControlls */,
+				D06BD419169D6CC9006FCEB0 /* Main */,
 				D0B1E1E21692DB8400FF07FC /* OrderList */,
+				D01C2FBF169ADC8E0071FA43 /* waiter */,
 				D0B1E1AE1692DAAE00FF07FC /* Supporting Files */,
 			);
 			path = iPhoneDianCan;
@@ -749,6 +752,7 @@
 				D084CB7E16DE63260076D74F /* labelCount@2x.png in Resources */,
 				D07201ED16E16D5900DD5636 /* categoryTableViewBg@2x.png in Resources */,
 				D07201F116E1919900DD5636 /* categoryTablecellSelectBg@2x.png in Resources */,
+				D049A92116E6F6A500A068D6 /* appIcon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

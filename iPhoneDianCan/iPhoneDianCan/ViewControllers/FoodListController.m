@@ -49,6 +49,7 @@
     self=[super init];
     if (self) {
         self.rid=restaurant.rid;
+        self.title=restaurant.name;
         [self.view setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-45)];
         categoryTableViewController=[[CategoryTableViewController alloc] init];
         //初始化菜种类
@@ -119,10 +120,18 @@
     self.currentOrder=order;
     for (Category *category in self.allCategores) {
         for (Recipe *recipe in category.allRecipes) {
-            recipe.orderedCount=0;
+            recipe.countNew=0;
+            recipe.countDeposit=0;
+            recipe.countConfirm=0;
+        }
+    }
+    for (Category *category in self.allCategores) {
+        for (Recipe *recipe in category.allRecipes) {
             for (OrderItem *oItem in self.currentOrder.orderItems) {
                 if (recipe.rid==oItem.recipe.rid) {
-                    recipe.orderedCount=oItem.count;
+                    recipe.countNew=oItem.countNew;
+                    recipe.countDeposit=oItem.countDeposit;
+                    recipe.countConfirm=oItem.countConfirm;
                 }
             }
         }
@@ -179,6 +188,15 @@
                     UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
                     self.navigationItem.rightBarButtonItem= rightItem;
                     [rightItem release];
+                    UIButton*leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                    [leftButton setFrame:CGRectMake(0, 0, 50, 30)];
+                    [leftButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
+                    [leftButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
+                    [leftButton setTitle:@"种类" forState:UIControlStateNormal];
+                    [leftButton addTarget:self action:@selector(leftBarButtonTouch)forControlEvents:UIControlEventTouchUpInside];
+                    UIBarButtonItem*leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
+                    self.navigationItem.leftBarButtonItem= leftItem;
+                    [leftItem release];
                     self.title=[NSString stringWithFormat:@"%@-%@",self.title,order.desk.name];
                 } failure:^{
                     [table reloadData];

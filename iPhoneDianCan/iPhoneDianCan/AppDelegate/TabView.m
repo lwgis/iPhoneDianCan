@@ -23,7 +23,7 @@
     [btnFoodlist setTitle:name forState:UIControlStateSelected];
     [btnFoodlist.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
     [btnFoodlist setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    [btnFoodlist setTitleColor:[UIColor colorWithRed:200/255.0 green:200/255.0 blue:200/255.0 alpha:1] forState:UIControlStateSelected];
+    [btnFoodlist setTitleColor:[UIColor colorWithRed:230/255.0 green:230/255.0 blue:230/255.0 alpha:1] forState:UIControlStateSelected];
     btnFoodlist.selected=isSelected;
     return [btnFoodlist autorelease];
 }

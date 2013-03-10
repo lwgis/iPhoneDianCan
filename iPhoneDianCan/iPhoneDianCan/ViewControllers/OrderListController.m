@@ -15,9 +15,9 @@
 #import "Category.h"
 #import "MyAlertView.h"
 #import "AppDelegate.h"
-
+#import "Recipe.h"
 @implementation OrderListController
-@synthesize table,currentOrder,allCategores;
+@synthesize table,currentOrder,allCategores,isUpdating,leftButtonItem;
 
 -(id)init{
     self=[super init];
@@ -37,11 +37,10 @@
         [leftButton setFrame:CGRectMake(0, 0, 50, 30)];
         [leftButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
         [leftButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
-        [leftButton setTitle:@"结账" forState:UIControlStateNormal];
+        [leftButton setTitle:@"下单" forState:UIControlStateNormal];
         [leftButton addTarget:self action:@selector(leftBarButtonTouch)forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem*leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
-        self.navigationItem.leftBarButtonItem= leftItem;
-        [leftItem release];
+        leftButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
+//        self.navigationItem.leftBarButtonItem= leftButtonItem;
         UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [rightButton setFrame:CGRectMake(0, 0, 35, 35)];
         [rightButton setBackgroundImage:[UIImage imageNamed:@"refreshOrder"]forState:UIControlStateNormal];
@@ -49,36 +48,48 @@
         UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
         self.navigationItem.rightBarButtonItem= rightItem;
         [rightItem release];
-        [self.navigationItem.leftBarButtonItem setEnabled:NO];
+        isUpdating=NO;
             }
     return self;
 }
 
 -(void)leftBarButtonTouch{
+//    /*
     NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
     NSNumber *oidNum=[ud valueForKey:@"oid"];
     NSNumber *ridNum=[ud valueForKey:@"rid"];
     [Order rid:ridNum.integerValue Oid:oidNum.integerValue Order:^(Order *order) {
-        NSString *message=[NSString stringWithFormat:@"您总共消费￥%.2f",order.price];
-        MyAlertView *myAlert=[[MyAlertView alloc] initWithTitle:@"结账确认" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"结账" ,nil];
+        NSString *message=@"";
+        for (OrderItem *oItem in order.orderItems) {
+            if (oItem.countNew>0) {
+                message=[NSString stringWithFormat:@"%@%@ ---%d份\n",message,oItem.recipe.name,oItem.countNew];
+            }
+        }
+        MyAlertView *myAlert=[[MyAlertView alloc] initWithTitle:@"下单确认" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"下单" ,nil];
         [myAlert show];
         [myAlert release];
     } failure:^{
         
     }];
+//     */
+
 }
 
 - (void)refreshOrder {
+    if (isUpdating) {
+        return;
+    }
     NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
     NSNumber *oidNum=[ud valueForKey:@"oid"];
     NSNumber *ridNum=[ud valueForKey:@"rid"];
     if (oidNum&&ridNum) {
         NSString *pathCategory=[NSString stringWithFormat:@"restaurants/%d/categories",ridNum.integerValue];
         NSString *udid=[ud objectForKey:@"udid"];
+        self.table.userInteractionEnabled=NO;
+        isUpdating=YES;
         [[AFRestAPIClient sharedClient] setDefaultHeader:@"X-device" value:udid];
         //请求所有菜种类
         [[AFRestAPIClient sharedClient] getPath:pathCategory parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"返回头: %@", [operation.response allHeaderFields]);
             [allCategores removeAllObjects];
             NSArray *list = (NSArray*)responseObject;
             for (int i=0; i<list.count;i++) {
@@ -89,9 +100,8 @@
             }
             [Order rid:ridNum.integerValue Oid:oidNum.integerValue Order:^(Order *order) {
                 [self synchronizeOrder:order];
-                [self.navigationItem.leftBarButtonItem setEnabled:YES];
+                self.table.userInteractionEnabled=YES;
             } failure:^{
-                [self.navigationItem.leftBarButtonItem setEnabled:NO];
             }];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -100,11 +110,21 @@
         }];
         
     }
+    else{
+        [allCategores removeAllObjects];
+        [table reloadData];
+        self.title=[NSString stringWithFormat:@"共:￥0.00"];
+
+    }
 }
 
--(void)viewWillAppear:(BOOL)animated{
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     [self refreshOrder];
+}
+-(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+//    [self refreshOrder];
 }
 
 - (void)viewDidLoad{
@@ -155,7 +175,7 @@
     Category *category=[allCategores objectAtIndex:section];
     NSInteger recipeCount=0;
     for (Recipe *aRecipe in category.allRecipes) {
-        recipeCount=recipeCount+aRecipe.orderedCount;
+        recipeCount=recipeCount+aRecipe.countAll;
     }
     headerLabel.text=[NSString stringWithFormat:@"%@(%d份)",category.name,recipeCount];
     [headerLabel sizeToFit];
@@ -172,9 +192,12 @@
 
 - (void)synchronizeOrder:(Order *)order {
     self.currentOrder=order;
-    self.title=[NSString stringWithFormat:@"总价：￥%.2f",order.price];
+    NSInteger newCount=0;
     for (OrderItem *oItem in order.orderItems) {
-        oItem.recipe.orderedCount=oItem.count;
+        oItem.recipe.countNew=oItem.countNew;
+        oItem.recipe.countDeposit=oItem.countDeposit;
+        oItem.recipe.countConfirm=oItem.countConfirm;
+        newCount+=oItem.countNew;
         for (Category *category in allCategores) {
             if (oItem.recipe.cid==category.cid) {
                 [category.allRecipes addObject:oItem.recipe];
@@ -188,34 +211,29 @@
             [allCategores addObject:category];
         }
     }
+    if (newCount>0) {
+        self.title=[NSString stringWithFormat:@"共:￥%.2f-未下单:%d",order.priceAll,newCount];
+        self.navigationItem.leftBarButtonItem= leftButtonItem;
+    }
+    else{
+        self.title=[NSString stringWithFormat:@"共:￥%.2f",order.priceAll];
+        self.navigationItem.leftBarButtonItem= nil;
+    }
     [table reloadData];
     [tempArray release];
+    isUpdating=NO;
 }
 
 #pragma mark - UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex==1) {
-        [self.navigationItem.leftBarButtonItem setEnabled:NO];
         NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
         NSNumber *oidNum=[ud valueForKey:@"oid"];
         NSNumber *ridNum=[ud valueForKey:@"rid"];
-        [Order CheckOrderWithRid:ridNum.integerValue Oid:oidNum.integerValue Order:^(Order *order) {
-            [ud removeObjectForKey:@"oid"];
-            [ud removeObjectForKey:@"rid"];
-            [ud synchronize];
-        [allCategores removeAllObjects];
-        [table reloadData];
-        self.title=@"";
-        AppDelegate *appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
-        appDelegate.tabBarController.selectedIndex=0;
-        UINavigationController *nav=(UINavigationController *)[[appDelegate.tabBarController viewControllers] objectAtIndex:0];
-        [nav popToRootViewControllerAnimated:YES];
-        [[NSNotificationCenter defaultCenter] postNotificationName:KBadgeNotification object:0];
-        [appDelegate.tabView reSetting];
+        [Order OrderWithRid:ridNum.integerValue Oid:oidNum.integerValue Order:^(Order *order) {
+            [self refreshOrder];
         } failure:^{
-    
-        }];
-    }
+        }];    }
 }
 
 - (void)didReceiveMemoryWarning{
@@ -224,6 +242,7 @@
 }
 
 -(void)dealloc{
+    [leftButtonItem release];
     [table release];
     [super dealloc];
 }

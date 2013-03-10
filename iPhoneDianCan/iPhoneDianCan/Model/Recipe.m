@@ -9,7 +9,7 @@
 #import "Recipe.h"
 
 @implementation Recipe
-@synthesize rid,cid,name,price,imageUrl,description,orderedCount;
+@synthesize rid,cid,name,price,imageUrl,description,countNew,countDeposit,countConfirm,countAll,status;
 -(id)initWithDictionary:(NSDictionary *) dictionary{
     self=[super init];
     if (self) {
@@ -26,6 +26,9 @@
     return self;
 }
 
+-(NSInteger)countAll{
+    return countConfirm+countDeposit+countNew;
+}
 -(void)dealloc{
     [name release];
     [imageUrl release];

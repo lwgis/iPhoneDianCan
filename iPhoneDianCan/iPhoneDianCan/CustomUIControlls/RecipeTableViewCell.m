@@ -15,14 +15,14 @@
 #import <QuartzCore/QuartzCore.h>
 #import "FoodListController.h"
 @implementation RecipeTableViewCell
-@synthesize recipe = _recipe,zoomButton,addRecipeBtn,removeRecipeBtn,countLabel,recipeCount=_recipeCount,indexPath,isAllowRemoveCell;
+@synthesize recipe = _recipe,zoomButton,addRecipeBtn,removeRecipeBtn,countLabel,firstBadgeLabel,secondBadgeLabel,recipeCount=_recipeCount,indexPath,isAllowRemoveCell;
 -(id)init{
     self=[super init];
     return self;
 }
 
 -(void)setRecipeCount:(NSInteger)recipeCount{
-    _recipeCount=recipeCount;
+    _recipeCount= recipeCount;
     if (_recipeCount<=0) {
         [self.countLabel setText:@""];
         _recipeCount=0;
@@ -48,8 +48,14 @@
         }
     }
     else{
+        if (_recipeCount<=(_recipe.countConfirm+_recipe.countDeposit)) {
+            [self.removeRecipeBtn removeFromSuperview];
+        }
+        else{
+            [self.contentView addSubview:self.removeRecipeBtn];
+
+        }
         [self.countLabel setText:[NSString stringWithFormat:@"%d 份",_recipeCount]];
-        [self.contentView addSubview:self.removeRecipeBtn];
     }
 
 }
@@ -66,41 +72,82 @@
 
 -(void)setRecipe:(Recipe *)recipe{
     _recipe=recipe;
-    self.recipeCount=recipe.orderedCount;
+    if (recipe.status!=0) {
+        [addRecipeBtn setHidden:YES];
+        [removeRecipeBtn setHidden:YES];
+    }
+    else{
+        [addRecipeBtn setHidden:NO];
+        [removeRecipeBtn setHidden:NO];
+    }
+    self.recipeCount=recipe.countAll;
     self.textLabel.text=recipe.name;
     self.detailTextLabel.text=[NSString stringWithFormat:@"¥ %.2f",recipe.price];
+    if (recipe.countNew>0) {
+        self.firstBadgeLabel.textColor=[UIColor redColor];
+        self.firstBadgeLabel.text=[NSString stringWithFormat:@"未下单%d份",recipe.countNew];
+    }
+    else{
+        self.firstBadgeLabel.textColor=[UIColor grayColor];
+        self.firstBadgeLabel.text=[NSString stringWithFormat:@"已下单"];
+    }
 
+    if (recipe.countConfirm>0) {
+        self.secondBadgeLabel.textColor=[UIColor orangeColor];
+        if (recipe.countConfirm==1) {
+            self.secondBadgeLabel.text=[NSString stringWithFormat:@"已上桌"];
+
+        }
+        else{
+            self.secondBadgeLabel.text=[NSString stringWithFormat:@"已上桌%d份",recipe.countConfirm];
+        }
+    }
+    else{
+        
+    }
     NSString *imageUrlString=IMAGESERVERADDRESS;
     imageUrlString=[NSString stringWithFormat:@"%@%@",imageUrlString,recipe.imageUrl];
     [self.imageView setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"imageWaiting"]];
-    /*
-    [self.imageView setImage:[UIImage imageNamed:@"imageWaiting"]];
-    AFImageRequestOperation *ope=[AFImageRequestOperation imageRequestOperationWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrlString]] success:^(UIImage *image) {
-        [self.imageView setImage:image];
-    }];
-    [ope start];
-     */
     self.textLabel.backgroundColor=[UIColor clearColor];
     self.detailTextLabel.backgroundColor=[UIColor clearColor];
     [zoomButton addTarget:self action:@selector(zoomImage) forControlEvents:UIControlEventTouchUpInside];
+    if(isAllowRemoveCell){
+        [self.contentView addSubview:firstBadgeLabel];
+        [self.contentView addSubview:secondBadgeLabel];
+    }
+
     [self setNeedsLayout];
 }
 
 -(void)addRecipe{
+    Recipe *aRecipe=self.recipe;
+    aRecipe.countNew++;
+    self.recipe=aRecipe;
     NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
     NSNumber *numRid=[ud valueForKey:@"rid"];
     NSNumber *numOid=[ud valueForKey:@"oid"];
     if (numOid==nil) {
         return;
     }
-    self.recipeCount++;
-    self.recipe.orderedCount++;
+//    self.recipeCount++;
+//    self.recipe.orderedCount++;
     [Order addRicpeWithRid:numRid.integerValue RecipeId:self.recipe.rid Oid:numOid.integerValue Order:^(Order *order) {
         UITableView *tv=(UITableView *)self.superview;
-        FoodListController *flCon=(FoodListController *)tv.delegate;
+        OrderListController *flCon=(OrderListController *)tv.delegate;
 //        [flCon synchronizeOrder:order];
         if (isAllowRemoveCell) {
-            flCon.title=[NSString stringWithFormat:@"总价：￥%.2f",order.price];
+            NSInteger newCount=0;
+            for (OrderItem *oItem in order.orderItems) {
+                newCount+=oItem.countNew;
+            }
+            if (newCount>0) {
+                flCon.title=[NSString stringWithFormat:@"共:￥%.2f-未下单:%d",order.priceAll,newCount];
+                flCon.navigationItem.leftBarButtonItem=flCon.leftButtonItem ;
+            }
+            else{
+                flCon.title=[NSString stringWithFormat:@"共:￥%.2f",order.priceAll];
+                flCon.navigationItem.leftBarButtonItem=nil ;
+            }
         }
     } failure:^{
     }];
@@ -134,20 +181,35 @@
 }
 
 -(void)removeRecipe{
-    self.recipeCount--;
-    self.recipe.orderedCount--;
-    if (self.recipe.orderedCount<0) {
-        self.recipe.orderedCount=0;
+//    self.recipeCount--;
+    Recipe *aRecipe=self.recipe;
+    aRecipe.countNew--;
+    self.recipe=aRecipe;
+    if (self.recipe.countNew<0) {
+        self.recipe.countNew=0;
     }
     NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
     NSNumber *numRid=[ud valueForKey:@"rid"];
     NSNumber *numOid=[ud valueForKey:@"oid"];
     [Order removeRicpeWithRid:numRid.integerValue RecipeId:self.recipe.rid Oid:numOid.integerValue Order:^(Order *order) {
         UITableView *tv=(UITableView *)self.superview;
-        FoodListController *flCon=(FoodListController *)tv.delegate;
+        OrderListController *flCon=(OrderListController *)tv.delegate;
 //        [flCon synchronizeOrder:order];
         if (isAllowRemoveCell) {
-            flCon.title=[NSString stringWithFormat:@"总价：￥%.2f",order.price];
+            NSInteger newCount=0;
+            for (OrderItem *oItem in order.orderItems) {
+                newCount+=oItem.countNew;
+            }
+            if (newCount>0) {
+                flCon.title=[NSString stringWithFormat:@"共:￥%.2f-未下单:%d",order.priceAll,newCount];
+                flCon.navigationItem.leftBarButtonItem=flCon.leftButtonItem ;
+                
+            }
+            else{
+                flCon.title=[NSString stringWithFormat:@"共:￥%.2f",order.priceAll];
+                flCon.navigationItem.leftBarButtonItem=nil ;
+
+            }
         }
     } failure:^{
     }];
@@ -155,7 +217,7 @@
 }
 
 -(void)zoomImage{
-    NSString *imageUrlString=IMAGESERVERADDRESS;
+    NSString *imageUrlString=LARGEIMAGESERVERADDRESS;
     imageUrlString=[NSString stringWithFormat:@"%@%@",imageUrlString,_recipe.imageUrl];
     UIImageView *zoomImageBgView=[[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320, SCREENHEIGHT)];
     [zoomImageBgView setImage:[UIImage imageNamed:@"imageZoomBg"]];
@@ -167,7 +229,7 @@
     UIButton *zoomCloseButton=[UIButton buttonWithType:UIButtonTypeCustom];
     [zoomCloseButton setFrame:CGRectMake(0.0f, 0.0f, 320, SCREENHEIGHT)];
     [zoomCloseButton addTarget:self action:@selector(zoomClose:) forControlEvents:UIControlEventTouchUpInside];
-    [zoomImageView setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"imageWaiting"]];
+    [zoomImageView setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:self.imageView.image];
     AppDelegate *appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
     [zoomImageBgView addSubview:zoomImageView];
     [zoomImageBgView addSubview:zoomCloseButton];
@@ -219,6 +281,16 @@
         countLabel.textColor=[UIColor redColor];
         countLabel.textAlignment=NSTextAlignmentCenter;
         [self.contentView addSubview:countLabel];
+        firstBadgeLabel=[[UILabel alloc] initWithFrame:CGRectMake(240, 0, 70, 20)];
+        firstBadgeLabel.font=[UIFont fontWithName:@"Helvetica-Bold" size:13];
+        firstBadgeLabel.backgroundColor=[UIColor clearColor];
+        firstBadgeLabel.textColor=[UIColor redColor];
+        firstBadgeLabel.textAlignment=NSTextAlignmentRight;
+        secondBadgeLabel=[[UILabel alloc] initWithFrame:CGRectMake(240, 20, 70, 20)];
+        secondBadgeLabel.font=[UIFont fontWithName:@"Helvetica-Bold" size:13];
+        secondBadgeLabel.backgroundColor=[UIColor clearColor];
+        secondBadgeLabel.textColor=[UIColor redColor];
+        secondBadgeLabel.textAlignment=NSTextAlignmentRight;
     }
     return self;
 }
@@ -233,9 +305,10 @@
     [super layoutSubviews];
     
     self.imageView.frame = CGRectMake(5.0f, 5.0f, 80.0f, 80.0f);
-    self.textLabel.frame = CGRectMake(90.0f, 10.0f, 240.0f, 20.0f);
+    self.textLabel.frame = CGRectMake(90.0f, 10.0f, 150.0f, 20.0f);
+//    self.textLabel.backgroundColor=[UIColor whiteColor];
 //    self.detailTextLabel.contentMode=UIViewContentModeBottomRight;
-    self.detailTextLabel.frame = CGRectMake(100.0f, 50.0f, 60.0f, 40.0f);
+    self.detailTextLabel.frame = CGRectMake(90.0f, 50.0f, 80.0f, 40.0f);
     self.detailTextLabel.font=[UIFont boldSystemFontOfSize:15];
     self.detailTextLabel.textColor=[UIColor redColor];
     self.selectedBackgroundView.backgroundColor = [UIColor clearColor];
@@ -257,6 +330,8 @@
     [zoomButton release];
     [addRecipeBtn release];
     [countLabel release];
+    [firstBadgeLabel release];
+    [secondBadgeLabel release];
     [removeRecipeBtn release];
     [indexPath release];
     [super dealloc];

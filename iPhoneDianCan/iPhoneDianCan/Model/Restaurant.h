@@ -10,6 +10,9 @@
 #import "RestaurantUser.h"
 //餐厅实体类
 @interface Restaurant : NSObject///属性
+typedef void (^restaurantSuccess) (Restaurant *restaurant);
+typedef void(^restaurantFailure)();
+
 @property NSInteger rid;
 @property(nonatomic,retain)NSString *name;
 @property(nonatomic,retain)NSString *address;
@@ -21,5 +24,5 @@
 //方法
 -(id)initWithID:(NSInteger)aRid name:(NSString *)aName address:(NSString *)anAddress telephone:(NSString *)aTelephone  RestaurantUser:(RestaurantUser *)aRestaurantUser x:(double)aX y:(double)aY;
 -(id)initWithDictionary:(NSDictionary *)dictionary;
-
++(void)rid:(NSInteger)rid Restaurant:(restaurantSuccess)restaurant failure:(restaurantFailure)failure; 
 @end

@@ -19,7 +19,10 @@ typedef void(^failure)();
 @property(nonatomic,retain)NSDate *starttime;
 @property NSInteger code;
 @property NSInteger status;//1表示未结账，3表示是请求结账，4已结账
-@property double price;
+@property double priceAll;
+@property double priceDeposit;
+@property double priceConfirm;
+
 @property(nonatomic,retain)Restaurant *restaurant;
 @property(nonatomic,retain)NSMutableArray *orderItems;
 -(id)initWithDictionary:(NSDictionary*) dictionary;
@@ -28,4 +31,5 @@ typedef void(^failure)();
 +(void)addRicpeWithRid:(NSInteger)rid RecipeId:(NSInteger)recipeId Oid:(NSInteger)oid Order:(success)order failure:(failure)failure;//加菜
 +(void)removeRicpeWithRid:(NSInteger)rid RecipeId:(NSInteger)recipeId Oid:(NSInteger)oid Order:(success)order failure:(failure)failure;//减菜
 +(void)CheckOrderWithRid:(NSInteger)rid Oid:(NSInteger)oid Order:(success)order failure:(failure)failure;//申请结账
++(void)OrderWithRid:(NSInteger)rid Oid:(NSInteger)oid Order:(success)order failure:(failure)failure;//下单
 @end

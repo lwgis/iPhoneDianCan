@@ -11,4 +11,6 @@
 @property(nonatomic,retain)UITableView *table;
 @property(nonatomic,retain)Order *currentOrder;
 @property(nonatomic,retain)NSMutableArray *allCategores;//所有已点种类
+@property(nonatomic)BOOL isUpdating;
+@property(nonatomic,retain)UIBarButtonItem *leftButtonItem;
 @end

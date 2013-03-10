@@ -8,7 +8,7 @@
 #import "Order.h"
 #import "AFRestAPIClient.h"
 @implementation Order
-@synthesize oid,desk,number,starttime,code,status,price,restaurant,orderItems;
+@synthesize oid,desk,number,starttime,code,status,priceAll,priceConfirm,priceDeposit,restaurant,orderItems;
 +(void)rid:(NSInteger)rid Oid:(NSInteger)oid Order:(success)order failure:(failure)failure{
     NSString *path=[NSString stringWithFormat:@"restaurants/%d/orders/%d",rid,oid];
     [[AFRestAPIClient sharedClient] getPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -37,7 +37,7 @@
 + (void)updataBadge:(Order *)aOrder {
     NSInteger count=0;
     for (OrderItem *item in aOrder.orderItems) {
-        count=count+item.count;
+        count=count+item.countAll;
     }
     NSNumber *numCount=[NSNumber numberWithInteger:count];
     [[NSNotificationCenter defaultCenter] postNotificationName:KBadgeNotification object:numCount];
@@ -91,8 +91,20 @@
         NSLog(@"错误: %@", error);
         failure();
     }];
-
 }
+
++(void)OrderWithRid:(NSInteger)rid Oid:(NSInteger)oid Order:(success)order failure:(failure)failure{
+    NSString *path=[NSString stringWithFormat:@"restaurants/%d/orders/%d/deposit",rid,oid];
+    [[AFRestAPIClient sharedClient] putPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@",responseObject);
+        Order *aOrder=[[Order alloc] initWithDictionary:responseObject];
+        order([aOrder autorelease]);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"错误: %@", error);
+        failure();
+    }];
+}
+
 
 -(id)initWithDictionary:(NSDictionary*) dictionary{
     self=[super init];
@@ -112,10 +124,14 @@
         NSNumber *numStatus=[dictionary valueForKey:@"status"];
         status=numStatus.integerValue;
         restaurant=[[Restaurant alloc] initWithDictionary:[dictionary valueForKey:@"restaurant"]];
-        NSNumber *numPrice=[dictionary valueForKey:@"price"];
-        price=numPrice.doubleValue*1.0;
+        NSNumber *numPriceAll=[dictionary valueForKey:@"priceAll"];
+        priceAll=numPriceAll.doubleValue*1.0;
+        NSNumber *numPriceConfirm=[dictionary valueForKey:@"priceConfirm"];
+        priceConfirm=numPriceConfirm.doubleValue*1.0;
+        NSNumber *numPriceDeposit=[dictionary valueForKey:@"priceDeposit"];
+        priceDeposit=numPriceDeposit.doubleValue*1.0;
         orderItems=[[NSMutableArray alloc] init];
-        NSArray *orderitemsArray=[dictionary valueForKey:@"orderItems"];
+        NSArray *orderitemsArray=[dictionary valueForKey:@"clientItems"];
         for (NSDictionary *orderDictionary in orderitemsArray) {
             OrderItem *orderItem=[[OrderItem alloc] initWithDictionary:orderDictionary];
             [orderItems addObject:orderItem];
