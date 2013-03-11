@@ -9,15 +9,18 @@
 @class Restaurant;
 #import <UIKit/UIKit.h>
 #import "CategoryTableViewController.h"
+#import "RecipeSearchControllerViewController.h"
 @interface FoodListController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIScrollViewDelegate,LocationToCellDelegate>
 @property NSInteger rid;// 餐厅id
 @property(nonatomic,retain)UITableView *table;//所有菜列表
-@property(nonatomic,retain)UITableView *catagoreTableView;//菜类列表
+@property(nonatomic,retain)UITableView *categoreTableView;//菜类列表
 @property(nonatomic,retain)CategoryTableViewController *categoryTableViewController;
 @property(nonatomic,retain)NSMutableArray *allCategores;//所有种类
 @property(nonatomic,retain)Order *currentOrder;
 @property(nonatomic,retain)UIPanGestureRecognizer *panGestureRecognizer;
 @property(nonatomic)CGPoint tableCenterPoint;
+@property(nonatomic,retain)UISearchBar *searchBar;
+@property(nonatomic,retain)RecipeSearchControllerViewController *recipeSearchControllerViewController;
 -(id)initWithRecipe:(Restaurant *)restaurant;
 - (void)synchronizeOrder:(Order *)order ;
 @end

@@ -24,7 +24,7 @@
 
 @implementation FoodListController
 
-@synthesize rid,table,catagoreTableView,categoryTableViewController,allCategores,currentOrder,panGestureRecognizer,tableCenterPoint;
+@synthesize rid,table,categoreTableView,categoryTableViewController,allCategores,currentOrder,panGestureRecognizer,tableCenterPoint,searchBar,recipeSearchControllerViewController;
 
 - (void)addTableShadow {
     [table layer].shadowPath =[UIBezierPath bezierPathWithRect:CGRectMake(table.contentOffset.x, table.contentOffset.y, table.bounds.size.width, table.bounds.size.height)].CGPath;
@@ -36,7 +36,8 @@
 }
 
 #pragma mark - LocationCellDelegate
--(void)LocationToCell:(NSIndexPath *)indexPath{
+-(void)locationToCell:(NSIndexPath *)indexPath{
+    [self.searchBar resignFirstResponder];
     [UIView animateWithDuration:0.3 animations:^{
         [table setCenter:CGPointMake(160, table.center.y)];
     } completion:^(BOOL finished) {
@@ -44,6 +45,12 @@
         table.scrollEnabled=YES;
         [self.table selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
     }]; }
+-(void)hideSearchBar{
+    if (searchBar.text.length==0) {
+        [self.recipeSearchControllerViewController.searchResultTable removeFromSuperview];
+        [self.searchBar resignFirstResponder];
+    }
+}
 
 -(id)initWithRecipe:(Restaurant *)restaurant{
     self=[super init];
@@ -51,15 +58,18 @@
         self.rid=restaurant.rid;
         self.title=restaurant.name;
         [self.view setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-45)];
-        categoryTableViewController=[[CategoryTableViewController alloc] init];
+        UIView *bgView=[[UIView alloc] initWithFrame:self.view.frame];
+        [self.view addSubview:bgView];
         //初始化菜种类
-        catagoreTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 200, SCREENHEIGHT-49-45)];
-        catagoreTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+        categoryTableViewController=[[CategoryTableViewController alloc] init];
+        categoreTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 30, 200, SCREENHEIGHT-49-45)];
+        categoreTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
         UIImageView *catagoreTableViewBgView=[[UIImageView alloc] initWithFrame:table.frame];
         [catagoreTableViewBgView setImage:[UIImage imageNamed:@"categoryTableViewBg"]];
-        catagoreTableView.backgroundView=catagoreTableViewBgView;
+        categoreTableView.backgroundView=catagoreTableViewBgView;
         [catagoreTableViewBgView release];
-        [self.view addSubview:catagoreTableView];
+        [bgView addSubview:categoreTableView];
+       
         //初始化所有菜列表
         table=[[UITableView alloc] initWithFrame:self.view.frame];
         table.backgroundColor=[UIColor redColor];
@@ -83,7 +93,15 @@
         UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
         self.navigationItem.rightBarButtonItem= rightItem;
         [rightItem release];
-       
+        //初始化搜索
+        recipeSearchControllerViewController=[[RecipeSearchControllerViewController alloc] init];
+        searchBar=[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, categoreTableView.frame.size.width, 30)];
+        recipeSearchControllerViewController.searchBar=self.searchBar;
+//        [self.view insertSubview:searchBar belowSubview:table];
+        [bgView addSubview:searchBar];
+        self.searchBar.backgroundColor=[UIColor clearColor];
+        recipeSearchControllerViewController.categoreTableView=self.categoreTableView;
+        [bgView release];
     }
     return self;
 
@@ -97,6 +115,9 @@
 }
 
 -(void)leftBarButtonTouch{
+    [self.searchBar resignFirstResponder];
+//    self.searchBar.text=nil;
+//    [self.recipeSearchControllerViewController.searchResultTable removeFromSuperview];
     if (tableCenterPoint.x==160) {
             [UIView animateWithDuration:0.3 animations:^{
                 [table setCenter:CGPointMake(360, table.center.y)];
@@ -157,11 +178,12 @@
             [category release];
         }
         categoryTableViewController.allCategores=allCategores;
-        categoryTableViewController.catagoreTableView=catagoreTableView;
-        catagoreTableView.dataSource=categoryTableViewController;
-        catagoreTableView.delegate=categoryTableViewController;
-        [catagoreTableView reloadData];
+        categoryTableViewController.categoreTableView=categoreTableView;
+        categoreTableView.dataSource=categoryTableViewController;
+        categoreTableView.delegate=categoryTableViewController;
+        [categoreTableView reloadData];
         categoryTableViewController.locationToCellDelegate=self;
+        recipeSearchControllerViewController.locationToCellDelegate=self;
         //请求所有菜
         [[AFRestAPIClient sharedClient] getPath:pathRepice parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             
@@ -176,6 +198,7 @@
                 }
                 [recipe release];
             }
+            recipeSearchControllerViewController.allCategores=self.allCategores;
             NSNumber *oidNum=[ud valueForKey:@"oid"];
             if (oidNum!=nil) {
                 [Order rid:self.rid Oid:oidNum.integerValue Order:^(Order *order) {
@@ -242,10 +265,12 @@
     if (table.center.x<160) {
         return;
     }
+//    self.searchBar.text=nil;
+//    [self.recipeSearchControllerViewController.searchResultTable removeFromSuperview];
     [rec setTranslation:CGPointMake(0, 0) inView:self.view];
     if((table.center.x + point.x)>160)
     table.center = CGPointMake(table.center.x + point.x, table.center.y);
-    
+    [self.searchBar resignFirstResponder];
     if (rec.state==UIGestureRecognizerStateEnded) {
         if (tableCenterPoint.x==160) {
             if ((table.center.x-tableCenterPoint.x)>40) {
@@ -397,16 +422,17 @@
     [self addTableShadow];
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-}
+
 
 -(void)dealloc{
     [table release];
-    [catagoreTableView release];
+    [categoreTableView release];
     [categoryTableViewController release];
     [allCategores release];
     [currentOrder release];
     [panGestureRecognizer release];
+    [self.searchBar release];
+    [self.recipeSearchControllerViewController release];
     [super dealloc];
 }
 

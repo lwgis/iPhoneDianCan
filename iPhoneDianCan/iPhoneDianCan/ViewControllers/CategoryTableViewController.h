@@ -7,14 +7,15 @@
 //
 #import <UIKit/UIKit.h>
 @protocol LocationToCellDelegate;
-@interface CategoryTableViewController : UIViewController<UITableViewDataSource,UITableViewDelegate>
+@interface CategoryTableViewController : UIViewController<UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 @property(nonatomic,retain)NSMutableArray *allCategores;//所有种类
-@property(nonatomic,assign)UITableView *catagoreTableView;//菜类列表
+@property(nonatomic,assign)UITableView *categoreTableView;//菜类列表
 @property(nonatomic,assign)id<LocationToCellDelegate> locationToCellDelegate;
+
 @end 
 
 @protocol LocationToCellDelegate <NSObject>
 
--(void)LocationToCell:(NSIndexPath *)indexPath;
-
+-(void)locationToCell:(NSIndexPath *)indexPath;
+-(void)hideSearchBar;
 @end

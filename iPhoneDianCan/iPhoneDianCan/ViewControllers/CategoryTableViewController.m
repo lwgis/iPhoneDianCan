@@ -14,8 +14,7 @@
 @protocol LocationToCellDelegate;
 
 @implementation CategoryTableViewController
-@synthesize allCategores,catagoreTableView,locationToCellDelegate;
-
+@synthesize allCategores,categoreTableView=_categoreTableView,locationToCellDelegate;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -27,11 +26,11 @@
 -(id)init{
     self=[super init];
     if (self) {
-        allCategores=[[NSMutableArray alloc] init];
     }
     return self;
 
 }
+
 
 - (void)viewDidLoad{
     [super viewDidLoad];
@@ -84,20 +83,22 @@
 
 - (void) unselectCurrentRow{
     // Animate the deselection
-    [self.catagoreTableView deselectRowAtIndexPath:
-     [self.catagoreTableView indexPathForSelectedRow] animated:YES];
+    [self.categoreTableView deselectRowAtIndexPath:
+     [self.categoreTableView indexPathForSelectedRow] animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)newIndexPath{
     NSIndexPath *index=[NSIndexPath indexPathForRow:0 inSection:newIndexPath.row];
-    [locationToCellDelegate LocationToCell:(NSIndexPath *)index];
+    [locationToCellDelegate locationToCell:(NSIndexPath *)index];
 
     [self performSelector:@selector(unselectCurrentRow)
                withObject:nil afterDelay:1.0];
     
 }
-
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    [locationToCellDelegate hideSearchBar];
+}
 -(void)dealloc{
     [allCategores release];
     [super dealloc];
