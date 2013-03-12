@@ -13,10 +13,9 @@
 #import "AFRestAPIClient.h"
 #import "UIImageView+AFNetworking.h"
 #import "Restaurant.h"
-#import "BMKPointAnnotation+Restaurant.h"
-
+#import "MyBMKPointAnnotation.h"
 @implementation RestaurantController
-@synthesize table,allRestaurants,bmkMapView;
+@synthesize table,allRestaurants,bmkMapView,restaurantResultController;
 
 -(id)init{
     self=[super init];
@@ -30,18 +29,35 @@
         UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mapTableViewBg"]];
         self.table.backgroundView = bgImageView;
         [bgImageView release];
-        //    table.alpha=0;
         [self.view addSubview:table];
         self.table.delegate=self;
         self.table.dataSource=self;
-        allRestaurants=[[NSMutableDictionary alloc] init];
+        allRestaurants=[[NSMutableArray alloc] init];
+        UISearchBar *searchBar=[[UISearchBar alloc] init];
+        searchBar.placeholder=@"输入餐厅名称或简拼";
+        [searchBar setBackgroundImage:[UIImage imageNamed:@"mapTableViewBg"]];
+        [searchBar sizeToFit];
+        searchBar.delegate=self;
+        self.table.tableHeaderView=searchBar;
+        restaurantResultController =[[RestaurantResultController alloc] initWithSearchBar:searchBar contentsController:self];
         //初始化餐厅列表
         [[AFRestAPIClient sharedClient] getPath:@"restaurants" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSArray *list = (NSArray*)responseObject;
             NSInteger i=0;
             for (NSDictionary *dic in list) {
                 Restaurant *restaurant=[[Restaurant alloc] initWithDictionary:dic];
-                [allRestaurants setValue:restaurant forKey:[NSString stringWithFormat:@"%d", i]];
+                [allRestaurants addObject:restaurant];
+                //添加地图标记
+                MyBMKPointAnnotation* annotation = [[MyBMKPointAnnotation alloc]init];
+                CLLocationCoordinate2D coor;
+                coor.longitude=restaurant.x;
+                coor.latitude=restaurant.y;
+                annotation.coordinate = coor;
+                annotation.title = restaurant.name;
+                annotation.subtitle=@"超级难吃";
+                annotation.index=i;
+                [self.bmkMapView addAnnotation:annotation];
+                [annotation release];
                 [restaurant release];
                 i++;
             }
@@ -62,7 +78,11 @@
     UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
     self.navigationItem.rightBarButtonItem= rightItem;
     [rightItem release];
-    
+    UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
+    temporaryBarButtonItem.title = @"返回";
+    [temporaryBarButtonItem setBackButtonBackgroundImage:[UIImage imageNamed:@"navBackButton"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+    self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
+    [temporaryBarButtonItem release];
     isShowMapView=NO;
     }
     return self;
@@ -122,28 +142,20 @@
         cell = [[[UITableViewCell alloc]
 				 initWithStyle:UITableViewCellStyleDefault
 				 reuseIdentifier:SectionsTableIdentifier] autorelease];
+        cell.backgroundColor=[UIColor grayColor];
+        [cell.imageView setImage:[UIImage imageNamed:@"dcs.jpg"]];
+        UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"restaurantTableCellBg"]];
+        cell.backgroundView = bgImageView;
+        cell.textLabel.backgroundColor=[UIColor clearColor];
+        [bgImageView release];
+        UIImageView *selectBgImageView=[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"categoryTablecellSelectBg"]];
+        cell.selectedBackgroundView=selectBgImageView;
+        [selectBgImageView release];
     }
-    cell.backgroundColor=[UIColor grayColor];
-    NSLog(@"restaurant.name=%@",allRestaurants);
-    NSString *key=[allRestaurants.allKeys objectAtIndex:row];
-    Restaurant *restaurant=[self.allRestaurants valueForKey:key];
+    Restaurant *restaurant=[self.allRestaurants objectAtIndex:row];
     cell.textLabel.text = restaurant.name;
-    [cell.imageView setImage:[UIImage imageNamed:@"dcs.jpg"]];
-    UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"restaurantTableCellBg"]];
-    cell.backgroundView = bgImageView;
-    cell.textLabel.backgroundColor=[UIColor clearColor];
-    [bgImageView release];
-    //添加地图标记
-    BMKPointAnnotation* annotation = [[BMKPointAnnotation alloc]init];
-    CLLocationCoordinate2D coor;
-    coor.longitude=restaurant.x;
-    coor.latitude=restaurant.y;
-    annotation.coordinate = coor;
-    annotation.title = restaurant.name;
-    annotation.subtitle=@"超级难吃";
-    annotation.indexPath=indexPath;
-    [self.bmkMapView addAnnotation:annotation];
-    [annotation release];
+    cell.detailTextLabel.text=restaurant.description;
+
     return cell;
 }
 
@@ -153,14 +165,8 @@
 }
 //跳转到菜单列表
 - (void)pushToFoodList:(NSInteger)row {
-    NSString *key=[allRestaurants.allKeys objectAtIndex:row];
-    Restaurant *restaurant=[allRestaurants objectForKey:key];
+    Restaurant *restaurant=[allRestaurants objectAtIndex:row];
     FoodListController*foodListController=[[FoodListController alloc] initWithRecipe:restaurant];
-    UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
-    temporaryBarButtonItem.title = @"返回";
-    [temporaryBarButtonItem setBackButtonBackgroundImage:[UIImage imageNamed:@"navBackButton"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
-    [temporaryBarButtonItem release];
     [self.navigationController pushViewController:foodListController animated:YES];
     [foodListController release];
 }
@@ -168,6 +174,9 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     [self pushToFoodList:indexPath.row];
+    [self performSelector:@selector(unselectCurrentRow)
+               withObject:nil afterDelay:1.0];
+
 }
 
 #pragma mark -
@@ -180,10 +189,6 @@
     newRegion.span.longitudeDelta = 0.01;
     [mapView setRegion:newRegion animated:YES];
     [table reloadData];
-//    [UIView animateWithDuration:0.1 animations:^{
-//        self.table.alpha=1;
-//        self.bmkMapView.alpha=1;
-//    }];
     mapView.showsUserLocation=NO;
 }
 
@@ -194,7 +199,9 @@
         newAnnotationView.pinColor=BMKPinAnnotationColorRed;
         newAnnotationView.animatesDrop=YES;
         UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-         [rightButton addTarget:self action:@selector(showDetails:) forControlEvents:UIControlEventTouchUpInside];
+        [rightButton addTarget:self action:@selector(showDetails:) forControlEvents:UIControlEventTouchUpInside];
+        MyBMKPointAnnotation *myBMKPointAnnotation=(MyBMKPointAnnotation *)annotation;
+        rightButton.tag=myBMKPointAnnotation.index;
         newAnnotationView.rightCalloutAccessoryView = rightButton;
         UIImageView *headImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dcs.jpg"]];
         [headImage setFrame:CGRectMake(0, 0, 30, 30)];
@@ -204,15 +211,67 @@
     }
     return nil;
 }
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    [self.restaurantResultController.resultRestaurants removeAllObjects];
+    for (Restaurant *aRestaurant in allRestaurants) {
+        NSRange textRangeName,textRangePinyin;
+        textRangeName =[aRestaurant.name rangeOfString:searchText];
+        NSString *pinyin=searchText.lowercaseString;
+        textRangePinyin=[aRestaurant.pinyin rangeOfString:pinyin];
+        if(textRangeName.location != NSNotFound||textRangePinyin.location!=NSNotFound)
+        {
+            [self.restaurantResultController.resultRestaurants addObject:aRestaurant];
+        }
+    }
+    [self.restaurantResultController.searchResultsTableView reloadData];
+}
+//-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+//    for (UIView *searchbuttons in searchBar.subviews)
+//    {
+//        if ([searchbuttons isKindOfClass:[UIButton class]])
+//        {
+//            UIButton *cancelButton = (UIButton*)searchbuttons;
+//            
+//            cancelButton.enabled = YES;
+//            
+//            [cancelButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"] forState:UIControlStateNormal];
+//            
+//            break;
+//            
+//        }
+//    }
+//
+//}
+-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+    searchBar.showsCancelButton = YES;
+    for(id cc in [searchBar subviews])
+    {
+        if([cc isKindOfClass:[UIButton class]])
+        {
+            UIButton *sbtn = (UIButton *)cc;
+            [sbtn removeFromSuperview];
+            [sbtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+            [sbtn setBackgroundImage:[UIImage imageNamed:@"navRightBtn"] forState:UIControlStateNormal];
+            [sbtn setBackgroundImage:[UIImage imageNamed:@"navRightBtnHL"] forState:UIControlStateHighlighted];
+            [sbtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        }
+    }
+}
 
 -(void)showDetails:(UIButton *)sender{
     [self pushToFoodList:sender.tag];
+}
+- (void) unselectCurrentRow{
+    // Animate the deselection
+    [self.table deselectRowAtIndexPath:
+     [self.table indexPathForSelectedRow] animated:YES];
 }
 
 -(void)dealloc{
     [bmkMapView release];
     [allRestaurants release];
     [table release];
+    [restaurantResultController release];
     [super dealloc];
 }
 @end

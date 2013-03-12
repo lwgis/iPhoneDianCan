@@ -141,11 +141,11 @@
                 newCount+=oItem.countNew;
             }
             if (newCount>0) {
-                flCon.title=[NSString stringWithFormat:@"共:￥%.2f-未下单:%d",order.priceAll,newCount];
+                flCon.title=[NSString stringWithFormat:@"总价:￥%.2f\n%d份未下单",order.priceAll,newCount];
                 flCon.navigationItem.leftBarButtonItem=flCon.leftButtonItem ;
             }
             else{
-                flCon.title=[NSString stringWithFormat:@"共:￥%.2f",order.priceAll];
+                flCon.title=[NSString stringWithFormat:@"总价:￥%.2f",order.priceAll];
                 flCon.navigationItem.leftBarButtonItem=nil ;
             }
         }
@@ -201,12 +201,12 @@
                 newCount+=oItem.countNew;
             }
             if (newCount>0) {
-                flCon.title=[NSString stringWithFormat:@"共:￥%.2f-未下单:%d",order.priceAll,newCount];
+                flCon.title=[NSString stringWithFormat:@"总价:￥%.2f\n%d份未下单",order.priceAll,newCount];
                 flCon.navigationItem.leftBarButtonItem=flCon.leftButtonItem ;
                 
             }
             else{
-                flCon.title=[NSString stringWithFormat:@"共:￥%.2f",order.priceAll];
+                flCon.title=[NSString stringWithFormat:@"总价:￥%.2f",order.priceAll];
                 flCon.navigationItem.leftBarButtonItem=nil ;
 
             }
@@ -217,11 +217,14 @@
 }
 
 -(void)zoomImage{
+    UITableView *tv=(UITableView *)self.superview;
+    if (!tv.isScrollEnabled) {
+        return;
+    }
     NSString *imageUrlString=LARGEIMAGESERVERADDRESS;
     imageUrlString=[NSString stringWithFormat:@"%@%@",imageUrlString,_recipe.imageUrl];
     UIImageView *zoomImageBgView=[[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320, SCREENHEIGHT)];
     [zoomImageBgView setImage:[UIImage imageNamed:@"imageZoomBg"]];
-    UITableView *tv=(UITableView *)self.superview;
     CGPoint point= tv.contentOffset;
     UIImageView *zoomImageView=[[UIImageView alloc] initWithFrame:CGRectMake(self.frame.origin.x-point.x+5,self.frame.origin.y-point.y+45+5, 70, 70)];
     zoomImageBgView.userInteractionEnabled=YES;

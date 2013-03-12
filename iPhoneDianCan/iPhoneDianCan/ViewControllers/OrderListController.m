@@ -16,8 +16,9 @@
 #import "MyAlertView.h"
 #import "AppDelegate.h"
 #import "Recipe.h"
+#import <QuartzCore/QuartzCore.h>
 @implementation OrderListController
-@synthesize table,currentOrder,allCategores,isUpdating,leftButtonItem;
+@synthesize table,currentOrder,allCategores,isUpdating,leftButtonItem,tilteLabel;
 
 -(id)init{
     self=[super init];
@@ -49,10 +50,22 @@
         self.navigationItem.rightBarButtonItem= rightItem;
         [rightItem release];
         isUpdating=NO;
-            }
+        CGRect frame = CGRectMake(0, 0, 200, 44);
+        tilteLabel = [[UILabel alloc] initWithFrame:frame];
+        tilteLabel.numberOfLines=2;
+        tilteLabel.backgroundColor = [UIColor clearColor];
+        tilteLabel.font = [UIFont boldSystemFontOfSize:17.0];
+        tilteLabel.textAlignment = UITextAlignmentCenter;
+        tilteLabel.textColor=[UIColor whiteColor];
+        self.navigationItem.titleView = tilteLabel;
+        tilteLabel.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+        tilteLabel.shadowOffset = CGSizeMake(0, -1.0);
+    }
     return self;
 }
-
+-(void)setTitle:(NSString *)title{
+    tilteLabel.text=title;
+}
 -(void)leftBarButtonTouch{
 //    /*
     NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
@@ -113,7 +126,7 @@
     else{
         [allCategores removeAllObjects];
         [table reloadData];
-        self.title=[NSString stringWithFormat:@"共:￥0.00"];
+        self.title=[NSString stringWithFormat:@"总价:￥0.00"];
 
     }
 }
@@ -212,11 +225,11 @@
         }
     }
     if (newCount>0) {
-        self.title=[NSString stringWithFormat:@"共:￥%.2f-未下单:%d",order.priceAll,newCount];
+        self.title=[NSString stringWithFormat:@"总价:￥%.2f\n%d份未下单",order.priceAll,newCount];
         self.navigationItem.leftBarButtonItem= leftButtonItem;
     }
     else{
-        self.title=[NSString stringWithFormat:@"共:￥%.2f",order.priceAll];
+        self.title=[NSString stringWithFormat:@"总价:￥%.2f",order.priceAll];
         self.navigationItem.leftBarButtonItem= nil;
     }
     [table reloadData];
@@ -244,6 +257,7 @@
 -(void)dealloc{
     [leftButtonItem release];
     [table release];
+    [tilteLabel release];
     [super dealloc];
 }
 @end

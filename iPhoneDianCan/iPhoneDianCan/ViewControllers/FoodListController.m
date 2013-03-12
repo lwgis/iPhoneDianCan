@@ -47,7 +47,7 @@
     }]; }
 -(void)hideSearchBar{
     if (searchBar.text.length==0) {
-        [self.recipeSearchControllerViewController.searchResultTable removeFromSuperview];
+        [self.recipeSearchControllerViewController.shadowView removeFromSuperview];
         [self.searchBar resignFirstResponder];
     }
 }
@@ -95,7 +95,8 @@
         [rightItem release];
         //初始化搜索
         recipeSearchControllerViewController=[[RecipeSearchControllerViewController alloc] init];
-        searchBar=[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, categoreTableView.frame.size.width, 30)];
+        searchBar=[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, categoreTableView.frame.size.width-3, 30)];
+        searchBar.placeholder=@"输入菜名或简拼";
         recipeSearchControllerViewController.searchBar=self.searchBar;
 //        [self.view insertSubview:searchBar belowSubview:table];
         [bgView addSubview:searchBar];

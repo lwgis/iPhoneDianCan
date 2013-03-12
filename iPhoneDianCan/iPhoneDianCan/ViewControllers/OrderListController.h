@@ -13,4 +13,5 @@
 @property(nonatomic,retain)NSMutableArray *allCategores;//所有已点种类
 @property(nonatomic)BOOL isUpdating;
 @property(nonatomic,retain)UIBarButtonItem *leftButtonItem;
+@property(nonatomic,retain)UILabel *tilteLabel;
 @end

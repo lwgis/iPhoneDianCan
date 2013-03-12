@@ -34,10 +34,13 @@
         NSLog(@"w=%f",buttonCount.frame.size.width);
         CGFloat width=0;
         if (_badgeValue<10) {
-            width=18;
+            width=16;
         }
-        else{
-            width=22;
+        if (_badgeValue<100) {
+            width=23;
+        }
+        if (_badgeValue>100) {
+            width=30;
         }
         [buttonCount setFrame:CGRectMake(self.frame.size.width-width-5, 0,width, 18)];
         [buttonCount setBackgroundImage:[UIImage imageNamed:@"labelCount"] forState:UIControlStateNormal];

@@ -15,5 +15,6 @@
 @property(nonatomic,assign)UISearchBar *searchBar;
 @property(nonatomic,retain)UITableView *searchResultTable;
 @property(nonatomic,assign)UITableView *categoreTableView;//菜类列表
+@property(nonatomic,retain)UIView *shadowView;
 @property(nonatomic,assign)id<LocationToCellDelegate> locationToCellDelegate;
 @end

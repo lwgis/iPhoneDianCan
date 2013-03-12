@@ -56,6 +56,7 @@
 		NSLog(@"manager start failed!");
 	}
     self.window.rootViewController=buttomViewController;
+    self.window.backgroundColor=[UIColor grayColor];
     [self.window makeKeyAndVisible];
     [buttomViewController release];
     //设置设备码

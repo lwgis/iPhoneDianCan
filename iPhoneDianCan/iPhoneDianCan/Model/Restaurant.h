@@ -15,6 +15,7 @@ typedef void(^restaurantFailure)();
 
 @property NSInteger rid;
 @property(nonatomic,retain)NSString *name;
+@property (nonatomic,retain)NSString *pinyin;
 @property(nonatomic,retain)NSString *address;
 @property(nonatomic,retain)NSString *telephone;
 @property double x;

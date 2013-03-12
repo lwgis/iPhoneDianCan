@@ -14,7 +14,7 @@
 @end
 
 @implementation RecipeSearchControllerViewController
-@synthesize searchBar=_searchBar,searchResultTable,allCategores,locationToCellDelegate,allIndexPaths,allRecipes;
+@synthesize searchBar=_searchBar,searchResultTable,allCategores,locationToCellDelegate,allIndexPaths,allRecipes,shadowView;
 -(id)init{
     self=[super init];
     if (self) {
@@ -24,6 +24,13 @@
         searchResultTable.backgroundColor=[UIColor clearColor]; //colorWithRed:60.0/255 green:60.0/255 blue:60.0/255 alpha:0.6];
         searchResultTable.dataSource=self;
         searchResultTable.delegate=self;
+        shadowView =[[UIView alloc] init];
+        [shadowView layer].masksToBounds = NO;
+        [[shadowView layer] setShadowOffset:CGSizeMake(-5, 5)];
+        [[shadowView layer] setShadowRadius:5.0];
+        [[shadowView layer] setShadowOpacity:0.6];
+        [[shadowView layer] setShadowColor:[UIColor blackColor].CGColor];
+        shadowView.backgroundColor=[UIColor clearColor];//colorWithRed:0.1 green:0.1 blue:0.1 alpha:0.5];
         allRecipes =[[NSMutableArray alloc] init];
         allIndexPaths=[[NSMutableArray alloc] init];
     }
@@ -47,17 +54,20 @@
 }
 #pragma mark - UISearchDelegate
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    [self.searchBar.superview addSubview:self.searchResultTable];
-    [self.searchBar.superview insertSubview:searchBar aboveSubview:searchResultTable];
+    [shadowView addSubview:searchResultTable];
+    [self.searchBar.superview addSubview:shadowView];
+    [self.searchBar.superview insertSubview:searchBar aboveSubview:shadowView];
     [allRecipes removeAllObjects];
     [allIndexPaths removeAllObjects];
     NSInteger section=0;
     for (Category *category in self.allCategores) {
         NSInteger row=0;
         for (Recipe *recipe in category.allRecipes) {
-            NSRange textRange;
-            textRange =[recipe.name rangeOfString:searchText];
-            if(textRange.location != NSNotFound)
+            NSRange textRangeName,textRangePinyin;
+            textRangeName =[recipe.name rangeOfString:searchText];
+            NSString *pinyin=searchText.lowercaseString;
+            textRangePinyin=[recipe.pinyin rangeOfString:pinyin];
+            if(textRangeName.location != NSNotFound||textRangePinyin.location!=NSNotFound)
             {
                 NSIndexPath *indexPath=[NSIndexPath indexPathForItem:row inSection:section];
                 [allIndexPaths addObject:indexPath];
@@ -79,17 +89,69 @@
             height=4;
         }
     }
-    [self.searchResultTable setFrame:CGRectMake(10, self.searchBar.frame.size.height, self.searchBar.frame.size.width-15,height*35)];
-    [searchResultTable layer].shadowPath =[UIBezierPath bezierPathWithRect:searchResultTable.bounds].CGPath;
-    [searchResultTable layer].masksToBounds = NO;
-    [[searchResultTable layer] setShadowOffset:CGSizeMake(-5, 5)];
-    [[searchResultTable layer] setShadowRadius:5.0];
-    [[searchResultTable layer] setShadowOpacity:0.6];
-    [[searchResultTable layer] setShadowColor:[UIColor blackColor].CGColor];
+    double duration=0.2;
+    if (searchText.length==0||allRecipes.count==0) {
+        duration=0;
+    }
+    [self.searchResultTable setFrame:CGRectMake(0, 0, self.searchBar.frame.size.width-15,height*35)];
+    [self.shadowView setFrame:CGRectMake(10, -height*35, self.searchBar.frame.size.width-15,height*35)];
+    [shadowView layer].shadowPath =[UIBezierPath bezierPathWithRect:shadowView.bounds].CGPath;
+    [UIView animateWithDuration:duration animations:^{
+        [self.shadowView setFrame:CGRectMake(10, self.searchBar.frame.size.height, self.searchBar.frame.size.width-15,height*35)];
+        } completion:^(BOOL finished) {
+        }];
 }
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
-    
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    [searchBar resignFirstResponder];
+    NSInteger height=allRecipes.count;
+    if (height>9) {
+        if (SCREENHEIGHT>500) {
+            if (height>10) {
+                height=11;
+            }
+        }
+        else{
+            height=9;
+        }
+    }
+    double duration=0.2;
+    if (searchBar.text.length==0||allRecipes.count==0) {
+        duration=0;
+    }
+    [UIView animateWithDuration:duration animations:^{
+        [self.searchResultTable setFrame:CGRectMake(0, 0, self.searchBar.frame.size.width-15,height*35)];
+        [self.shadowView setFrame:CGRectMake(10, self.searchBar.frame.size.height, self.searchBar.frame.size.width-15,height*35)];
+        [shadowView layer].shadowPath =[UIBezierPath bezierPathWithRect:shadowView.bounds].CGPath;
+    } completion:^(BOOL finished) {
+
+    }];
 }
+
+-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+    NSInteger height=allRecipes.count;
+    if (height>4) {
+        if (SCREENHEIGHT>500) {
+            if (height>5) {
+                height=6;
+            }
+        }
+        else{
+            height=4;
+        }
+    }
+    double duration=0.2;
+    if (searchBar.text.length==0||allRecipes.count==0) {
+        duration=0;
+    }
+    shadowView.layer.shadowPath=nil;
+    [UIView animateWithDuration:duration animations:^{
+        [self.searchResultTable setFrame:CGRectMake(0,0, self.searchBar.frame.size.width-15,height*35)];
+        [self.shadowView setFrame:CGRectMake(10, self.searchBar.frame.size.height, self.searchBar.frame.size.width-15,height*35)];
+        [shadowView layer].shadowPath =[UIBezierPath bezierPathWithRect:CGRectMake(0, 0, shadowView.frame.size.width, shadowView.frame.size.height)].CGPath;
+    } completion:^(BOOL finished) {
+    }];
+}
+
 #pragma mark -
 #pragma mark Table View Data Source Methods
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -110,7 +172,7 @@
                              SectionsTableIdentifier];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc]
-				 initWithStyle:UITableViewCellStyleSubtitle
+				 initWithStyle:UITableViewCellStyleValue1
 				 reuseIdentifier:SectionsTableIdentifier] autorelease];
         UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"searchResultCellBg"]];
         cell.backgroundView = bgImageView;
@@ -121,8 +183,13 @@
         cell.textLabel.textColor=[UIColor whiteColor];
         cell.textLabel.backgroundColor=[UIColor clearColor];
         cell.textLabel.font=[UIFont fontWithName:@"Helvetica-Bold" size:16];
+        cell.detailTextLabel.textColor=[UIColor whiteColor];
+        cell.detailTextLabel.backgroundColor=[UIColor clearColor];
+        cell.detailTextLabel.font=[UIFont fontWithName:@"Helvetica-Bold" size:14];
+
     }
     [cell.textLabel setText:recipe.name];
+    cell.detailTextLabel.text=[NSString stringWithFormat:@"%.1f",recipe.price];
     return cell;
 }
 
@@ -145,15 +212,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)newIndexPath{
     
 }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    [searchResultTable layer].shadowPath =[UIBezierPath bezierPathWithRect:CGRectMake(searchResultTable.contentOffset.x, searchResultTable.contentOffset.y, searchResultTable.bounds.size.width, searchResultTable.bounds.size.height)].CGPath;
-    [searchResultTable layer].masksToBounds = NO;
-    [[searchResultTable layer] setShadowOffset:CGSizeMake(-5, 5)];
-    [[searchResultTable layer] setShadowRadius:5.0];
-    [[searchResultTable layer] setShadowOpacity:0.6];
-    [[searchResultTable layer] setShadowColor:[UIColor blackColor].CGColor];
 
-}
 - (void) unselectCurrentRow{
     // Animate the deselection
     [self.searchResultTable deselectRowAtIndexPath:
@@ -164,6 +223,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)newIndexPath{
     [searchResultTable release];
     [allIndexPaths release];
     [allRecipes release];
+    [shadowView release];
     [super dealloc];
 }
 @end

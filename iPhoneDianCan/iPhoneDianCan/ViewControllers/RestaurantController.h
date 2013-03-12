@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "BMapKit.h"
 #import "FoodListController.h"
-@interface RestaurantController : UIViewController<UITableViewDataSource,UITableViewDelegate,BMKMapViewDelegate>{
+#import "RestaurantResultController.h"
+@interface RestaurantController : UIViewController<UITableViewDataSource,UITableViewDelegate,BMKMapViewDelegate,UISearchBarDelegate,UISearchDisplayDelegate>{
     bool isShowMapView;//是否显示地图
 }
 @property(nonatomic,retain)BMKMapView *bmkMapView;
 @property(nonatomic,retain)UITableView *table;
-@property(nonatomic,retain)NSMutableDictionary *allRestaurants;
+@property(nonatomic,retain)NSMutableArray *allRestaurants;
+@property(nonatomic,retain)RestaurantResultController *restaurantResultController;
 @end

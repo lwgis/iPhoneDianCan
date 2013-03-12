@@ -12,13 +12,14 @@
 @property NSInteger rid;
 @property NSInteger cid;
 @property (nonatomic,retain)NSString *name;
+@property (nonatomic,retain)NSString *pinyin;
 @property (nonatomic,retain)NSString *description;
 @property (nonatomic,retain)NSString *imageUrl;
 @property double price;
 @property (nonatomic)NSInteger countNew;//购物车新增个数
 @property (nonatomic)NSInteger countDeposit;//已下单个数
 @property (nonatomic)NSInteger countConfirm;//已上菜个数
-@property (nonatomic)NSInteger countAll;//总共
+@property (nonatomic)NSInteger countAll;//总价
 
 @property NSInteger status;//0表示没有上菜，1表示已经下单，2表示已经上菜
 -(id)initWithDictionary:(NSDictionary *) dictionary;
