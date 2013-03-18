@@ -18,7 +18,7 @@
 #import "Recipe.h"
 #import <QuartzCore/QuartzCore.h>
 @implementation OrderListController
-@synthesize table,currentOrder,allCategores,isUpdating,leftButtonItem,tilteLabel;
+@synthesize table,currentOrder,allCategores,isUpdating,leftButtonItems,tilteLabel;
 
 -(id)init{
     self=[super init];
@@ -40,8 +40,13 @@
         [leftButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
         [leftButton setTitle:@"下单" forState:UIControlStateNormal];
         [leftButton addTarget:self action:@selector(leftBarButtonTouch)forControlEvents:UIControlEventTouchUpInside];
-        leftButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
-//        self.navigationItem.leftBarButtonItem= leftButtonItem;
+        UIBarButtonItem *leftButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
+        UIButton*leftButtonHide = [UIButton buttonWithType:UIButtonTypeCustom];
+        [leftButtonHide setFrame:CGRectMake(0, 0, 50, 30)];
+        UIBarButtonItem *leftButtonItemHide = [[UIBarButtonItem alloc]initWithCustomView:leftButtonHide];
+        self.leftButtonItems=[NSArray arrayWithObjects:leftButtonItem,leftButtonItemHide,nil];
+        [leftButtonItemHide release];
+        [leftButtonItem release];
         UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [rightButton setFrame:CGRectMake(0, 0, 35, 35)];
         [rightButton setBackgroundImage:[UIImage imageNamed:@"refreshOrder"]forState:UIControlStateNormal];
@@ -137,7 +142,6 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-//    [self refreshOrder];
 }
 
 - (void)viewDidLoad{
@@ -194,8 +198,10 @@
     [headerLabel sizeToFit];
     CGRect rect=headerLabel.frame;
     rect.origin.x=(320.0f-rect.size.width)/2;
+    rect.size.width+=10;
     headerLabel.frame=rect;
-    [customView setFrame:headerLabel.frame];
+    rect.origin.x-=5;
+    [customView setFrame:rect];
     [headerView addSubview:customView];
     [headerView addSubview:headerLabel];
     [customView release];
@@ -226,7 +232,7 @@
     }
     if (newCount>0) {
         self.title=[NSString stringWithFormat:@"总价:￥%.2f\n%d份未下单",order.priceAll,newCount];
-        self.navigationItem.leftBarButtonItem= leftButtonItem;
+        self.navigationItem.leftBarButtonItems= leftButtonItems;
     }
     else{
         self.title=[NSString stringWithFormat:@"总价:￥%.2f",order.priceAll];
@@ -235,6 +241,7 @@
     [table reloadData];
     [tempArray release];
     isUpdating=NO;
+
 }
 
 #pragma mark - UIAlertViewDelegate
@@ -249,13 +256,16 @@
         }];    }
 }
 
+
+
+
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 -(void)dealloc{
-    [leftButtonItem release];
+    [leftButtonItems release];
     [table release];
     [tilteLabel release];
     [super dealloc];

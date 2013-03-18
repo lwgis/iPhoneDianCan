@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Recipe.h"
 @interface OrderItem : NSObject
-@property NSInteger oid;
+@property (nonatomic)NSInteger oid;
 @property (nonatomic)NSInteger countNew;
 @property (nonatomic)NSInteger countDeposit;
 @property (nonatomic)NSInteger countConfirm;

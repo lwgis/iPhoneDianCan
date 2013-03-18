@@ -25,5 +25,5 @@ typedef void(^restaurantFailure)();
 //方法
 -(id)initWithID:(NSInteger)aRid name:(NSString *)aName address:(NSString *)anAddress telephone:(NSString *)aTelephone  RestaurantUser:(RestaurantUser *)aRestaurantUser x:(double)aX y:(double)aY;
 -(id)initWithDictionary:(NSDictionary *)dictionary;
-+(void)rid:(NSInteger)rid Restaurant:(restaurantSuccess)restaurant failure:(restaurantFailure)failure; 
++(void)rid:(NSInteger)rid Restaurant:(restaurantSuccess)restaurant failure:(restaurantFailure)failure; //根据餐厅id获取餐厅
 @end

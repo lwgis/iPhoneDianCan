@@ -142,7 +142,7 @@
             }
             if (newCount>0) {
                 flCon.title=[NSString stringWithFormat:@"总价:￥%.2f\n%d份未下单",order.priceAll,newCount];
-                flCon.navigationItem.leftBarButtonItem=flCon.leftButtonItem ;
+                flCon.navigationItem.leftBarButtonItems=flCon.leftButtonItems ;
             }
             else{
                 flCon.title=[NSString stringWithFormat:@"总价:￥%.2f",order.priceAll];
@@ -202,7 +202,7 @@
             }
             if (newCount>0) {
                 flCon.title=[NSString stringWithFormat:@"总价:￥%.2f\n%d份未下单",order.priceAll,newCount];
-                flCon.navigationItem.leftBarButtonItem=flCon.leftButtonItem ;
+                flCon.navigationItem.leftBarButtonItems=flCon.leftButtonItems ;
                 
             }
             else{

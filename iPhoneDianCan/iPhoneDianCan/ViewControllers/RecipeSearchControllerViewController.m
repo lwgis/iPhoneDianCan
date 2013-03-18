@@ -114,7 +114,7 @@
             height=9;
         }
     }
-    double duration=0.2;
+    double duration=0.3;
     if (searchBar.text.length==0||allRecipes.count==0) {
         duration=0;
     }

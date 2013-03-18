@@ -13,10 +13,6 @@
 -(id)initWithSearchBar:(UISearchBar *)searchBar contentsController:(UIViewController *)viewController{
     self=[super initWithSearchBar:searchBar contentsController:viewController];
     if (self) {
-        self.searchResultsTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
-        UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mapTableViewBg"]];
-        self.searchResultsTableView.backgroundView = bgImageView;
-        [bgImageView release];
         self.searchResultsDataSource=self;
         self.searchResultsDelegate=self;
         resultRestaurants=[[NSMutableArray alloc] init];
@@ -25,6 +21,10 @@
 }
 #pragma mark - UITableView DataSouce
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    self.searchResultsTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
+    UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mapTableViewBg"]];
+    self.searchResultsTableView.backgroundView = bgImageView;
+    [bgImageView release];
     return 1;
 }
 

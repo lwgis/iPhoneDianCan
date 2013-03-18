@@ -24,7 +24,7 @@
 
 @implementation FoodListController
 
-@synthesize rid,table,categoreTableView,categoryTableViewController,allCategores,currentOrder,panGestureRecognizer,tableCenterPoint,searchBar,recipeSearchControllerViewController;
+@synthesize rid,table,categoreTableView,categoryTableViewController,allCategores,currentOrder,tableCenterPoint,searchBar,recipeSearchControllerViewController,leftButtonItems;
 
 - (void)addTableShadow {
     [table layer].shadowPath =[UIBezierPath bezierPathWithRect:CGRectMake(table.contentOffset.x, table.contentOffset.y, table.bounds.size.width, table.bounds.size.height)].CGPath;
@@ -82,6 +82,10 @@
         table.dataSource=self;
         table.delegate=self;
         [self.view addSubview:table];
+        UIPanGestureRecognizer *panGestureRecognizer=[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragTableView:)];
+        panGestureRecognizer.delegate=self;
+        [self.table addGestureRecognizer:panGestureRecognizer];
+        [panGestureRecognizer release];
         allCategores=[[NSMutableArray alloc] init];
         //初始化右边按钮
         UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -103,6 +107,19 @@
         self.searchBar.backgroundColor=[UIColor clearColor];
         recipeSearchControllerViewController.categoreTableView=self.categoreTableView;
         [bgView release];
+        UIButton*leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [leftButton setFrame:CGRectMake(0, 0, 50, 30)];
+        [leftButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
+        [leftButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
+        [leftButton setTitle:@"种类" forState:UIControlStateNormal];
+        [leftButton addTarget:self action:@selector(leftBarButtonTouch)forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem*leftButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
+        UIButton*leftButtonHide = [UIButton buttonWithType:UIButtonTypeCustom];
+        [leftButtonHide setFrame:CGRectMake(0, 0, 50, 30)];
+        UIBarButtonItem *leftButtonItemHide = [[UIBarButtonItem alloc]initWithCustomView:leftButtonHide];
+        self.leftButtonItems=[NSArray arrayWithObjects:leftButtonItem,leftButtonItemHide,nil];
+        [leftButtonItemHide release];
+        [leftButtonItem release];
     }
     return self;
 
@@ -212,15 +229,7 @@
                     UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
                     self.navigationItem.rightBarButtonItem= rightItem;
                     [rightItem release];
-                    UIButton*leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                    [leftButton setFrame:CGRectMake(0, 0, 50, 30)];
-                    [leftButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
-                    [leftButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
-                    [leftButton setTitle:@"种类" forState:UIControlStateNormal];
-                    [leftButton addTarget:self action:@selector(leftBarButtonTouch)forControlEvents:UIControlEventTouchUpInside];
-                    UIBarButtonItem*leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
-                    self.navigationItem.leftBarButtonItem= leftItem;
-                    [leftItem release];
+                    self.navigationItem.leftBarButtonItems=self.leftButtonItems;
                     self.title=[NSString stringWithFormat:@"%@-%@",self.title,order.desk.name];
                 } failure:^{
                     [table reloadData];
@@ -237,9 +246,8 @@
         NSLog(@"错误: %@", error);
         
     }];
-    panGestureRecognizer=[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(dragTableView:)];
-    [self.view addGestureRecognizer:panGestureRecognizer];
 }
+
 
 -(void)viewWillAppear:(BOOL)animated{
     NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
@@ -260,6 +268,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 #pragma mark - 拖动菜列表
 -(void)dragTableView:(UIPanGestureRecognizer *)rec{
     CGPoint point = [rec translationInView:self.view];
@@ -312,7 +321,19 @@
         }
     }
 }
+#pragma mark -
+#pragma mark UIGestureRecognizerDelegate
 
+- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer
+{
+    CGPoint translation = [gestureRecognizer translationInView:[[UIApplication sharedApplication] keyWindow]];
+    // Check for horizontal gesture
+    if (sqrt(translation.x * translation.x) / sqrt(translation.y * translation.y) > 1)
+    {
+        return YES;
+    }
+    return NO;
+}
 #pragma mark -
 #pragma mark Table View Data Source Methods
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -357,8 +378,10 @@
     [headerLabel sizeToFit];
     CGRect rect=headerLabel.frame;
     rect.origin.x=(320.0f-rect.size.width)/2;
+    rect.size.width+=10;
     headerLabel.frame=rect;
-    [customView setFrame:headerLabel.frame];
+    rect.origin.x-=5;
+    [customView setFrame:rect];
     [headerView addSubview:customView];
     [headerView addSubview:headerLabel];
     [customView release];
@@ -389,16 +412,7 @@
             [rightItem release];
             [self synchronizeOrder:order];
             self.title=[NSString stringWithFormat:@"%@-%@",self.title,order.desk.name];
-            UIButton*leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            [leftButton setFrame:CGRectMake(0, 0, 50, 30)];
-            [leftButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
-            [leftButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
-            [leftButton setTitle:@"种类" forState:UIControlStateNormal];
-            [leftButton addTarget:self action:@selector(leftBarButtonTouch)forControlEvents:UIControlEventTouchUpInside];
-            UIBarButtonItem*leftItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
-            self.navigationItem.leftBarButtonItem= leftItem;
-            [leftItem release];
-
+            self.navigationItem.leftBarButtonItems=self.leftButtonItems;
         } failure:^{
         }];
     }
@@ -426,14 +440,14 @@
 
 
 -(void)dealloc{
+    [leftButtonItems release];
     [table release];
     [categoreTableView release];
     [categoryTableViewController release];
     [allCategores release];
     [currentOrder release];
-    [panGestureRecognizer release];
-    [self.searchBar release];
-    [self.recipeSearchControllerViewController release];
+    [searchBar release];
+    [recipeSearchControllerViewController release];
     [super dealloc];
 }
 

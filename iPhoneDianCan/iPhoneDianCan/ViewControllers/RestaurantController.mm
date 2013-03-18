@@ -62,6 +62,7 @@
                 i++;
             }
             self.bmkMapView.showsUserLocation=YES;
+            [self.table reloadData];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"错误: %@", error);
             
