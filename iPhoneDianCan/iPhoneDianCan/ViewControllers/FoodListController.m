@@ -355,8 +355,8 @@
         cell = [[[RecipeTableViewCell alloc]
 				 initWithStyle:UITableViewCellStyleSubtitle
 				 reuseIdentifier:SectionsTableIdentifier] autorelease];
+        cell.recipe=recipe;
     }
-    cell.recipe=recipe;
     return cell;
    
 }

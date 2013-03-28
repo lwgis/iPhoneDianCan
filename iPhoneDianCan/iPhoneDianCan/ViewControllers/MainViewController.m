@@ -19,72 +19,73 @@
 #import "HistoryOrderControllerViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "AccountViewController.h"
+#import "RecentBrowseViewController.h"
+#import "MyAlertView.h"
+#import "SelectCityViewController.h"
 @implementation MainViewController
-@synthesize tabView,bmkMapView;
+@synthesize tabView,bmkMapView,cityBtn,cityId,cityName;
 
 -(id)init{
     self=[super init];
     if (self) {
         self.title = NSLocalizedString(@"First", @"First");
         self.tabBarItem.image = [UIImage imageNamed:@"first"];
-        UIImageView *bgView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, SCREENHEIGHT)];
-        [bgView setImage:[UIImage imageNamed:@"recipeTableViewBg"]];
+        UIImageView *bgView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 320, 548)];
+        [bgView setImage:[UIImage imageNamed:@"headPageAd"]];
         [self.view addSubview:bgView];
         [bgView release];
+        UIView *buttonsBgView=[[UIView alloc] initWithFrame:CGRectMake(0, (SCREENHEIGHT-TABBARHEIGHT-200+125)/2, 320, 200)];
+        buttonsBgView.backgroundColor=[UIColor clearColor];
+        //附近餐厅
         UIButton *btnRestaurant=[UIButton buttonWithType:UIButtonTypeCustom];
-        btnRestaurant.tag=0;
         [btnRestaurant addTarget:self action:@selector(btnRestaurantClick) forControlEvents:UIControlEventTouchUpInside];
-        [btnRestaurant setBackgroundImage:[UIImage imageNamed:@"mapsNearButton"] forState:UIControlStateNormal];
-        [btnRestaurant setTitle:@"附近餐厅" forState:UIControlStateNormal];
-        [btnRestaurant.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:14]];
-        btnRestaurant.imageView.contentMode=UIViewContentModeScaleAspectFill;
-        [btnRestaurant setFrame:CGRectMake(0, SCREENHEIGHT-49-80-45, 80, 80)];
-        [btnRestaurant setTitleEdgeInsets:UIEdgeInsetsMake(btnRestaurant.frame.size.height-btnRestaurant.titleLabel.frame.size.height, 0, 0, 0)];
-        [btnRestaurant setTitleColor:[UIColor colorWithRed:1 green:3.0/8 blue:1.0/8 alpha:1] forState:UIControlStateNormal];
-        btnRestaurant.titleLabel.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
-        btnRestaurant.titleLabel.shadowOffset = CGSizeMake(0, 1.0);
-        [self.view addSubview:btnRestaurant];
+        [btnRestaurant setImage:[UIImage imageNamed:@"mapsNearButton"] forState:UIControlStateNormal];
+        [btnRestaurant setFrame:CGRectMake(20, 0, 80, 80)];
+        [buttonsBgView addSubview:btnRestaurant];
         //开台按钮
         UIButton *btnCheckIn=[UIButton buttonWithType:UIButtonTypeCustom];
         btnCheckIn.tag=0;
         [btnCheckIn addTarget:self action:@selector(btnCheckIn) forControlEvents:UIControlEventTouchUpInside];
-        [btnCheckIn setBackgroundImage:[UIImage imageNamed:@"twoDimensionCodeBtn"] forState:UIControlStateNormal];
-        [btnCheckIn setTitle:@"二维码开台" forState:UIControlStateNormal];
-        [btnCheckIn.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:14]];
-        btnCheckIn.imageView.contentMode=UIViewContentModeScaleAspectFill;
-        [btnCheckIn setFrame:CGRectMake(80, SCREENHEIGHT-49-80-45, 80, 80)];
-        [btnCheckIn setTitleEdgeInsets:UIEdgeInsetsMake(btnCheckIn.frame.size.height-btnCheckIn.titleLabel.frame.size.height, 0, 0, 0)];
-        [btnCheckIn setTitleColor:[UIColor colorWithRed:1 green:3.0/8 blue:1.0/8 alpha:1] forState:UIControlStateNormal];
-        btnCheckIn.titleLabel.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
-        btnCheckIn.titleLabel.shadowOffset = CGSizeMake(0, 1.0);
-        [self.view addSubview:btnCheckIn];
+        [btnCheckIn setImage:[UIImage imageNamed:@"twoDimensionCodeBtn"] forState:UIControlStateNormal];
+        [btnCheckIn setFrame:CGRectMake(120, 0, 80, 80)];
+        [buttonsBgView addSubview:btnCheckIn];
+        //最近浏览
+        UIButton *btnRecentBrowse=[UIButton buttonWithType:UIButtonTypeCustom];
+        [btnRecentBrowse addTarget:self action:@selector(btnRecentBrowse) forControlEvents:UIControlEventTouchUpInside];
+        [btnRecentBrowse setImage:[UIImage imageNamed:@"recentBrowseBtn"] forState:UIControlStateNormal];
+        [btnRecentBrowse setFrame:CGRectMake(220, 0, 80, 80)];
+        [buttonsBgView addSubview:btnRecentBrowse];
+        //个人中心
+        UIButton *btnAccount=[UIButton buttonWithType:UIButtonTypeCustom];
+        [btnAccount addTarget:self action:@selector(btnAccount) forControlEvents:UIControlEventTouchUpInside];
+        [btnAccount setImage:[UIImage imageNamed:@"accountBtn"] forState:UIControlStateNormal];
+        [btnAccount setFrame:CGRectMake(20, 120, 80, 80)];
+        [buttonsBgView addSubview:btnAccount];
+        //搜索
+        UIButton *btnSearch=[UIButton buttonWithType:UIButtonTypeCustom];
+        [btnSearch addTarget:self action:@selector(btnSearch) forControlEvents:UIControlEventTouchUpInside];
+        [btnSearch setImage:[UIImage imageNamed:@"searchBtn"] forState:UIControlStateNormal];
+        [btnSearch setFrame:CGRectMake(120, 120, 80, 80)];
+        [buttonsBgView addSubview:btnSearch];
         //历史订单按钮
         UIButton *btnHistory=[UIButton buttonWithType:UIButtonTypeCustom];
-        btnHistory.tag=0;
         [btnHistory addTarget:self action:@selector(btnHistory) forControlEvents:UIControlEventTouchUpInside];
-        [btnHistory setBackgroundImage:[UIImage imageNamed:@"historyBtn"] forState:UIControlStateNormal];
-        [btnHistory setTitle:@"历史订单" forState:UIControlStateNormal];
-        [btnHistory.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:14]];
-        btnHistory.imageView.contentMode=UIViewContentModeScaleAspectFill;
-        [btnHistory setFrame:CGRectMake(160, SCREENHEIGHT-49-80-45, 80, 80)];
-        [btnHistory setTitleEdgeInsets:UIEdgeInsetsMake(btnHistory.frame.size.height-btnHistory.titleLabel.frame.size.height, 0, 0, 0)];
-        [btnHistory setTitleColor:[UIColor colorWithRed:1 green:3.0/8 blue:1.0/8 alpha:1] forState:UIControlStateNormal];
-        btnHistory.titleLabel.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
-        btnHistory.titleLabel.shadowOffset = CGSizeMake(0, 1.0);
-        [self.view addSubview:btnHistory];
-        UIButton *btnAccount=[UIButton buttonWithType:UIButtonTypeCustom];
-        btnAccount.tag=0;
-        [btnAccount addTarget:self action:@selector(btnAccount) forControlEvents:UIControlEventTouchUpInside];
-        [btnAccount setBackgroundImage:[UIImage imageNamed:@"accountBtn"] forState:UIControlStateNormal];
-        [btnAccount setTitle:@"个人中心" forState:UIControlStateNormal];
-        [btnAccount.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:14]];
-        btnAccount.imageView.contentMode=UIViewContentModeScaleAspectFill;
-        [btnAccount setFrame:CGRectMake(240, SCREENHEIGHT-49-80-45, 80, 80)];
-        [btnAccount setTitleEdgeInsets:UIEdgeInsetsMake(btnHistory.frame.size.height-btnHistory.titleLabel.frame.size.height, 0, 0, 0)];
-        [btnAccount setTitleColor:[UIColor colorWithRed:1 green:3.0/8 blue:1.0/8 alpha:1] forState:UIControlStateNormal];
-        btnAccount.titleLabel.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:1];
-        btnAccount.titleLabel.shadowOffset = CGSizeMake(0, 1.0);
-        [self.view addSubview:btnAccount];
+        [btnHistory setImage:[UIImage imageNamed:@"historyBtn"] forState:UIControlStateNormal];
+        [btnHistory setFrame:CGRectMake(220, 120, 80, 80)];
+        [buttonsBgView addSubview:btnHistory];
+
+        [self.view addSubview:buttonsBgView];
+        [buttonsBgView release];
+        cityBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+        [cityBtn addTarget:self action:@selector(selectCity) forControlEvents:UIControlEventTouchUpInside];
+        [cityBtn setFrame:CGRectMake(265, 5, 50, 30)];
+        [cityBtn setBackgroundImage:[UIImage imageNamed:@"cityBtn"] forState:UIControlStateNormal];
+        [cityBtn.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:16]];
+        cityBtn.titleLabel.lineBreakMode=UILineBreakModeTailTruncation;
+        cityBtn.titleLabel.shadowColor=[UIColor blackColor];
+        cityBtn.titleLabel.shadowOffset=CGSizeMake(0, 1.0);
+        [cityBtn setTitle:@"北京" forState:UIControlStateNormal];
+        [self.view addSubview:cityBtn];
         self.title=@"淘吃客";
         // 下一个界面的返回按钮
         UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
@@ -92,7 +93,6 @@
         [temporaryBarButtonItem setBackButtonBackgroundImage:[UIImage imageNamed:@"navBackButton"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
         self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
         [temporaryBarButtonItem release];
-
     }
     return self;
 }
@@ -102,21 +102,100 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    self.navigationController.navigationBarHidden=YES;
     [super viewWillAppear:animated];
-//    self.tabView.hidden=YES;
-//    [self.tabView.delegate updateContentViewSizeWithHidden:YES];
-
-
+    if (bmkMapView==nil) {
+        bmkMapView=[[BMKMapView alloc] init];
+        self.bmkMapView.delegate=self;
+        bmkMapView.showsUserLocation=YES;
+    }
+    NSUserDefaults *us=[NSUserDefaults standardUserDefaults];
+    NSString *usCityName=[us valueForKey:@"cityName"];
+    [cityBtn setTitle:usCityName forState:UIControlStateNormal];
 }
+
+-(void)selectCity{
+    SelectCityViewController *svc=[[SelectCityViewController alloc] init];
+    UINavigationController *nav = [[[UINavigationController alloc] initWithRootViewController:svc] autorelease];
+    AppDelegate *app=(AppDelegate *)[[UIApplication sharedApplication] delegate];
+    [app.window.rootViewController presentModalViewController:nav animated:YES];
+    [svc release];
+}
+#pragma mark -
+#pragma mark BMKMapViewDelegate
+//更新位置以后
+-(void)mapView:(BMKMapView *)mapView didUpdateUserLocation:(BMKUserLocation *)userLocation{
+    BMKCoordinateRegion newRegion;
+    newRegion.center=userLocation.coordinate;
+    newRegion.span.latitudeDelta  = 0.01;
+    newRegion.span.longitudeDelta = 0.01;
+    [mapView setRegion:newRegion animated:YES];
+    mapView.showsUserLocation=NO;
+    BMKSearch * _search = [[BMKSearch alloc]init];
+    _search.delegate=self;
+	BOOL flag = [_search reverseGeocode:userLocation.coordinate];
+	if (!flag) {
+		NSLog(@"search failed!");
+	}
+    
+}
+- (void)onGetAddrResult:(BMKAddrInfo*)result errorCode:(int)error
+{
+	if (error == 0) {
+        NSUserDefaults *us=[NSUserDefaults standardUserDefaults];
+        NSString *usCityName=[us valueForKey:@"cityName"];
+        NSLog(@"------%@",result.addressComponent.city);
+        [[AFRestAPIClient sharedClient] getPath:@"city" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSLog(@"%@",responseObject);
+            NSArray *cities=(NSArray *)responseObject;
+            for (NSDictionary *dic in cities) {
+                self.cityName=[dic valueForKey:@"name"];
+                self.cityId=[dic valueForKey:@"id"];
+                NSRange range=[result.addressComponent.city rangeOfString:cityName];
+                if (range.location!=NSNotFound&&![usCityName isEqualToString:cityName]) {
+                    NSString *message=[NSString stringWithFormat:@"您现在在%@，是否切换到所在城市",result.addressComponent.city];
+                    MyAlertView *myAlert=[[MyAlertView alloc] initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"切换" ,nil];
+                    [myAlert show];
+                    [myAlert release];
+                    break;
+                }
+            }
+
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+            
+        }];
+	}
+    self.bmkMapView.showsUserLocation=NO;
+}
+
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    if (buttonIndex==1) {
+        [self.cityBtn setTitle:cityName forState:UIControlStateNormal];
+        NSUserDefaults *us=[NSUserDefaults standardUserDefaults];
+        [us setObject:cityName forKey:@"cityName"];
+        [us setObject:cityId forKey:@"cityId"];
+        [us synchronize];
+    }
+}
+
 
 -(void)btnRestaurantClick{
     RestaurantController *restaurantController=[[RestaurantController alloc] init];
+    restaurantController.title=@"附近餐厅";
     self.tabView.hidden=NO;
     [self.tabView.delegate updateContentViewSizeWithHidden:NO];
     if (bmkMapView==nil) {
         bmkMapView=[[BMKMapView alloc] init];
     }
     restaurantController.bmkMapView=bmkMapView;
+    [self.navigationController pushViewController:restaurantController animated:YES];
+    [restaurantController release];
+}
+
+-(void)btnSearch{
+    RestaurantController *restaurantController=[[RestaurantController alloc] init];
+    restaurantController.title=@"搜索餐厅";
+    restaurantController.isSeachAll=YES;
     [self.navigationController pushViewController:restaurantController animated:YES];
     [restaurantController release];
 }
@@ -182,15 +261,24 @@
     [self.navigationController pushViewController:historyController animated:YES];
     [historyController release];
 };
+
+-(void)btnRecentBrowse{
+    RecentBrowseViewController *recVc=[[RecentBrowseViewController alloc] initWithStyle:UITableViewStylePlain];
+    [self.navigationController pushViewController:recVc animated:YES];
+    [recVc release];
+}
+
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
 -(void)dealloc{
-//    [restaurantController release]
+    [cityBtn release];
     [bmkMapView release];
     [tabView release];
+    [cityName release];
+    [cityId release];
     [super dealloc];
 }
 

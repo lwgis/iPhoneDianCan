@@ -10,7 +10,7 @@
 #import "RestaurantUser.h"
 #import "AFRestAPIClient.h"
 @implementation Restaurant
-@synthesize rid,name,pinyin,address,restaurantUser,telephone,x,y;
+@synthesize rid,name,pinyin,address,restaurantUser,telephone,x,y,restaurantDictionary,imageUrl;
 
 -(id)initWithID:(NSInteger)aRid name:(NSString *)aName address:(NSString *)anAddress telephone:(NSString *)aTelephone  RestaurantUser:(RestaurantUser *)aRestaurantUser x:(double)aX y:(double)aY{
     self=[super init];
@@ -41,6 +41,8 @@
         NSNumber *numY=[dictionary valueForKey:@"y"];
         x=numX.doubleValue;
         y=numY.doubleValue;
+        restaurantDictionary=[dictionary copy];
+        self.imageUrl=[dictionary valueForKey:@"image"];
     }
     return  self;
 }
@@ -62,6 +64,8 @@
     [telephone release];
     [address release];
     [restaurantUser release];
+    [restaurantDictionary release];
+    [imageUrl release];
     [super dealloc];
 }
 

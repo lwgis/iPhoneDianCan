@@ -16,6 +16,8 @@
 		D003EED316A566E90082B35C /* UINavigationBar+Customized.m in Sources */ = {isa = PBXBuildFile; fileRef = D003EED216A566E90082B35C /* UINavigationBar+Customized.m */; };
 		D003EED616A567130082B35C /* MyNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = D003EED516A567130082B35C /* MyNavigationBar.m */; };
 		D00D1FFB16F77B64005F5046 /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D00D1FFA16F77B64005F5046 /* AccountViewController.m */; };
+		D010FF9416FB8CC6000CA23F /* searchBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D010FF9316FB8CC6000CA23F /* searchBtn@2x.png */; };
+		D010FF9616FBA42B000CA23F /* recentBrowseBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D010FF9516FBA42B000CA23F /* recentBrowseBtn@2x.png */; };
 		D018C67216EF714F001EB2C9 /* MyBMKPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = D018C67116EF714F001EB2C9 /* MyBMKPointAnnotation.m */; };
 		D01C2FA8169AA5EE0071FA43 /* orderListButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D01C2FA2169AA5EE0071FA43 /* orderListButton@2x.png */; };
 		D01C2FA9169AA5EE0071FA43 /* orderListButtonSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D01C2FA3169AA5EE0071FA43 /* orderListButtonSelected@2x.png */; };
@@ -28,6 +30,13 @@
 		D02EA0E316ACAD8A00A11EFD /* mapsNearButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D02EA0E216ACAD8A00A11EFD /* mapsNearButton@2x.png */; };
 		D02EA0EE16ACDB3A00A11EFD /* restaurantTableCellBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D02EA0ED16ACDB3A00A11EFD /* restaurantTableCellBg@2x.png */; };
 		D02EA0F016ACEB7600A11EFD /* mapTableViewBg.png in Resources */ = {isa = PBXBuildFile; fileRef = D02EA0EF16ACEB7600A11EFD /* mapTableViewBg.png */; };
+		D039F9B616F9D5DD004E3139 /* sinaWeibo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D039F9B516F9D5DD004E3139 /* sinaWeibo@2x.png */; };
+		D039F9B816F9E102004E3139 /* qq@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D039F9B716F9E102004E3139 /* qq@2x.png */; };
+		D039F9BC16F9E714004E3139 /* tencent@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D039F9B916F9E714004E3139 /* tencent@2x.png */; };
+		D039F9BD16F9E714004E3139 /* douban@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D039F9BA16F9E714004E3139 /* douban@2x.png */; };
+		D039F9BE16F9E714004E3139 /* renren@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D039F9BB16F9E714004E3139 /* renren@2x.png */; };
+		D039F9C116F9FD61004E3139 /* LoginWithSnsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D039F9C016F9FD61004E3139 /* LoginWithSnsViewController.m */; };
+		D039F9C316FA3F6B004E3139 /* noHeadImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D039F9C216FA3F6B004E3139 /* noHeadImage@2x.png */; };
 		D03CAB4316F0E34C00AD7AEC /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CAB4216F0E34C00AD7AEC /* EGORefreshTableHeaderView.m */; };
 		D03CAB4616F0E99500AD7AEC /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = D03CAB4416F0E99500AD7AEC /* blueArrow.png */; };
 		D03CAB4716F0E99500AD7AEC /* blueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D03CAB4516F0E99500AD7AEC /* blueArrow@2x.png */; };
@@ -52,6 +61,8 @@
 		D07BB1691693CEE30048716D /* CustomizedNavBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D07BB1671693CEE30048716D /* CustomizedNavBarBg@2x.png */; };
 		D084CB7A16DE58CF0076D74F /* BadgeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D084CB7916DE58CF0076D74F /* BadgeButton.m */; };
 		D084CB7E16DE63260076D74F /* labelCount@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D084CB7D16DE63260076D74F /* labelCount@2x.png */; };
+		D085D2511702C67300A8138E /* favoriteBtnSelect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D085D24F1702C67300A8138E /* favoriteBtnSelect@2x.png */; };
+		D085D2521702C67300A8138E /* favoriteBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D085D2501702C67300A8138E /* favoriteBtn@2x.png */; };
 		D085E04316B3A25300CD08AE /* alertViewBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D085E04216B3A25300CD08AE /* alertViewBg@2x.png */; };
 		D085E04A16B3B7CF00CD08AE /* codeScanBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D085E04916B3B7CF00CD08AE /* codeScanBtn@2x.png */; };
 		D085E04C16B3C04800CD08AE /* alertYesNoBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D085E04B16B3C04800CD08AE /* alertYesNoBtn@2x.png */; };
@@ -67,7 +78,11 @@
 		D085E11516B40D1600CD08AE /* MyZBarReaderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D085E11416B40D1600CD08AE /* MyZBarReaderViewController.m */; };
 		D08D188D1696899D00398B90 /* MyTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = D08D188C1696899D00398B90 /* MyTabBarController.m */; };
 		D08D189016968A6300398B90 /* TabView.m in Sources */ = {isa = PBXBuildFile; fileRef = D08D188F16968A6300398B90 /* TabView.m */; };
+		D09E6E9B1703CD6000C9C24E /* cityBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D09E6E9A1703CD6000C9C24E /* cityBtn@2x.png */; };
+		D09E6E9E1703EE0F00C9C24E /* SelectCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D09E6E9D1703EE0F00C9C24E /* SelectCityViewController.m */; };
 		D0A78A9216EDA027004123B9 /* RecipeSearchControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A78A9116EDA027004123B9 /* RecipeSearchControllerViewController.m */; };
+		D0B03EF9170119DB00CB221C /* RecentBrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B03EF8170119DB00CB221C /* RecentBrowseViewController.m */; };
+		D0B03EFC1701391800CB221C /* RestaurantCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B03EFB1701391800CB221C /* RestaurantCell.m */; };
 		D0B1E1A81692DAAE00FF07FC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B1E1A71692DAAE00FF07FC /* UIKit.framework */; };
 		D0B1E1AA1692DAAE00FF07FC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B1E1A91692DAAE00FF07FC /* Foundation.framework */; };
 		D0B1E1AC1692DAAE00FF07FC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0B1E1AB1692DAAE00FF07FC /* CoreGraphics.framework */; };
@@ -96,6 +111,7 @@
 		D0E5ED8E16E01428003F6F8F /* CategoryTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E5ED8D16E01428003F6F8F /* CategoryTableViewController.m */; };
 		D0E7741D16A0B5FA005764D8 /* CustomizedNavBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0E7741C16A0B5FA005764D8 /* CustomizedNavBg@2x.png */; };
 		D0E7742016A0B6DF005764D8 /* CustomizedTabBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0E7741F16A0B6DF005764D8 /* CustomizedTabBg@2x.png */; };
+		D0E920EA16F8504D0012FA18 /* HistoryDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0E920E916F8504D0012FA18 /* HistoryDetailViewController.m */; };
 		D0F3514D16CE27F900C327C9 /* refreshOrder.png in Resources */ = {isa = PBXBuildFile; fileRef = D0F3514C16CE27F900C327C9 /* refreshOrder.png */; };
 		D0F3EE2E16AB7D67004628C4 /* dcs.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D0F3EE2D16AB7D67004628C4 /* dcs.jpg */; };
 		D0F7858616E2FAE900F074BB /* WaiterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F7858516E2FAE900F074BB /* WaiterViewController.m */; };
@@ -113,6 +129,7 @@
 		D0F8DEE816A584C60043160A /* AFXMLRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F8DEDD16A584C60043160A /* AFXMLRequestOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		D0F8DEE916A584C60043160A /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F8DEDF16A584C60043160A /* UIImageView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		D0F8DEEC16A584F60043160A /* AFRestAPIClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D0F8DEEB16A584F60043160A /* AFRestAPIClient.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		D0FA25DC16FB00A9009DD3DB /* headPageAd@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0FA25DB16FB00A9009DD3DB /* headPageAd@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -131,6 +148,8 @@
 		D003EED516A567130082B35C /* MyNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyNavigationBar.m; path = CustomUIControlls/MyNavigationBar.m; sourceTree = "<group>"; };
 		D00D1FF916F77B64005F5046 /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AccountViewController.h; path = ViewControllers/AccountViewController.h; sourceTree = "<group>"; };
 		D00D1FFA16F77B64005F5046 /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AccountViewController.m; path = ViewControllers/AccountViewController.m; sourceTree = "<group>"; };
+		D010FF9316FB8CC6000CA23F /* searchBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "searchBtn@2x.png"; path = "iPhoneDianCan/image/searchBtn@2x.png"; sourceTree = "<group>"; };
+		D010FF9516FBA42B000CA23F /* recentBrowseBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "recentBrowseBtn@2x.png"; path = "iPhoneDianCan/image/recentBrowseBtn@2x.png"; sourceTree = "<group>"; };
 		D018C67016EF714F001EB2C9 /* MyBMKPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyBMKPointAnnotation.h; path = CustomUIControlls/MyBMKPointAnnotation.h; sourceTree = "<group>"; };
 		D018C67116EF714F001EB2C9 /* MyBMKPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyBMKPointAnnotation.m; path = CustomUIControlls/MyBMKPointAnnotation.m; sourceTree = "<group>"; };
 		D01C2FA2169AA5EE0071FA43 /* orderListButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "orderListButton@2x.png"; path = "iPhoneDianCan/image/orderListButton@2x.png"; sourceTree = "<group>"; };
@@ -145,6 +164,14 @@
 		D02EA0E216ACAD8A00A11EFD /* mapsNearButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "mapsNearButton@2x.png"; path = "iPhoneDianCan/image/mapsNearButton@2x.png"; sourceTree = "<group>"; };
 		D02EA0ED16ACDB3A00A11EFD /* restaurantTableCellBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "restaurantTableCellBg@2x.png"; path = "iPhoneDianCan/image/restaurantTableCellBg@2x.png"; sourceTree = "<group>"; };
 		D02EA0EF16ACEB7600A11EFD /* mapTableViewBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mapTableViewBg.png; path = iPhoneDianCan/image/mapTableViewBg.png; sourceTree = "<group>"; };
+		D039F9B516F9D5DD004E3139 /* sinaWeibo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "sinaWeibo@2x.png"; path = "iPhoneDianCan/image/sinaWeibo@2x.png"; sourceTree = "<group>"; };
+		D039F9B716F9E102004E3139 /* qq@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "qq@2x.png"; path = "iPhoneDianCan/image/qq@2x.png"; sourceTree = "<group>"; };
+		D039F9B916F9E714004E3139 /* tencent@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tencent@2x.png"; path = "iPhoneDianCan/image/tencent@2x.png"; sourceTree = "<group>"; };
+		D039F9BA16F9E714004E3139 /* douban@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "douban@2x.png"; path = "iPhoneDianCan/image/douban@2x.png"; sourceTree = "<group>"; };
+		D039F9BB16F9E714004E3139 /* renren@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "renren@2x.png"; path = "iPhoneDianCan/image/renren@2x.png"; sourceTree = "<group>"; };
+		D039F9BF16F9FD61004E3139 /* LoginWithSnsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginWithSnsViewController.h; path = ViewControllers/LoginWithSnsViewController.h; sourceTree = "<group>"; };
+		D039F9C016F9FD61004E3139 /* LoginWithSnsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginWithSnsViewController.m; path = ViewControllers/LoginWithSnsViewController.m; sourceTree = "<group>"; };
+		D039F9C216FA3F6B004E3139 /* noHeadImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noHeadImage@2x.png"; path = "iPhoneDianCan/image/noHeadImage@2x.png"; sourceTree = "<group>"; };
 		D03CAB4116F0E34C00AD7AEC /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
 		D03CAB4216F0E34C00AD7AEC /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		D03CAB4416F0E99500AD7AEC /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blueArrow.png; path = iPhoneDianCan/image/blueArrow.png; sourceTree = "<group>"; };
@@ -205,6 +232,8 @@
 		D084CB7816DE58CF0076D74F /* BadgeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BadgeButton.h; path = CustomUIControlls/BadgeButton.h; sourceTree = "<group>"; };
 		D084CB7916DE58CF0076D74F /* BadgeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BadgeButton.m; path = CustomUIControlls/BadgeButton.m; sourceTree = "<group>"; };
 		D084CB7D16DE63260076D74F /* labelCount@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "labelCount@2x.png"; path = "iPhoneDianCan/image/labelCount@2x.png"; sourceTree = "<group>"; };
+		D085D24F1702C67300A8138E /* favoriteBtnSelect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "favoriteBtnSelect@2x.png"; path = "iPhoneDianCan/image/favoriteBtnSelect@2x.png"; sourceTree = "<group>"; };
+		D085D2501702C67300A8138E /* favoriteBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "favoriteBtn@2x.png"; path = "iPhoneDianCan/image/favoriteBtn@2x.png"; sourceTree = "<group>"; };
 		D085E04216B3A25300CD08AE /* alertViewBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "alertViewBg@2x.png"; path = "iPhoneDianCan/image/alertViewBg@2x.png"; sourceTree = "<group>"; };
 		D085E04916B3B7CF00CD08AE /* codeScanBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "codeScanBtn@2x.png"; path = "iPhoneDianCan/image/codeScanBtn@2x.png"; sourceTree = "<group>"; };
 		D085E04B16B3C04800CD08AE /* alertYesNoBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "alertYesNoBtn@2x.png"; path = "iPhoneDianCan/image/alertYesNoBtn@2x.png"; sourceTree = "<group>"; };
@@ -243,8 +272,15 @@
 		D08D188C1696899D00398B90 /* MyTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyTabBarController.m; path = CustomUIControlls/MyTabBarController.m; sourceTree = "<group>"; };
 		D08D188E16968A6300398B90 /* TabView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabView.h; path = AppDelegate/TabView.h; sourceTree = "<group>"; };
 		D08D188F16968A6300398B90 /* TabView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabView.m; path = AppDelegate/TabView.m; sourceTree = "<group>"; };
+		D09E6E9A1703CD6000C9C24E /* cityBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cityBtn@2x.png"; path = "iPhoneDianCan/image/cityBtn@2x.png"; sourceTree = "<group>"; };
+		D09E6E9C1703EE0E00C9C24E /* SelectCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectCityViewController.h; path = ViewControllers/SelectCityViewController.h; sourceTree = "<group>"; };
+		D09E6E9D1703EE0F00C9C24E /* SelectCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectCityViewController.m; path = ViewControllers/SelectCityViewController.m; sourceTree = "<group>"; };
 		D0A78A9016EDA027004123B9 /* RecipeSearchControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecipeSearchControllerViewController.h; path = ViewControllers/RecipeSearchControllerViewController.h; sourceTree = "<group>"; };
 		D0A78A9116EDA027004123B9 /* RecipeSearchControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecipeSearchControllerViewController.m; path = ViewControllers/RecipeSearchControllerViewController.m; sourceTree = "<group>"; };
+		D0B03EF7170119DB00CB221C /* RecentBrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecentBrowseViewController.h; path = ViewControllers/RecentBrowseViewController.h; sourceTree = "<group>"; };
+		D0B03EF8170119DB00CB221C /* RecentBrowseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecentBrowseViewController.m; path = ViewControllers/RecentBrowseViewController.m; sourceTree = "<group>"; };
+		D0B03EFA1701391800CB221C /* RestaurantCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestaurantCell.h; path = CustomUIControlls/RestaurantCell.h; sourceTree = "<group>"; };
+		D0B03EFB1701391800CB221C /* RestaurantCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestaurantCell.m; path = CustomUIControlls/RestaurantCell.m; sourceTree = "<group>"; };
 		D0B1E1A31692DAAE00FF07FC /* 淘吃客.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "淘吃客.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0B1E1A71692DAAE00FF07FC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D0B1E1A91692DAAE00FF07FC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -282,6 +318,8 @@
 		D0E5ED8D16E01428003F6F8F /* CategoryTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CategoryTableViewController.m; path = ViewControllers/CategoryTableViewController.m; sourceTree = "<group>"; };
 		D0E7741C16A0B5FA005764D8 /* CustomizedNavBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CustomizedNavBg@2x.png"; path = "iPhoneDianCan/image/CustomizedNavBg@2x.png"; sourceTree = "<group>"; };
 		D0E7741F16A0B6DF005764D8 /* CustomizedTabBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "CustomizedTabBg@2x.png"; path = "iPhoneDianCan/image/CustomizedTabBg@2x.png"; sourceTree = "<group>"; };
+		D0E920E816F8504D0012FA18 /* HistoryDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HistoryDetailViewController.h; path = ViewControllers/HistoryDetailViewController.h; sourceTree = "<group>"; };
+		D0E920E916F8504D0012FA18 /* HistoryDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HistoryDetailViewController.m; path = ViewControllers/HistoryDetailViewController.m; sourceTree = "<group>"; };
 		D0F3514C16CE27F900C327C9 /* refreshOrder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = refreshOrder.png; path = iPhoneDianCan/image/refreshOrder.png; sourceTree = "<group>"; };
 		D0F3EE2D16AB7D67004628C4 /* dcs.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = dcs.jpg; path = iPhoneDianCan/image/dcs.jpg; sourceTree = "<group>"; };
 		D0F7858416E2FAE900F074BB /* WaiterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaiterViewController.h; path = iPhoneDianCan/ViewControllers/WaiterViewController.h; sourceTree = "<group>"; };
@@ -315,6 +353,7 @@
 		D0F8DEDF16A584C60043160A /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
 		D0F8DEEA16A584F60043160A /* AFRestAPIClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFRestAPIClient.h; path = iPhoneDianCan/AFRestAPIClient.h; sourceTree = SOURCE_ROOT; };
 		D0F8DEEB16A584F60043160A /* AFRestAPIClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AFRestAPIClient.m; path = iPhoneDianCan/AFRestAPIClient.m; sourceTree = SOURCE_ROOT; };
+		D0FA25DB16FB00A9009DD3DB /* headPageAd@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "headPageAd@2x.png"; path = "iPhoneDianCan/image/headPageAd@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -366,6 +405,8 @@
 			children = (
 				D00D1FF916F77B64005F5046 /* AccountViewController.h */,
 				D00D1FFA16F77B64005F5046 /* AccountViewController.m */,
+				D039F9BF16F9FD61004E3139 /* LoginWithSnsViewController.h */,
+				D039F9C016F9FD61004E3139 /* LoginWithSnsViewController.m */,
 			);
 			name = AccountManage;
 			sourceTree = "<group>";
@@ -395,6 +436,8 @@
 			children = (
 				D04FF2EB16F5FCCD00C61F49 /* HistoryOrderControllerViewController.h */,
 				D04FF2EC16F5FCCD00C61F49 /* HistoryOrderControllerViewController.m */,
+				D0E920E816F8504D0012FA18 /* HistoryDetailViewController.h */,
+				D0E920E916F8504D0012FA18 /* HistoryDetailViewController.m */,
 			);
 			name = HistoryOrder;
 			sourceTree = "<group>";
@@ -453,9 +496,12 @@
 			children = (
 				D0F8DEBA16A57F050043160A /* MainViewController.h */,
 				D0F8DEBB16A57F050043160A /* MainViewController.m */,
+				D09E6E9C1703EE0E00C9C24E /* SelectCityViewController.h */,
+				D09E6E9D1703EE0F00C9C24E /* SelectCityViewController.m */,
 				D06BD417169D6B6F006FCEB0 /* Restaurant */,
 				D00D1FF816F77AE5005F5046 /* AccountManage */,
 				D04FF2EA16F5FC4300C61F49 /* HistoryOrder */,
+				D0B4FFBC1701006F00FD3F6A /* RecentBrowse */,
 			);
 			name = Main;
 			sourceTree = "<group>";
@@ -546,6 +592,8 @@
 				D0D389DD16E4791B0036F2D6 /* MyAlertView.m */,
 				D018C67016EF714F001EB2C9 /* MyBMKPointAnnotation.h */,
 				D018C67116EF714F001EB2C9 /* MyBMKPointAnnotation.m */,
+				D0B03EFA1701391800CB221C /* RestaurantCell.h */,
+				D0B03EFB1701391800CB221C /* RestaurantCell.m */,
 			);
 			name = CustomUIControlls;
 			sourceTree = "<group>";
@@ -649,6 +697,18 @@
 		D0B1E1E91692DBC900FF07FC /* image */ = {
 			isa = PBXGroup;
 			children = (
+				D09E6E9A1703CD6000C9C24E /* cityBtn@2x.png */,
+				D085D24F1702C67300A8138E /* favoriteBtnSelect@2x.png */,
+				D085D2501702C67300A8138E /* favoriteBtn@2x.png */,
+				D010FF9516FBA42B000CA23F /* recentBrowseBtn@2x.png */,
+				D010FF9316FB8CC6000CA23F /* searchBtn@2x.png */,
+				D0FA25DB16FB00A9009DD3DB /* headPageAd@2x.png */,
+				D039F9C216FA3F6B004E3139 /* noHeadImage@2x.png */,
+				D039F9B916F9E714004E3139 /* tencent@2x.png */,
+				D039F9BA16F9E714004E3139 /* douban@2x.png */,
+				D039F9BB16F9E714004E3139 /* renren@2x.png */,
+				D039F9B716F9E102004E3139 /* qq@2x.png */,
+				D039F9B516F9D5DD004E3139 /* sinaWeibo@2x.png */,
 				D04FF31716F63B6E00C61F49 /* accountBtn@2x.png */,
 				D04FF2E516F5CD5F00C61F49 /* historyBtn@2x.png */,
 				D04FF2E316F5C12C00C61F49 /* twoDimensionCodeBtn@2x.png */,
@@ -700,6 +760,15 @@
 				D0B1E1F01692DBE400FF07FC /* second@2x.png */,
 			);
 			name = image;
+			sourceTree = "<group>";
+		};
+		D0B4FFBC1701006F00FD3F6A /* RecentBrowse */ = {
+			isa = PBXGroup;
+			children = (
+				D0B03EF7170119DB00CB221C /* RecentBrowseViewController.h */,
+				D0B03EF8170119DB00CB221C /* RecentBrowseViewController.m */,
+			);
+			name = RecentBrowse;
 			sourceTree = "<group>";
 		};
 		D0F8DECA16A584C60043160A /* AFNetworking */ = {
@@ -836,6 +905,18 @@
 				D04FF2E416F5C12C00C61F49 /* twoDimensionCodeBtn@2x.png in Resources */,
 				D04FF2E616F5CD5F00C61F49 /* historyBtn@2x.png in Resources */,
 				D04FF31816F63B6F00C61F49 /* accountBtn@2x.png in Resources */,
+				D039F9B616F9D5DD004E3139 /* sinaWeibo@2x.png in Resources */,
+				D039F9B816F9E102004E3139 /* qq@2x.png in Resources */,
+				D039F9BC16F9E714004E3139 /* tencent@2x.png in Resources */,
+				D039F9BD16F9E714004E3139 /* douban@2x.png in Resources */,
+				D039F9BE16F9E714004E3139 /* renren@2x.png in Resources */,
+				D039F9C316FA3F6B004E3139 /* noHeadImage@2x.png in Resources */,
+				D0FA25DC16FB00A9009DD3DB /* headPageAd@2x.png in Resources */,
+				D010FF9416FB8CC6000CA23F /* searchBtn@2x.png in Resources */,
+				D010FF9616FBA42B000CA23F /* recentBrowseBtn@2x.png in Resources */,
+				D085D2511702C67300A8138E /* favoriteBtnSelect@2x.png in Resources */,
+				D085D2521702C67300A8138E /* favoriteBtn@2x.png in Resources */,
+				D09E6E9B1703CD6000C9C24E /* cityBtn@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -887,6 +968,11 @@
 				D04FF2E916F5EADE00C61F49 /* HistoryOrder.m in Sources */,
 				D04FF2ED16F5FCCD00C61F49 /* HistoryOrderControllerViewController.m in Sources */,
 				D00D1FFB16F77B64005F5046 /* AccountViewController.m in Sources */,
+				D0E920EA16F8504D0012FA18 /* HistoryDetailViewController.m in Sources */,
+				D039F9C116F9FD61004E3139 /* LoginWithSnsViewController.m in Sources */,
+				D0B03EF9170119DB00CB221C /* RecentBrowseViewController.m in Sources */,
+				D0B03EFC1701391800CB221C /* RestaurantCell.m in Sources */,
+				D09E6E9E1703EE0F00C9C24E /* SelectCityViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

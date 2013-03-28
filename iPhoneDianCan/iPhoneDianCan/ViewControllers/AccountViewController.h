@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface AccountViewController : UIViewController<UIWebViewDelegate>
-@property(nonatomic,retain)UIWebView *webView;
+#import "LoginWithSnsViewController.h"
+@interface AccountViewController : UIViewController<UIWebViewDelegate,loginDelegate,UIAlertViewDelegate>
+@property(nonatomic,retain)UIImageView *headImageView;
+@property(nonatomic,retain)UILabel *nickNameLable;
+@property(nonatomic,retain)UIView *shareLoginBgView;
 @end

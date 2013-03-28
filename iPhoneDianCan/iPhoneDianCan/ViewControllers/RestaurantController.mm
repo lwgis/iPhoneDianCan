@@ -14,6 +14,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "Restaurant.h"
 #import "MyBMKPointAnnotation.h"
+#import "RestaurantCell.h"
 @implementation RestaurantController
 @synthesize table,allRestaurants,bmkMapView,restaurantResultController;
 
@@ -22,7 +23,11 @@
     if (self) {
         [self.view setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-45)];
         self.view.backgroundColor=[UIColor grayColor];
-        self.title=@"餐厅列表";
+        UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
+        temporaryBarButtonItem.title = @"返回";
+        [temporaryBarButtonItem setBackButtonBackgroundImage:[UIImage imageNamed:@"navBackButton"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
+        [temporaryBarButtonItem release];
         //初始化tableView
         table=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-44)];
         table.separatorStyle=UITableViewCellSeparatorStyleNone;
@@ -41,7 +46,7 @@
         self.table.tableHeaderView=searchBar;
         restaurantResultController =[[RestaurantResultController alloc] initWithSearchBar:searchBar contentsController:self];
         //初始化餐厅列表
-        [[AFRestAPIClient sharedClient] getPath:@"restaurants" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [[AFRestAPIClient sharedClient] getPath:@"restaurants?city=1" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSArray *list = (NSArray*)responseObject;
             NSInteger i=0;
             for (NSDictionary *dic in list) {
@@ -79,11 +84,6 @@
     UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
     self.navigationItem.rightBarButtonItem= rightItem;
     [rightItem release];
-    UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
-    temporaryBarButtonItem.title = @"返回";
-    [temporaryBarButtonItem setBackButtonBackgroundImage:[UIImage imageNamed:@"navBackButton"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-    self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
-    [temporaryBarButtonItem release];
     isShowMapView=NO;
     }
     return self;
@@ -117,6 +117,9 @@
        [self.view addSubview:self.bmkMapView];
         [self.view bringSubviewToFront:table];
     }
+    if (self.isSeachAll) {
+        self.navigationItem.rightBarButtonItem= nil;
+    }
 }
 
 - (void)didReceiveMemoryWarning{
@@ -137,14 +140,13 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSUInteger row = [indexPath row];
     static NSString *SectionsTableIdentifier = @"SectionsTableIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:
+    RestaurantCell *cell = [tableView dequeueReusableCellWithIdentifier:
 							 SectionsTableIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc]
-				 initWithStyle:UITableViewCellStyleDefault
+        cell = [[[RestaurantCell alloc]
+				 initWithStyle:UITableViewCellStyleSubtitle
 				 reuseIdentifier:SectionsTableIdentifier] autorelease];
         cell.backgroundColor=[UIColor grayColor];
-        [cell.imageView setImage:[UIImage imageNamed:@"dcs.jpg"]];
         UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"restaurantTableCellBg"]];
         cell.backgroundView = bgImageView;
         cell.textLabel.backgroundColor=[UIColor clearColor];
@@ -154,9 +156,12 @@
         [selectBgImageView release];
     }
     Restaurant *restaurant=[self.allRestaurants objectAtIndex:row];
+    NSString *imageUrlString=IMAGESERVERADDRESS;
+    imageUrlString=[NSString stringWithFormat:@"%@%@",imageUrlString,restaurant.imageUrl];
+    [cell.imageView setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"imageWaiting"]];
     cell.textLabel.text = restaurant.name;
     cell.detailTextLabel.text=restaurant.description;
-
+    cell.restaurant=restaurant;
     return cell;
 }
 
@@ -167,6 +172,25 @@
 //跳转到菜单列表
 - (void)pushToFoodList:(NSInteger)row {
     Restaurant *restaurant=[allRestaurants objectAtIndex:row];
+    NSUserDefaults *us=[NSUserDefaults standardUserDefaults];
+    NSMutableDictionary *dictionary=[us valueForKey:@"recentBrowse"];
+    NSMutableDictionary *recentBrowse=[[NSMutableDictionary alloc] initWithDictionary:dictionary];
+    NSLog(@"%@",recentBrowse);
+    if (recentBrowse!=nil) {
+        for (NSString *key in recentBrowse.allKeys) {
+            NSDictionary *dic=[recentBrowse objectForKey:key];
+            NSString *ridString=[dic valueForKey:@"id"];
+            NSNumber *ridNum=[NSNumber numberWithInteger:[ridString integerValue]];
+            if (ridNum.integerValue==restaurant.rid) {
+                [recentBrowse removeObjectForKey:key];
+            }
+        }
+    }
+    NSString *dateStr=[NSString stringWithFormat:@"%@",[NSDate date]];
+    [recentBrowse setObject:restaurant.restaurantDictionary forKey:dateStr];
+    [us setValue:recentBrowse forKey:@"recentBrowse"];
+    [us synchronize];
+    [recentBrowse release];
     FoodListController*foodListController=[[FoodListController alloc] initWithRecipe:restaurant];
     [self.navigationController pushViewController:foodListController animated:YES];
     [foodListController release];
@@ -191,6 +215,26 @@
     [mapView setRegion:newRegion animated:YES];
     [table reloadData];
     mapView.showsUserLocation=NO;
+    
+    NSLog(@"%f--%f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
+    
+//	CLLocationCoordinate2D pt = (CLLocationCoordinate2D){0, 0};
+//	if (_coordinateXText.text != nil && _coordinateYText.text != nil) {
+//		pt = (CLLocationCoordinate2D){[_coordinateYText.text floatValue], [_coordinateXText.text floatValue]};
+//	}
+   BMKSearch * _search = [[BMKSearch alloc]init];
+    _search.delegate=self;
+	BOOL flag = [_search reverseGeocode:userLocation.coordinate];
+	if (!flag) {
+		NSLog(@"search failed!");
+	}
+
+}
+- (void)onGetAddrResult:(BMKAddrInfo*)result errorCode:(int)error
+{
+	if (error == 0) {
+        NSLog(@"------%@",result.addressComponent.city);
+	}
 }
 
 //添加标注
@@ -226,23 +270,28 @@
     }
     [self.restaurantResultController.searchResultsTableView reloadData];
 }
-//-(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
-//    for (UIView *searchbuttons in searchBar.subviews)
-//    {
-//        if ([searchbuttons isKindOfClass:[UIButton class]])
-//        {
-//            UIButton *cancelButton = (UIButton*)searchbuttons;
-//            
-//            cancelButton.enabled = YES;
-//            
-//            [cancelButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"] forState:UIControlStateNormal];
-//            
-//            break;
-//            
-//        }
-//    }
-//
-//}
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    if (!self.isSeachAll) {
+        return;
+    }
+    NSUserDefaults *us=[NSUserDefaults standardUserDefaults];
+    NSString *cityId=[us valueForKey:@"cityId"];
+
+    NSString *pathStr=[NSString stringWithFormat:@"restaurants?city=%@&name=%@",cityId,searchBar.text];
+    [[AFRestAPIClient sharedClient] getPath:pathStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self.restaurantResultController.resultRestaurants removeAllObjects];
+        NSArray *list = (NSArray*)responseObject;
+        for (NSDictionary *dic in list) {
+            Restaurant *restaurant=[[Restaurant alloc] initWithDictionary:dic];
+            [self.restaurantResultController.resultRestaurants addObject:restaurant];
+            [restaurant release];
+        }
+        [self.restaurantResultController.searchResultsTableView reloadData];
+
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+    }];
+}
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
     searchBar.showsCancelButton = YES;
     for(id cc in [searchBar subviews])

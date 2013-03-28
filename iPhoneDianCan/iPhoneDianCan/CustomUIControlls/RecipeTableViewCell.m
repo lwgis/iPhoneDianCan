@@ -120,15 +120,15 @@
 }
 
 -(void)addRecipe{
-    Recipe *aRecipe=self.recipe;
-    aRecipe.countNew++;
-    self.recipe=aRecipe;
     NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
     NSNumber *numRid=[ud valueForKey:@"rid"];
     NSNumber *numOid=[ud valueForKey:@"oid"];
     if (numOid==nil) {
         return;
     }
+    Recipe *aRecipe=self.recipe;
+    aRecipe.countNew++;
+    self.recipe=aRecipe;
 //    self.recipeCount++;
 //    self.recipe.orderedCount++;
     [Order addRicpeWithRid:numRid.integerValue RecipeId:self.recipe.rid Oid:numOid.integerValue Order:^(Order *order) {
@@ -306,11 +306,8 @@
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    
     self.imageView.frame = CGRectMake(5.0f, 5.0f, 80.0f, 80.0f);
     self.textLabel.frame = CGRectMake(90.0f, 10.0f, 150.0f, 20.0f);
-//    self.textLabel.backgroundColor=[UIColor whiteColor];
-//    self.detailTextLabel.contentMode=UIViewContentModeBottomRight;
     self.detailTextLabel.frame = CGRectMake(90.0f, 50.0f, 80.0f, 40.0f);
     self.detailTextLabel.font=[UIFont boldSystemFontOfSize:15];
     self.detailTextLabel.textColor=[UIColor redColor];

@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "MainViewController.h"
 #import "OrderListController.h"
 #import "WaiterViewController.h"
 #import "TabView.h"
@@ -19,6 +18,7 @@
 @implementation AppDelegate
 - (void)dealloc
 {
+    [_mainViewController release];
     [_navMain release];
     [_navOrderList release];
     [_window release];
@@ -31,24 +31,25 @@
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     // Override point for customization after application launch.
 
-    MainViewController *mainViewController = [[[MainViewController alloc] init] autorelease];
+    _mainViewController = [[MainViewController alloc] init];
     OrderListController *orderListController = [[[OrderListController alloc] init] autorelease];
     WaiterViewController *waiterController=[[[WaiterViewController alloc] init] autorelease];
     UINavigationController *navOrderList = [[[UINavigationController alloc] initWithRootViewController:orderListController] autorelease];
-    UINavigationController *navMain = [[[UINavigationController alloc] initWithRootViewController:mainViewController] autorelease];
+    UINavigationController *navMain = [[[UINavigationController alloc] initWithRootViewController:_mainViewController] autorelease];
     UINavigationController *navWaiter = [[[UINavigationController alloc] initWithRootViewController:waiterController] autorelease];
     self.tabBarController = [[[MyTabBarController alloc] init] autorelease];
     self.tabBarController.viewControllers = @[navMain, navOrderList,navWaiter];
     UIViewController *buttomViewController=[[UIViewController alloc] init];
     buttomViewController.view=[[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, SCREENHEIGHT)] autorelease];
     [buttomViewController.view addSubview:self.tabBarController.view];
+    _mainViewController.navigationController.delegate=self;
     //tab按钮视图
      self.tabView=[[[TabView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT-TABBARHEIGHT, 320, TABBARHEIGHT)] autorelease];
     self.tabView.delegate=self.tabBarController;
    self.tabView.backgroundColor=[UIColor clearColor];
     [buttomViewController.view addSubview:self.tabView];
     self.tabBarController.tabView=self.tabView;
-    mainViewController.tabView=self.tabView;
+    _mainViewController.tabView=self.tabView;
     //设置百度地图key
     mapManager=[[BMKMapManager alloc] init];
    BOOL ret= [mapManager start:@"7E781CD995FDD3089381C0EDD67126D0A335528E" generalDelegate:self];
@@ -62,7 +63,12 @@
     //设置设备码
     NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
     NSString *udid=[ud objectForKey:@"udid"];
-    NSLog(@"%@",udid);
+    NSMutableDictionary *userInfoDic=[ud objectForKey:@"userInfo"];
+    if (userInfoDic!=nil) {
+        NSString *authorization=[userInfoDic valueForKey:@"Authorization"];
+        authorization=[authorization stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [[AFRestAPIClient sharedClient] setDefaultHeader:@"Authorization" value:authorization];
+    }
     if (udid==nil) {
         CFUUIDRef puuid = CFUUIDCreate( nil );
         CFStringRef uuidString = CFUUIDCreateString( nil, puuid );
@@ -137,5 +143,14 @@
 {
 }
 */
+#pragma mark - UINavigationControllerDelegate
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+        if ( viewController ==  _mainViewController) {
+    [navigationController setNavigationBarHidden:YES animated:animated];
+      } else if ( [navigationController isNavigationBarHidden] ) {
+          [navigationController setNavigationBarHidden:NO animated:animated];
+      }
+}
 
 @end

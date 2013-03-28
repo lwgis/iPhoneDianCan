@@ -186,7 +186,6 @@
         cell.detailTextLabel.textColor=[UIColor whiteColor];
         cell.detailTextLabel.backgroundColor=[UIColor clearColor];
         cell.detailTextLabel.font=[UIFont fontWithName:@"Helvetica-Bold" size:14];
-
     }
     [cell.textLabel setText:recipe.name];
     cell.detailTextLabel.text=[NSString stringWithFormat:@"%.1f",recipe.price];

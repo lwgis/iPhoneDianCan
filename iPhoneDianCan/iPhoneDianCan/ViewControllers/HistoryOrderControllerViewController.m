@@ -8,6 +8,7 @@
 
 #import "HistoryOrderControllerViewController.h"
 #import "HistoryOrder.h"
+#import "HistoryDetailViewController.h"
 @interface HistoryOrderControllerViewController ()
 
 @end
@@ -24,6 +25,14 @@
         [tableBgView release];
         allDates=[[NSMutableArray alloc] init];
         allOrdes=[[NSMutableDictionary alloc] init];
+        self.title=@"历史订单";
+        // 下一个界面的返回按钮
+        UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
+        temporaryBarButtonItem.title = @"返回";
+        [temporaryBarButtonItem setBackButtonBackgroundImage:[UIImage imageNamed:@"navBackButton"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
+        [temporaryBarButtonItem release];
+
     }
     return self;
 }
@@ -121,6 +130,23 @@
     [customView release];
     [headerLabel release];
     return headerView;
+}
+#pragma mark - UITableViewDelegate
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSString *dateString=[allDates objectAtIndex:indexPath.section];
+    NSArray *orderArray=[allOrdes objectForKey:dateString];
+    HistoryOrder *order=[orderArray objectAtIndex:indexPath.row];
+    HistoryDetailViewController *hisDv=[[HistoryDetailViewController alloc] init];
+    hisDv.historyOrder=order;
+    [self.navigationController pushViewController:hisDv animated:YES];
+    [hisDv release];
+    [self performSelector:@selector(unselectCurrentRow)
+               withObject:nil afterDelay:1.0];
+}
+- (void) unselectCurrentRow{
+    // Animate the deselection
+    [self.tableView deselectRowAtIndexPath:
+     [self.tableView indexPathForSelectedRow] animated:YES];
 }
 
 -(void)dealloc{
