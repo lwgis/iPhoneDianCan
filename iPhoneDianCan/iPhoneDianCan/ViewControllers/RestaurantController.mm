@@ -7,20 +7,19 @@
 //
 
 #import "RestaurantController.h"
-#import "AFJSONRequestOperation.h"
-#import "AFHTTPClient.h"
-#import "AFHTTPRequestOperation.h"
 #import "AFRestAPIClient.h"
-#import "UIImageView+AFNetworking.h"
 #import "Restaurant.h"
 #import "MyBMKPointAnnotation.h"
 #import "RestaurantCell.h"
+#import "UIImageView+AFNetworking.h"
+#import "MessageView.h"
 @implementation RestaurantController
-@synthesize table,allRestaurants,bmkMapView,restaurantResultController;
+@synthesize table,allRestaurants,bmkMapView,restaurantResultController,search;
 
--(id)init{
+-(id)initWithShowStyle:(ShowStyle)showStyle{
     self=[super init];
     if (self) {
+        self.showStyle=showStyle;
         [self.view setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-45)];
         self.view.backgroundColor=[UIColor grayColor];
         UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
@@ -67,27 +66,61 @@
                 i++;
             }
             self.bmkMapView.showsUserLocation=YES;
-            [self.table reloadData];
+            [[AFRestAPIClient sharedClient] getPath:@"user/favorites" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                NSLog(@"%@",responseObject);
+                NSArray *arr=(NSArray *)responseObject;
+                for (Restaurant *res in allRestaurants) {
+                    for (NSDictionary *dic in arr) {
+                        NSString *ridStr=(NSString *)[dic valueForKey:@"rid"];
+                        if (res.rid==[ridStr integerValue]) {
+                            res.isFavorite=YES;
+                        }
+                    }
+                }
+                if (showStyle==ShowFavorite) {
+                    NSArray *array=[self.allRestaurants copy];
+                    [self.allRestaurants removeAllObjects];
+                    for (Restaurant *res in array) {
+                        if (res.isFavorite) {
+                            [self.allRestaurants addObject:res];
+                        }
+                    }
+                    [array release];
+                    if (allRestaurants.count==0) {
+                        MessageView *mv=[[MessageView alloc] initWithMessageText:@"您还没有收藏的餐厅"];
+                        [mv show];
+                    }
+                }
+                [self.table reloadData];
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                [self.table reloadData];
+            }];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"错误: %@", error);
-            
+            MessageView *mv=[[MessageView alloc] initWithMessageText:@"无法连接到服务器"];
+            [mv show];
         }];
         
+        if (showStyle==ShowNormal) {
+            //初始化右边切换按钮
+            UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            [rightButton setFrame:CGRectMake(0, 0, 50, 30)];
+            [rightButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
+            [rightButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
+            [rightButton setTitle:@"地图" forState:UIControlStateNormal];
+            [rightButton addTarget:self action:@selector(rightBarButtonTouch:)forControlEvents:UIControlEventTouchUpInside];
+            UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+            self.navigationItem.rightBarButtonItem= rightItem;
+            [rightItem release];
+            isShowMapView=NO;
+      }
+         search = [[BMKSearch alloc]init];
+        search.delegate=self;
 
-    //初始化右边切换按钮
-    UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [rightButton setFrame:CGRectMake(0, 0, 50, 30)];
-    [rightButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
-    [rightButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
-    [rightButton setTitle:@"地图" forState:UIControlStateNormal];
-    [rightButton addTarget:self action:@selector(rightBarButtonTouch:)forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
-    self.navigationItem.rightBarButtonItem= rightItem;
-    [rightItem release];
-    isShowMapView=NO;
     }
     return self;
 }
+
 
 -(void)rightBarButtonTouch:(UIButton *)sender{
     if (!isShowMapView) {
@@ -156,12 +189,11 @@
         [selectBgImageView release];
     }
     Restaurant *restaurant=[self.allRestaurants objectAtIndex:row];
-    NSString *imageUrlString=IMAGESERVERADDRESS;
-    imageUrlString=[NSString stringWithFormat:@"%@%@",imageUrlString,restaurant.imageUrl];
-    [cell.imageView setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"imageWaiting"]];
-    cell.textLabel.text = restaurant.name;
-    cell.detailTextLabel.text=restaurant.description;
     cell.restaurant=restaurant;
+    cell.indexPath=indexPath;
+    if (_showStyle==ShowFavorite) {
+        cell.isAllowRemoveCell=YES;
+    }
     return cell;
 }
 
@@ -222,13 +254,10 @@
 //	if (_coordinateXText.text != nil && _coordinateYText.text != nil) {
 //		pt = (CLLocationCoordinate2D){[_coordinateYText.text floatValue], [_coordinateXText.text floatValue]};
 //	}
-   BMKSearch * _search = [[BMKSearch alloc]init];
-    _search.delegate=self;
-	BOOL flag = [_search reverseGeocode:userLocation.coordinate];
+	BOOL flag = [search reverseGeocode:userLocation.coordinate];
 	if (!flag) {
 		NSLog(@"search failed!");
 	}
-
 }
 - (void)onGetAddrResult:(BMKAddrInfo*)result errorCode:(int)error
 {
@@ -248,7 +277,11 @@
         MyBMKPointAnnotation *myBMKPointAnnotation=(MyBMKPointAnnotation *)annotation;
         rightButton.tag=myBMKPointAnnotation.index;
         newAnnotationView.rightCalloutAccessoryView = rightButton;
-        UIImageView *headImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"dcs.jpg"]];
+        UIImageView *headImage = [[UIImageView alloc] init];
+        NSString *imageUrlString=IMAGESERVERADDRESS;
+        Restaurant *restaurant=[self.allRestaurants objectAtIndex:myBMKPointAnnotation.index];
+        imageUrlString=[NSString stringWithFormat:@"%@%@",imageUrlString,restaurant.imageUrl];
+        [headImage setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"imageWaiting"]];
         [headImage setFrame:CGRectMake(0, 0, 30, 30)];
         newAnnotationView.leftCalloutAccessoryView = headImage;
         [headImage release];
@@ -289,7 +322,8 @@
         [self.restaurantResultController.searchResultsTableView reloadData];
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
+        MessageView *mv=[[MessageView alloc] initWithMessageText:@"无法连接到服务器"];
+        [mv show];
     }];
 }
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
@@ -322,6 +356,7 @@
     [allRestaurants release];
     [table release];
     [restaurantResultController release];
+    [search release];
     [super dealloc];
 }
 @end

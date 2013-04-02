@@ -12,4 +12,5 @@
 @property(nonatomic,retain)UIImageView *headImageView;
 @property(nonatomic,retain)UILabel *nickNameLable;
 @property(nonatomic,retain)UIView *shareLoginBgView;
+@property(nonatomic,retain)UIButton *myFavoriteBtn;
 @end

@@ -23,6 +23,7 @@ typedef void(^restaurantFailure)();
 @property(nonatomic,retain)RestaurantUser *restaurantUser;
 @property(nonatomic,retain)NSDictionary *restaurantDictionary;
 @property (nonatomic,retain)NSString *imageUrl;
+@property(nonatomic)BOOL isFavorite;
 //方法
 -(id)initWithID:(NSInteger)aRid name:(NSString *)aName address:(NSString *)anAddress telephone:(NSString *)aTelephone  RestaurantUser:(RestaurantUser *)aRestaurantUser x:(double)aX y:(double)aY;
 -(id)initWithDictionary:(NSDictionary *)dictionary;

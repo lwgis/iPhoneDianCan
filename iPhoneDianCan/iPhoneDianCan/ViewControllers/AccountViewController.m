@@ -9,6 +9,7 @@
 #import "AccountViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "MyAlertView.h"
+#import "RestaurantController.h"
 
 #define kSianWeibo @"https://open.weibo.cn/oauth2/authorize?client_id=1399451403&response_type=code&redirect_uri=http://taochike.sinaapp.com/rest/1/taochike/thirdlogin/weibo&display=mobile"
 
@@ -21,11 +22,12 @@
 @end
 
 @implementation AccountViewController
-@synthesize headImageView,shareLoginBgView,nickNameLable;
+@synthesize headImageView,shareLoginBgView,nickNameLable,myFavoriteBtn;
 
 -(id)init{
     self=[super init];
     if (self) {
+        self.title=@"登  录";
         UIImageView *bgImageView=[[UIImageView alloc] initWithFrame:self.view.bounds];
         [bgImageView setImage:[UIImage imageNamed:@"recipeTableViewBg"]];
         [self.view addSubview:bgImageView];
@@ -150,7 +152,21 @@
     UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
     self.navigationItem.rightBarButtonItem= rightItem;
     [rightItem release];
+    self.title=@"已登录";
+    self.myFavoriteBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    [myFavoriteBtn setFrame:CGRectMake(40, 110, 240, 55)];
+    [myFavoriteBtn setImage:[UIImage imageNamed:@"myFavoriteBtn"] forState:UIControlStateNormal];
+    [myFavoriteBtn addTarget:self action:@selector(myFavoriteBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:myFavoriteBtn];
 }
+
+-(void)myFavoriteBtnClick{
+    RestaurantController *mfrvc=[[RestaurantController alloc] initWithShowStyle:ShowFavorite];
+    mfrvc.title=@"我的收藏";
+    [self.navigationController pushViewController:mfrvc animated:YES];
+    [mfrvc release];
+}
+
 -(void)logout{
     MyAlertView *myAlert=[[MyAlertView alloc] initWithTitle:@"提示" message:@"您确定要注销账号吗?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"注销账号" ,nil];
     [myAlert show];
@@ -165,6 +181,9 @@
         [self.nickNameLable removeFromSuperview];
         [self.view addSubview:self.shareLoginBgView];
         self.navigationItem.rightBarButtonItem=nil;
+        self.title=@"登  录";
+        [self.myFavoriteBtn removeFromSuperview];
+        self.myFavoriteBtn=nil;
     }
 }
 
@@ -182,6 +201,7 @@
     [headImageView release];
     [shareLoginBgView release];
     [nickNameLable release];
+    [myFavoriteBtn release];
     [super dealloc];
 }
 @end

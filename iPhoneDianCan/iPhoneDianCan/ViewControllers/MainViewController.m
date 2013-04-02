@@ -22,8 +22,9 @@
 #import "RecentBrowseViewController.h"
 #import "MyAlertView.h"
 #import "SelectCityViewController.h"
+#import "MessageView.h"
 @implementation MainViewController
-@synthesize tabView,bmkMapView,cityBtn,cityId,cityName;
+@synthesize tabView,bmkMapView,cityBtn,cityId,cityName,search;
 
 -(id)init{
     self=[super init];
@@ -93,33 +94,44 @@
         [temporaryBarButtonItem setBackButtonBackgroundImage:[UIImage imageNamed:@"navBackButton"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
         self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
         [temporaryBarButtonItem release];
+        self.isbackWithNavAnimaton=NO;
+
+
     }
     return self;
 }
 
 -(void)viewDidLoad{
     [super viewDidLoad];
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    self.navigationController.navigationBarHidden=YES;
     [super viewWillAppear:animated];
     if (bmkMapView==nil) {
         bmkMapView=[[BMKMapView alloc] init];
         self.bmkMapView.delegate=self;
         bmkMapView.showsUserLocation=YES;
+        search = [[BMKSearch alloc] init];
+        search.delegate=self;
+    }
+    if (self.isbackWithNavAnimaton) {
+        self.navigationController.navigationBarHidden=NO;
+    }
+    else{
+        self.navigationController.navigationBarHidden=YES;
     }
     NSUserDefaults *us=[NSUserDefaults standardUserDefaults];
     NSString *usCityName=[us valueForKey:@"cityName"];
     [cityBtn setTitle:usCityName forState:UIControlStateNormal];
 }
-
 -(void)selectCity{
     SelectCityViewController *svc=[[SelectCityViewController alloc] init];
     UINavigationController *nav = [[[UINavigationController alloc] initWithRootViewController:svc] autorelease];
     AppDelegate *app=(AppDelegate *)[[UIApplication sharedApplication] delegate];
     [app.window.rootViewController presentModalViewController:nav animated:YES];
     [svc release];
+    self.isbackWithNavAnimaton=NO;
 }
 #pragma mark -
 #pragma mark BMKMapViewDelegate
@@ -131,9 +143,7 @@
     newRegion.span.longitudeDelta = 0.01;
     [mapView setRegion:newRegion animated:YES];
     mapView.showsUserLocation=NO;
-    BMKSearch * _search = [[BMKSearch alloc]init];
-    _search.delegate=self;
-	BOOL flag = [_search reverseGeocode:userLocation.coordinate];
+	BOOL flag = [search reverseGeocode:userLocation.coordinate];
 	if (!flag) {
 		NSLog(@"search failed!");
 	}
@@ -180,7 +190,7 @@
 
 
 -(void)btnRestaurantClick{
-    RestaurantController *restaurantController=[[RestaurantController alloc] init];
+    RestaurantController *restaurantController=[[RestaurantController alloc] initWithShowStyle:ShowNormal];
     restaurantController.title=@"附近餐厅";
     self.tabView.hidden=NO;
     [self.tabView.delegate updateContentViewSizeWithHidden:NO];
@@ -190,14 +200,16 @@
     restaurantController.bmkMapView=bmkMapView;
     [self.navigationController pushViewController:restaurantController animated:YES];
     [restaurantController release];
+    self.isbackWithNavAnimaton=YES;
 }
 
 -(void)btnSearch{
-    RestaurantController *restaurantController=[[RestaurantController alloc] init];
+    RestaurantController *restaurantController=[[RestaurantController alloc] initWithShowStyle:ShowNormal];
     restaurantController.title=@"搜索餐厅";
     restaurantController.isSeachAll=YES;
     [self.navigationController pushViewController:restaurantController animated:YES];
     [restaurantController release];
+    self.isbackWithNavAnimaton=YES;
 }
 
 -(void)btnCheckIn{
@@ -213,11 +225,13 @@
     AppDelegate *appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
     [appDelegate.window.rootViewController presentModalViewController:reader animated:YES];
     [reader release];
+    self.isbackWithNavAnimaton=NO;
 }
 -(void)btnAccount{
     AccountViewController *acViewCon=[[AccountViewController alloc] init];
     [self.navigationController pushViewController:acViewCon animated:YES];
     [acViewCon release];
+    self.isbackWithNavAnimaton=YES;
 }
 - (void) imagePickerController: (UIImagePickerController*) reader
  didFinishPickingMediaWithInfo: (NSDictionary*) info{
@@ -232,6 +246,8 @@
     NSString *dataString=[NSString stringWithFormat:@"%@",symbol.data];
     NSArray *array = [dataString componentsSeparatedByString:@"_"];
     if (array.count==1) {
+        MessageView *mv=[[MessageView alloc] initWithMessageText:@"无效二维码"];
+        [mv show];
         return;
     }
     NSNumber *numRid=(NSNumber *)[array objectAtIndex:0];
@@ -251,21 +267,27 @@
             [self.navigationController pushViewController:foodListController animated:YES];
             [foodListController release];
         } failure:^{
+            MessageView *mv=[[MessageView alloc] initWithMessageText:@"无效二维码"];
+            [mv show];
+
         }];
     } failure:^{
-        ;
+        MessageView *mv=[[MessageView alloc] initWithMessageText:@"无法连接到服务器"];
+        [mv show];
     }];
 }
 -(void)btnHistory{
     HistoryOrderControllerViewController *historyController=[[HistoryOrderControllerViewController alloc] init];
     [self.navigationController pushViewController:historyController animated:YES];
     [historyController release];
+    self.isbackWithNavAnimaton=YES;
 };
 
 -(void)btnRecentBrowse{
     RecentBrowseViewController *recVc=[[RecentBrowseViewController alloc] initWithStyle:UITableViewStylePlain];
     [self.navigationController pushViewController:recVc animated:YES];
     [recVc release];
+    self.isbackWithNavAnimaton=YES;
 }
 
 - (void)didReceiveMemoryWarning{
@@ -279,6 +301,7 @@
     [tabView release];
     [cityName release];
     [cityId release];
+    [search release];
     [super dealloc];
 }
 

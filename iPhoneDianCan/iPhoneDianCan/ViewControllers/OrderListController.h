@@ -8,12 +8,14 @@
 #import <UIKit/UIKit.h>
 #import "Order.h"
 #import "EGORefreshTableHeaderView.h"
-@interface OrderListController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
+@interface OrderListController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIScrollViewDelegate>
 
 @property(nonatomic,retain)UITableView *table;
 @property(nonatomic,retain)Order *currentOrder;
 @property(nonatomic,retain)NSMutableArray *allCategores;//所有已点种类
 @property(nonatomic)BOOL isUpdating;
 @property(nonatomic,retain)NSArray *leftButtonItems;
+@property(nonatomic,retain)UIBarButtonItem *rightItem;
+
 @property(nonatomic,retain)UILabel *tilteLabel;
 @end

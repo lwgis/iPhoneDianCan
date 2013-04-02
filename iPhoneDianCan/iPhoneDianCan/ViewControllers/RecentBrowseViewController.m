@@ -11,6 +11,8 @@
 #import "FoodListController.h"
 #import "UIImageView+AFNetworking.h"
 #import "RestaurantCell.h"
+#import "AFRestAPIClient.h"
+#import "MessageView.h"
 @interface RecentBrowseViewController ()
 
 @end
@@ -67,7 +69,28 @@
         [allRestaurants addObject:restaurant];
         [restaurant release];
     }
-    [self.tableView reloadData];
+    [[AFRestAPIClient sharedClient] getPath:@"user/favorites" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@",responseObject);
+        NSArray *arr=(NSArray *)responseObject;
+        for (Restaurant *res in allRestaurants) {
+            for (NSDictionary *dic in arr) {
+                NSString *ridStr=(NSString *)[dic valueForKey:@"rid"];
+                if (res.rid==[ridStr integerValue]) {
+                    res.isFavorite=YES;
+                }
+            }
+        }
+        if (allRestaurants.count==0) {
+            MessageView *mv=[[MessageView alloc] initWithMessageText:@"您还没有浏览过任何餐厅"];
+            [mv show];
+        }
+
+        [self.tableView reloadData];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self.tableView reloadData];
+        MessageView *mv=[[MessageView alloc] initWithMessageText:@"您还没有浏览过任何餐厅"];
+        [mv show];
+    }];
 }
 - (void)didReceiveMemoryWarning
 {
@@ -114,16 +137,12 @@
         [selectBgImageView release];
     }
     Restaurant *restaurant=[self.allRestaurants objectAtIndex:indexPath.row];
-    NSString *imageUrlString=IMAGESERVERADDRESS;
-    imageUrlString=[NSString stringWithFormat:@"%@%@",imageUrlString,restaurant.imageUrl];
-    [cell.imageView setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"imageWaiting"]];
-    cell.textLabel.text = restaurant.name;
+    cell.restaurant=restaurant;
     NSString *dateStr=[alldates objectAtIndex:indexPath.row];
     NSRange range;
     range.length=dateStr.length-6;
     range.location=0;
     cell.detailTextLabel.text=[dateStr substringWithRange:range];
-    cell.restaurant=restaurant;
         return cell;
 }
 

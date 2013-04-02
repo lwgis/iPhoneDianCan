@@ -12,4 +12,7 @@
 @property(nonatomic,assign)Restaurant *restaurant;
 @property(nonatomic,retain)UIButton *favoriteBtn;
 @property(nonatomic)BOOL isFavorite;
+@property(nonatomic) BOOL isAllowRemoveCell;//是否允许UITableView将其移除
+@property(nonatomic,retain)NSIndexPath *indexPath;
+
 @end

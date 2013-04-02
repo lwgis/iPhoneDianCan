@@ -9,6 +9,7 @@
 #import "HistoryOrderControllerViewController.h"
 #import "HistoryOrder.h"
 #import "HistoryDetailViewController.h"
+#import "MessageView.h"
 @interface HistoryOrderControllerViewController ()
 
 @end
@@ -57,8 +58,14 @@
             [allOrdes setObject:orderArray forKey:dataString];
             [orderArray release];
         }
+        if (allOrdes.count==0) {
+            MessageView *mv=[[MessageView alloc] initWithMessageText:@"您还没有历史订单"];
+            [mv show];
+        }
         [self.tableView reloadData];
     } failue:^{
+        MessageView *mv=[[MessageView alloc] initWithMessageText:@"无法连接服务器"];
+        [mv show];
     }];
 
 }

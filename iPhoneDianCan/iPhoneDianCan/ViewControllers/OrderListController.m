@@ -17,12 +17,14 @@
 #import "AppDelegate.h"
 #import "Recipe.h"
 #import <QuartzCore/QuartzCore.h>
+#import "MessageView.h"
 @implementation OrderListController
-@synthesize table,currentOrder,allCategores,isUpdating,leftButtonItems,tilteLabel;
+@synthesize table,currentOrder,allCategores,isUpdating,leftButtonItems,rightItem,tilteLabel;
 
 -(id)init{
     self=[super init];
     if (self) {
+        self.title=@"未开台";
         [self.view setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-45)];
         table=[[UITableView alloc] initWithFrame:self.view.frame];
         table.separatorStyle=UITableViewCellSeparatorStyleNone;
@@ -51,9 +53,7 @@
         [rightButton setFrame:CGRectMake(0, 0, 35, 35)];
         [rightButton setBackgroundImage:[UIImage imageNamed:@"refreshOrder"]forState:UIControlStateNormal];
         [rightButton addTarget:self action:@selector(refreshOrder)forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
-        self.navigationItem.rightBarButtonItem= rightItem;
-        [rightItem release];
+        rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
         isUpdating=NO;
         CGRect frame = CGRectMake(0, 0, 200, 44);
         tilteLabel = [[UILabel alloc] initWithFrame:frame];
@@ -89,18 +89,20 @@
     } failure:^{
         
     }];
-//     */
-
 }
 
 - (void)refreshOrder {
     if (isUpdating) {
         return;
     }
+    self.table.scrollEnabled=NO;
     NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
     NSNumber *oidNum=[ud valueForKey:@"oid"];
     NSNumber *ridNum=[ud valueForKey:@"rid"];
     if (oidNum&&ridNum) {
+        if (self.navigationItem.rightBarButtonItem==nil) {
+            self.navigationItem.rightBarButtonItem= rightItem;
+        }
         NSString *pathCategory=[NSString stringWithFormat:@"restaurants/%d/categories",ridNum.integerValue];
         NSString *udid=[ud objectForKey:@"udid"];
         self.table.userInteractionEnabled=NO;
@@ -119,19 +121,24 @@
             [Order rid:ridNum.integerValue Oid:oidNum.integerValue Order:^(Order *order) {
                 [self synchronizeOrder:order];
                 self.table.userInteractionEnabled=YES;
+                self.table.scrollEnabled=YES;
+
             } failure:^{
             }];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"错误: %@", error);
-            
+            MessageView *mv=[[MessageView alloc] initWithMessageText:@"无法连接到服务器"];
+            [mv show];
+
         }];
         
     }
     else{
         [allCategores removeAllObjects];
         [table reloadData];
-        self.title=[NSString stringWithFormat:@"总价:￥0.00"];
+        self.title=[NSString stringWithFormat:@"未开台"];
+        self.navigationItem.rightBarButtonItem= nil;
 
     }
 }
@@ -252,12 +259,19 @@
         NSNumber *ridNum=[ud valueForKey:@"rid"];
         [Order OrderWithRid:ridNum.integerValue Oid:oidNum.integerValue Order:^(Order *order) {
             [self refreshOrder];
+            
         } failure:^{
         }];    }
 }
+#pragma mark - UIScrollViewDelegate
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    self.navigationItem.rightBarButtonItem.enabled=NO;
+}
 
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    self.navigationItem.rightBarButtonItem.enabled=YES;
 
-
+}
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
@@ -268,6 +282,7 @@
     [leftButtonItems release];
     [table release];
     [tilteLabel release];
+    [rightItem release];
     [super dealloc];
 }
 @end

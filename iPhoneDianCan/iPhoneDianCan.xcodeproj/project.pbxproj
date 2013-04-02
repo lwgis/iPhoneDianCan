@@ -80,6 +80,7 @@
 		D08D189016968A6300398B90 /* TabView.m in Sources */ = {isa = PBXBuildFile; fileRef = D08D188F16968A6300398B90 /* TabView.m */; };
 		D09E6E9B1703CD6000C9C24E /* cityBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D09E6E9A1703CD6000C9C24E /* cityBtn@2x.png */; };
 		D09E6E9E1703EE0F00C9C24E /* SelectCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D09E6E9D1703EE0F00C9C24E /* SelectCityViewController.m */; };
+		D0A035161709796300326F46 /* MessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A035151709796300326F46 /* MessageView.m */; };
 		D0A78A9216EDA027004123B9 /* RecipeSearchControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A78A9116EDA027004123B9 /* RecipeSearchControllerViewController.m */; };
 		D0B03EF9170119DB00CB221C /* RecentBrowseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B03EF8170119DB00CB221C /* RecentBrowseViewController.m */; };
 		D0B03EFC1701391800CB221C /* RestaurantCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D0B03EFB1701391800CB221C /* RestaurantCell.m */; };
@@ -102,6 +103,7 @@
 		D0C627E816B1032200B57684 /* imageZoomBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0C627E716B1032200B57684 /* imageZoomBg@2x.png */; };
 		D0C627EA16B122FC00B57684 /* recipeTableViewBg.png in Resources */ = {isa = PBXBuildFile; fileRef = D0C627E916B122FC00B57684 /* recipeTableViewBg.png */; };
 		D0C627F016B1310300B57684 /* restaurantTableHeadBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0C627EF16B1310300B57684 /* restaurantTableHeadBg@2x.png */; };
+		D0C687CA17053826006EE86A /* myFavoriteBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0C687C917053826006EE86A /* myFavoriteBtn@2x.png */; };
 		D0D389DE16E4791C0036F2D6 /* MyAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0D389DD16E4791B0036F2D6 /* MyAlertView.m */; };
 		D0DB06A116B2846C0071945A /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = D0DB06A016B2846C0071945A /* Order.m */; };
 		D0DB06A516B2872A0071945A /* Desk.m in Sources */ = {isa = PBXBuildFile; fileRef = D0DB06A416B2872A0071945A /* Desk.m */; };
@@ -275,6 +277,8 @@
 		D09E6E9A1703CD6000C9C24E /* cityBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cityBtn@2x.png"; path = "iPhoneDianCan/image/cityBtn@2x.png"; sourceTree = "<group>"; };
 		D09E6E9C1703EE0E00C9C24E /* SelectCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectCityViewController.h; path = ViewControllers/SelectCityViewController.h; sourceTree = "<group>"; };
 		D09E6E9D1703EE0F00C9C24E /* SelectCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectCityViewController.m; path = ViewControllers/SelectCityViewController.m; sourceTree = "<group>"; };
+		D0A035141709796300326F46 /* MessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MessageView.h; path = CustomUIControlls/MessageView.h; sourceTree = "<group>"; };
+		D0A035151709796300326F46 /* MessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MessageView.m; path = CustomUIControlls/MessageView.m; sourceTree = "<group>"; };
 		D0A78A9016EDA027004123B9 /* RecipeSearchControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecipeSearchControllerViewController.h; path = ViewControllers/RecipeSearchControllerViewController.h; sourceTree = "<group>"; };
 		D0A78A9116EDA027004123B9 /* RecipeSearchControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecipeSearchControllerViewController.m; path = ViewControllers/RecipeSearchControllerViewController.m; sourceTree = "<group>"; };
 		D0B03EF7170119DB00CB221C /* RecentBrowseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RecentBrowseViewController.h; path = ViewControllers/RecentBrowseViewController.h; sourceTree = "<group>"; };
@@ -304,6 +308,7 @@
 		D0C627E716B1032200B57684 /* imageZoomBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "imageZoomBg@2x.png"; path = "iPhoneDianCan/image/imageZoomBg@2x.png"; sourceTree = "<group>"; };
 		D0C627E916B122FC00B57684 /* recipeTableViewBg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = recipeTableViewBg.png; path = iPhoneDianCan/image/recipeTableViewBg.png; sourceTree = "<group>"; };
 		D0C627EF16B1310300B57684 /* restaurantTableHeadBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "restaurantTableHeadBg@2x.png"; path = "iPhoneDianCan/image/restaurantTableHeadBg@2x.png"; sourceTree = "<group>"; };
+		D0C687C917053826006EE86A /* myFavoriteBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "myFavoriteBtn@2x.png"; path = "iPhoneDianCan/image/myFavoriteBtn@2x.png"; sourceTree = "<group>"; };
 		D0D389DC16E4791B0036F2D6 /* MyAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyAlertView.h; path = CustomUIControlls/MyAlertView.h; sourceTree = "<group>"; };
 		D0D389DD16E4791B0036F2D6 /* MyAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyAlertView.m; path = CustomUIControlls/MyAlertView.m; sourceTree = "<group>"; };
 		D0DB069F16B2846C0071945A /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Order.h; path = Model/Order.h; sourceTree = "<group>"; };
@@ -594,6 +599,8 @@
 				D018C67116EF714F001EB2C9 /* MyBMKPointAnnotation.m */,
 				D0B03EFA1701391800CB221C /* RestaurantCell.h */,
 				D0B03EFB1701391800CB221C /* RestaurantCell.m */,
+				D0A035141709796300326F46 /* MessageView.h */,
+				D0A035151709796300326F46 /* MessageView.m */,
 			);
 			name = CustomUIControlls;
 			sourceTree = "<group>";
@@ -697,6 +704,7 @@
 		D0B1E1E91692DBC900FF07FC /* image */ = {
 			isa = PBXGroup;
 			children = (
+				D0C687C917053826006EE86A /* myFavoriteBtn@2x.png */,
 				D09E6E9A1703CD6000C9C24E /* cityBtn@2x.png */,
 				D085D24F1702C67300A8138E /* favoriteBtnSelect@2x.png */,
 				D085D2501702C67300A8138E /* favoriteBtn@2x.png */,
@@ -917,6 +925,7 @@
 				D085D2511702C67300A8138E /* favoriteBtnSelect@2x.png in Resources */,
 				D085D2521702C67300A8138E /* favoriteBtn@2x.png in Resources */,
 				D09E6E9B1703CD6000C9C24E /* cityBtn@2x.png in Resources */,
+				D0C687CA17053826006EE86A /* myFavoriteBtn@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -973,6 +982,7 @@
 				D0B03EF9170119DB00CB221C /* RecentBrowseViewController.m in Sources */,
 				D0B03EFC1701391800CB221C /* RestaurantCell.m in Sources */,
 				D09E6E9E1703EE0F00C9C24E /* SelectCityViewController.m in Sources */,
+				D0A035161709796300326F46 /* MessageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1074,6 +1084,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: FEI ZHAO (6Q629F22TZ)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhoneDianCan/iPhoneDianCan-Prefix.pch";
 				INFOPLIST_FILE = "iPhoneDianCan/iPhoneDianCan-Info.plist";
@@ -1083,6 +1094,7 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "淘吃客";
+				PROVISIONING_PROFILE = "609E92F8-1EE2-498F-A956-44870B94013C";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1093,6 +1105,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: FEI ZHAO (6Q629F22TZ)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhoneDianCan/iPhoneDianCan-Prefix.pch";
 				INFOPLIST_FILE = "iPhoneDianCan/iPhoneDianCan-Info.plist";
@@ -1102,6 +1115,7 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "淘吃客";
+				PROVISIONING_PROFILE = "609E92F8-1EE2-498F-A956-44870B94013C";
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

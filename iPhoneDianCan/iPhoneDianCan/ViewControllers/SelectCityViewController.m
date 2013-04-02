@@ -8,6 +8,7 @@
 
 #import "SelectCityViewController.h"
 #import "AFRestAPIClient.h"
+#import "MessageView.h"
 @interface SelectCityViewController ()
 
 @end
@@ -42,7 +43,9 @@
             resultCities=[[NSMutableArray alloc] initWithArray:self.cities];
             [self.tableView reloadData];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            
+            MessageView *mv=[[MessageView alloc] initWithMessageText:@"无法连接到服务器"];
+            [mv show];
+
         }];
         
     }
@@ -60,7 +63,6 @@
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-
 }
 
 - (void)didReceiveMemoryWarning

@@ -18,6 +18,7 @@
 #import "OrderItem.h"
 #import "Desk.h"
 #import <QuartzCore/QuartzCore.h>
+#import "MessageView.h"
 @interface FoodListController ()
 
 @end
@@ -240,11 +241,15 @@
             }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"错误: %@", error);
+            MessageView *mv=[[MessageView alloc] initWithMessageText:@"无法连接到服务器"];
+            [mv show];
         }];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"错误: %@", error);
-        
+        MessageView *mv=[[MessageView alloc] initWithMessageText:@"无法连接到服务器"];
+        [mv show];
+
     }];
 }
 
@@ -355,8 +360,8 @@
         cell = [[[RecipeTableViewCell alloc]
 				 initWithStyle:UITableViewCellStyleSubtitle
 				 reuseIdentifier:SectionsTableIdentifier] autorelease];
-        cell.recipe=recipe;
     }
+    cell.recipe=recipe;
     return cell;
    
 }
@@ -404,7 +409,7 @@
             [self.navigationItem setHidesBackButton:YES];
             self.currentOrder=order;
             UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-            [rightButton setFrame:CGRectMake(0, 0, 45, 35)];
+            [rightButton setFrame:CGRectMake(0, 0, 35, 35)];
             [rightButton setBackgroundImage:[UIImage imageNamed:@"refreshOrder"]forState:UIControlStateNormal];
             [rightButton addTarget:self action:@selector(refreshOrder)forControlEvents:UIControlEventTouchUpInside];
             UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
@@ -414,6 +419,8 @@
             self.title=[NSString stringWithFormat:@"%@-%@",self.title,order.desk.name];
             self.navigationItem.leftBarButtonItems=self.leftButtonItems;
         } failure:^{
+            MessageView *mv=[[MessageView alloc] initWithMessageText:@"开台码错误"];
+            [mv show];
         }];
     }
     else{
@@ -426,8 +433,10 @@
     NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
     NSNumber *oidNum=[ud valueForKey:@"oid"];
     if (oidNum!=nil) {
+        self.table.scrollEnabled=NO;
         [Order rid:self.rid Oid:oidNum.integerValue Order:^(Order *order) {
             [self synchronizeOrder:order];
+            self.table.scrollEnabled=YES;
         } failure:^{
         }];
     }
@@ -435,7 +444,17 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [self addTableShadow];
+    NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
+    NSNumber *oidNum=[ud valueForKey:@"oid"];
+    if (oidNum!=nil) {
+    self.navigationItem.rightBarButtonItem.enabled=NO;
+    }
+
 }
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    self.navigationItem.rightBarButtonItem.enabled=YES;
+    }
 
 
 
