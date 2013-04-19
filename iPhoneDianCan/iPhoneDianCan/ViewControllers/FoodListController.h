@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "CategoryTableViewController.h"
 #import "RecipeSearchControllerViewController.h"
+#import "BadgeButton.h"
 @interface FoodListController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIScrollViewDelegate,LocationToCellDelegate,UIGestureRecognizerDelegate>
 @property NSInteger rid;// 餐厅id
 @property(nonatomic,retain)UITableView *table;//所有菜列表
@@ -21,7 +22,9 @@
 @property(nonatomic)CGPoint tableCenterPoint;
 @property(nonatomic,retain)UISearchBar *searchBar;
 @property(nonatomic,retain)RecipeSearchControllerViewController *recipeSearchControllerViewController;
-@property(nonatomic,retain)NSArray *leftButtonItems;
+@property(nonatomic,retain)UIToolbar *toolBarView;
+@property(nonatomic,retain)BadgeButton *orderBtn ;
+@property(nonatomic,retain)UIButton *waiterBtn ;
 -(id)initWithRecipe:(Restaurant *)restaurant;
 - (void)synchronizeOrder:(Order *)order ;
 @end

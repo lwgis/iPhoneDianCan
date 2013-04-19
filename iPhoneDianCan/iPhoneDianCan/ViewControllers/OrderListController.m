@@ -19,13 +19,12 @@
 #import <QuartzCore/QuartzCore.h>
 #import "MessageView.h"
 @implementation OrderListController
-@synthesize table,currentOrder,allCategores,isUpdating,leftButtonItems,rightItem,tilteLabel;
+@synthesize table,currentOrder,allCategores,isUpdating,rightItem,tilteLabel,toolBarView,orderBtn;
 
 -(id)init{
     self=[super init];
     if (self) {
-        self.title=@"未开台";
-        [self.view setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-45)];
+        [self.view setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-44-44)];
         table=[[UITableView alloc] initWithFrame:self.view.frame];
         table.separatorStyle=UITableViewCellSeparatorStyleNone;
         UIImageView *tableBgView=[[UIImageView alloc] initWithFrame:table.frame];
@@ -36,19 +35,6 @@
         table.delegate=self;
         [self.view addSubview:table];
         allCategores =[[NSMutableArray alloc] init];
-        UIButton*leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [leftButton setFrame:CGRectMake(0, 0, 50, 30)];
-        [leftButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
-        [leftButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
-        [leftButton setTitle:@"下单" forState:UIControlStateNormal];
-        [leftButton addTarget:self action:@selector(leftBarButtonTouch)forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem *leftButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
-        UIButton*leftButtonHide = [UIButton buttonWithType:UIButtonTypeCustom];
-        [leftButtonHide setFrame:CGRectMake(0, 0, 50, 30)];
-        UIBarButtonItem *leftButtonItemHide = [[UIBarButtonItem alloc]initWithCustomView:leftButtonHide];
-        self.leftButtonItems=[NSArray arrayWithObjects:leftButtonItem,leftButtonItemHide,nil];
-        [leftButtonItemHide release];
-        [leftButtonItem release];
         UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [rightButton setFrame:CGRectMake(0, 0, 35, 35)];
         [rightButton setBackgroundImage:[UIImage imageNamed:@"refreshOrder"]forState:UIControlStateNormal];
@@ -65,13 +51,45 @@
         self.navigationItem.titleView = tilteLabel;
         tilteLabel.shadowColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
         tilteLabel.shadowOffset = CGSizeMake(0, -1.0);
+        
+        toolBarView = [[UIToolbar alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT-44-44, 320, 44)];
+        [toolBarView setBackgroundImage:[UIImage imageNamed:@"CustomizedNavBg"] forToolbarPosition:0 barMetrics:0];
+        UIButton *payBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [payBtn addTarget:self action:@selector(payBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [payBtn setFrame:CGRectMake(10, 2, 140, 40)];
+        [payBtn setBackgroundImage:[UIImage imageNamed:@"payToolBtn"]forState:UIControlStateNormal];
+         self.orderBtn = [BadgeButton buttonWithType:UIButtonTypeCustom];
+        [orderBtn addTarget:self action:@selector(orderBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [orderBtn setFrame:CGRectMake(170, 2, 140, 40)];
+        [orderBtn setBackgroundImage:[UIImage imageNamed:@"orderToolBtn"]forState:UIControlStateNormal];
+        [toolBarView addSubview:payBtn];
+        [toolBarView addSubview:orderBtn];
+        [self.view addSubview:toolBarView];
+
     }
     return self;
 }
+
+-(void)payBtnClick{
+    [self.navigationItem.rightBarButtonItem setEnabled:NO];
+    NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
+    NSNumber *oidNum=[ud valueForKey:@"oid"];
+    NSNumber *ridNum=[ud valueForKey:@"rid"];
+    [Order rid:ridNum.integerValue Oid:oidNum.integerValue Order:^(Order *order) {
+        NSString *message=[NSString stringWithFormat:@"您总共消费￥%.2f",order.priceDeposit];
+        MyAlertView *myAlert=[[MyAlertView alloc] initWithTitle:@"结账确认" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"结账" ,nil];
+        [myAlert show];
+        [myAlert release];
+        [self.navigationItem.rightBarButtonItem setEnabled:YES];
+    } failure:^{
+        [self.navigationItem.rightBarButtonItem setEnabled:YES];
+    }];
+}
+
 -(void)setTitle:(NSString *)title{
     tilteLabel.text=title;
 }
--(void)leftBarButtonTouch{
+-(void)orderBtnClick{
 //    /*
     NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
     NSNumber *oidNum=[ud valueForKey:@"oid"];
@@ -139,7 +157,6 @@
         [table reloadData];
         self.title=[NSString stringWithFormat:@"未开台"];
         self.navigationItem.rightBarButtonItem= nil;
-
     }
 }
 
@@ -239,11 +256,13 @@
     }
     if (newCount>0) {
         self.title=[NSString stringWithFormat:@"总价:￥%.2f\n%d份未下单",order.priceAll,newCount];
-        self.navigationItem.leftBarButtonItems= leftButtonItems;
+        orderBtn.enabled=YES;
+        [orderBtn setBadgeValue:newCount];
     }
     else{
         self.title=[NSString stringWithFormat:@"总价:￥%.2f",order.priceAll];
-        self.navigationItem.leftBarButtonItem= nil;
+        orderBtn.enabled=NO;
+        [orderBtn setBadgeValue:0];
     }
     [table reloadData];
     [tempArray release];
@@ -254,14 +273,22 @@
 #pragma mark - UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex==1) {
+        [self.navigationItem.leftBarButtonItem setEnabled:NO];
         NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
-        NSNumber *oidNum=[ud valueForKey:@"oid"];
-        NSNumber *ridNum=[ud valueForKey:@"rid"];
-        [Order OrderWithRid:ridNum.integerValue Oid:oidNum.integerValue Order:^(Order *order) {
-            [self refreshOrder];
-            
-        } failure:^{
-        }];    }
+        //        NSNumber *oidNum=[ud valueForKey:@"oid"];
+        //        NSNumber *ridNum=[ud valueForKey:@"rid"];
+        //        [Order CheckOrderWithRid:ridNum.integerValue Oid:oidNum.integerValue Order:^(Order *order) {
+        [ud removeObjectForKey:@"oid"];
+        [ud removeObjectForKey:@"rid"];
+        [ud synchronize];
+        self.title=@"";
+        AppDelegate *appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
+        UINavigationController *nav=(UINavigationController *)appDelegate.window.rootViewController;
+        [nav popToRootViewControllerAnimated:YES];
+        //        } failure:^{
+        //
+        //        }];
+    }
 }
 #pragma mark - UIScrollViewDelegate
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -279,10 +306,10 @@
 }
 
 -(void)dealloc{
-    [leftButtonItems release];
     [table release];
     [tilteLabel release];
     [rightItem release];
+    [toolBarView release];
     [super dealloc];
 }
 @end

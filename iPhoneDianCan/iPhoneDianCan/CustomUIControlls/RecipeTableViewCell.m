@@ -133,7 +133,7 @@
 //    self.recipe.orderedCount++;
     [Order addRicpeWithRid:numRid.integerValue RecipeId:self.recipe.rid Oid:numOid.integerValue Order:^(Order *order) {
         UITableView *tv=(UITableView *)self.superview;
-        OrderListController *flCon=(OrderListController *)tv.delegate;
+        OrderListController *olCon=(OrderListController *)tv.delegate;
 //        [flCon synchronizeOrder:order];
         if (isAllowRemoveCell) {
             NSInteger newCount=0;
@@ -141,12 +141,14 @@
                 newCount+=oItem.countNew;
             }
             if (newCount>0) {
-                flCon.title=[NSString stringWithFormat:@"总价:￥%.2f\n%d份未下单",order.priceAll,newCount];
-                flCon.navigationItem.leftBarButtonItems=flCon.leftButtonItems ;
+                olCon.title=[NSString stringWithFormat:@"总价:￥%.2f\n%d份未下单",order.priceAll,newCount];
+                olCon.orderBtn.enabled=YES;
+                [olCon.orderBtn setBadgeValue:newCount];
             }
             else{
-                flCon.title=[NSString stringWithFormat:@"总价:￥%.2f",order.priceAll];
-                flCon.navigationItem.leftBarButtonItem=nil ;
+                olCon.title=[NSString stringWithFormat:@"总价:￥%.2f",order.priceAll];
+                olCon.orderBtn.enabled=NO;
+                [olCon.orderBtn setBadgeValue:0];
             }
         }
     } failure:^{
@@ -161,11 +163,11 @@
 
     CGMutablePathRef thePath =  CGPathCreateMutable();
     CGPathMoveToPoint(thePath, NULL, animationImageView.frame.origin.x, animationImageView.frame.origin.y);
-    CGPathAddLineToPoint(thePath, NULL, animationImageView.frame.origin.x+32, animationImageView.frame.origin.y-60);
-    CGPathAddLineToPoint(thePath, NULL, animationImageView.frame.origin.x+64, animationImageView.frame.origin.y-80);
-    CGPathAddLineToPoint(thePath, NULL, animationImageView.frame.origin.x+96, animationImageView.frame.origin.y-60);
-    CGPathAddLineToPoint(thePath, NULL, animationImageView.frame.origin.x+128, animationImageView.frame.origin.y);
-    CGPathAddLineToPoint(thePath, NULL, animationImageView.frame.origin.x+160, SCREENHEIGHT-44-20);
+    CGPathAddLineToPoint(thePath, NULL, animationImageView.frame.origin.x+102, animationImageView.frame.origin.y-60);
+    CGPathAddLineToPoint(thePath, NULL, animationImageView.frame.origin.x+134, animationImageView.frame.origin.y-80);
+    CGPathAddLineToPoint(thePath, NULL, animationImageView.frame.origin.x+166, animationImageView.frame.origin.y-60);
+    CGPathAddLineToPoint(thePath, NULL, animationImageView.frame.origin.x+198, animationImageView.frame.origin.y);
+    CGPathAddLineToPoint(thePath, NULL, animationImageView.frame.origin.x+230, SCREENHEIGHT-44-20);
     CAKeyframeAnimation *theAnimation =[CAKeyframeAnimation animationWithKeyPath:@"position"];
     theAnimation.path=thePath;
     theAnimation.duration=(SCREENHEIGHT-(self.frame.origin.y-point.y))/800;
@@ -193,7 +195,7 @@
     NSNumber *numOid=[ud valueForKey:@"oid"];
     [Order removeRicpeWithRid:numRid.integerValue RecipeId:self.recipe.rid Oid:numOid.integerValue Order:^(Order *order) {
         UITableView *tv=(UITableView *)self.superview;
-        OrderListController *flCon=(OrderListController *)tv.delegate;
+        OrderListController *olCon=(OrderListController *)tv.delegate;
 //        [flCon synchronizeOrder:order];
         if (isAllowRemoveCell) {
             NSInteger newCount=0;
@@ -201,14 +203,14 @@
                 newCount+=oItem.countNew;
             }
             if (newCount>0) {
-                flCon.title=[NSString stringWithFormat:@"总价:￥%.2f\n%d份未下单",order.priceAll,newCount];
-                flCon.navigationItem.leftBarButtonItems=flCon.leftButtonItems ;
-                
+                olCon.title=[NSString stringWithFormat:@"总价:￥%.2f\n%d份未下单",order.priceAll,newCount];
+                olCon.orderBtn.enabled=YES;
+                [olCon.orderBtn setBadgeValue:newCount];
             }
             else{
-                flCon.title=[NSString stringWithFormat:@"总价:￥%.2f",order.priceAll];
-                flCon.navigationItem.leftBarButtonItem=nil ;
-
+                olCon.title=[NSString stringWithFormat:@"总价:￥%.2f",order.priceAll];
+                olCon.orderBtn.enabled=NO;
+                [olCon.orderBtn setBadgeValue:0];
             }
         }
     } failure:^{

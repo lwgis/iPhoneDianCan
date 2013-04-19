@@ -28,7 +28,7 @@
         self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
         [temporaryBarButtonItem release];
         //初始化tableView
-        table=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-44)];
+        table=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-TABBARHEIGHT-44)];
         table.separatorStyle=UITableViewCellSeparatorStyleNone;
         UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mapTableViewBg"]];
         self.table.backgroundView = bgImageView;
@@ -145,7 +145,7 @@
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     if (bmkMapView.delegate!=self) {
-        [self.bmkMapView setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-44)];
+        [self.bmkMapView setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-TABBARHEIGHT-44)];
        self.bmkMapView.delegate=self;
        [self.view addSubview:self.bmkMapView];
         [self.view bringSubviewToFront:table];

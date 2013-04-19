@@ -24,7 +24,7 @@
 #import "SelectCityViewController.h"
 #import "MessageView.h"
 @implementation MainViewController
-@synthesize tabView,bmkMapView,cityBtn,cityId,cityName,search;
+@synthesize bmkMapView,cityBtn,cityId,cityName,search;
 
 -(id)init{
     self=[super init];
@@ -123,7 +123,9 @@
     }
     NSUserDefaults *us=[NSUserDefaults standardUserDefaults];
     NSString *usCityName=[us valueForKey:@"cityName"];
-    [cityBtn setTitle:usCityName forState:UIControlStateNormal];
+    if (usCityName!=nil) {
+        [cityBtn setTitle:usCityName forState:UIControlStateNormal];
+    }
 }
 -(void)selectCity{
     SelectCityViewController *svc=[[SelectCityViewController alloc] init];
@@ -192,8 +194,6 @@
 -(void)btnRestaurantClick{
     RestaurantController *restaurantController=[[RestaurantController alloc] initWithShowStyle:ShowNormal];
     restaurantController.title=@"附近餐厅";
-    self.tabView.hidden=NO;
-    [self.tabView.delegate updateContentViewSizeWithHidden:NO];
     if (bmkMapView==nil) {
         bmkMapView=[[BMKMapView alloc] init];
     }
@@ -298,7 +298,6 @@
 -(void)dealloc{
     [cityBtn release];
     [bmkMapView release];
-    [tabView release];
     [cityName release];
     [cityId release];
     [search release];

@@ -13,7 +13,7 @@
     #import <Foundation/Foundation.h>
 #endif
 #define SCREENHEIGHT [[UIScreen mainScreen] bounds].size.height-20 //设备屏幕高度
-#define TABBARHEIGHT 49 //tabar的高度
+#define TABBARHEIGHT 0 //tabar的高度
 #define SERVERADDRESS @"http://taochike.sinaapp.com/rest/1/taochike/" //服务器地址
 #define IMAGESERVERADDRESS @"http://taochike-menuimages.stor.sinaapp.com/medium/" //图片服务器地址
 #define LARGEIMAGESERVERADDRESS @"http://taochike-menuimages.stor.sinaapp.com/big/" //图片服务器地址

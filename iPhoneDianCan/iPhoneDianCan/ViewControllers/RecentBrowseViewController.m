@@ -80,17 +80,17 @@
                 }
             }
         }
-        if (allRestaurants.count==0) {
-            MessageView *mv=[[MessageView alloc] initWithMessageText:@"您还没有浏览过任何餐厅"];
-            [mv show];
-        }
-
         [self.tableView reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self.tableView reloadData];
+//        MessageView *mv=[[MessageView alloc] initWithMessageText:@"您还没有浏览过任何餐厅"];
+//        [mv show];
+    }];
+    if (allRestaurants.count==0) {
         MessageView *mv=[[MessageView alloc] initWithMessageText:@"您还没有浏览过任何餐厅"];
         [mv show];
-    }];
+    }
+
 }
 - (void)didReceiveMemoryWarning
 {

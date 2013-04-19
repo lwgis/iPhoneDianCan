@@ -8,8 +8,6 @@
 
 #import "AppDelegate.h"
 #import "OrderListController.h"
-#import "WaiterViewController.h"
-#import "TabView.h"
 #import "BMapKit.h"
 #import "AFJSONRequestOperation.h"
 #import "AFHTTPClient.h"
@@ -22,7 +20,6 @@
     [_navMain release];
     [_navOrderList release];
     [_window release];
-    [_tabBarController release];
     [super dealloc];
 }
 
@@ -32,34 +29,17 @@
     // Override point for customization after application launch.
 
     _mainViewController = [[MainViewController alloc] init];
-    OrderListController *orderListController = [[[OrderListController alloc] init] autorelease];
-    WaiterViewController *waiterController=[[[WaiterViewController alloc] init] autorelease];
-    UINavigationController *navOrderList = [[[UINavigationController alloc] initWithRootViewController:orderListController] autorelease];
     UINavigationController *navMain = [[[UINavigationController alloc] initWithRootViewController:_mainViewController] autorelease];
-    UINavigationController *navWaiter = [[[UINavigationController alloc] initWithRootViewController:waiterController] autorelease];
-    self.tabBarController = [[[MyTabBarController alloc] init] autorelease];
-    self.tabBarController.viewControllers = @[navMain, navOrderList,navWaiter];
-    UIViewController *buttomViewController=[[UIViewController alloc] init];
-    buttomViewController.view=[[[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, SCREENHEIGHT)] autorelease];
-    [buttomViewController.view addSubview:self.tabBarController.view];
     _mainViewController.navigationController.delegate=self;
-    //tab按钮视图
-     self.tabView=[[[TabView alloc] initWithFrame:CGRectMake(0, SCREENHEIGHT-TABBARHEIGHT, 320, TABBARHEIGHT)] autorelease];
-    self.tabView.delegate=self.tabBarController;
-   self.tabView.backgroundColor=[UIColor clearColor];
-    [buttomViewController.view addSubview:self.tabView];
-    self.tabBarController.tabView=self.tabView;
-    _mainViewController.tabView=self.tabView;
     //设置百度地图key
     mapManager=[[BMKMapManager alloc] init];
    BOOL ret= [mapManager start:@"7E781CD995FDD3089381C0EDD67126D0A335528E" generalDelegate:self];
     if (!ret) {
 		NSLog(@"manager start failed!");
 	}
-    self.window.rootViewController=buttomViewController;
+    self.window.rootViewController=navMain;
     self.window.backgroundColor=[UIColor grayColor];
     [self.window makeKeyAndVisible];
-    [buttomViewController release];
     //设置设备码
     NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
     NSString *udid=[ud objectForKey:@"udid"];
@@ -95,14 +75,7 @@
     }
         return YES;
 }
--(void)btnClick{
-    if (self.tabBarController.selectedIndex==1) {
-        self.tabBarController.selectedIndex=0;
-    }
-    else{
-        self.tabBarController.selectedIndex=1;
-    }
-}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

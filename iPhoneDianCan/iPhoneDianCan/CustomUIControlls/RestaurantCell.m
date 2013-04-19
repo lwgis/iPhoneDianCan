@@ -22,7 +22,11 @@
         [self.favoriteBtn addTarget:self action:@selector(favoriteBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.favoriteBtn setImage:[UIImage imageNamed:@"favoriteBtn"] forState:UIControlStateNormal];
         [self.favoriteBtn setImage:[UIImage imageNamed:@"favoriteBtnSelect"] forState:UIControlStateHighlighted];
-        [self addSubview:self.favoriteBtn];
+        NSUserDefaults *ns=[NSUserDefaults standardUserDefaults];
+        NSDictionary *dic=[ns objectForKey:@"userInfo"];
+        if (dic!=nil) {
+            [self addSubview:self.favoriteBtn];
+        }
         self.isFavorite=NO;
     }
     return self;
