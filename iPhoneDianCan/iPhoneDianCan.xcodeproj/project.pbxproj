@@ -87,6 +87,7 @@
 		D088710F1712950F002834CF /* addTangShaoBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D088710D1712950F002834CF /* addTangShaoBtn@2x.png */; };
 		D08871111712A3D5002834CF /* calledWaiterBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D08871101712A3D5002834CF /* calledWaiterBtn@2x.png */; };
 		D08BBFDC1720F90500ED781B /* calledWaiterToolBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D08BBFDB1720F90500ED781B /* calledWaiterToolBtn@2x.png */; };
+		D099A0431741E533001AFFBC /* appIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D099A0421741E533001AFFBC /* appIcon.png */; };
 		D09E6E9B1703CD6000C9C24E /* cityBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D09E6E9A1703CD6000C9C24E /* cityBtn@2x.png */; };
 		D09E6E9E1703EE0F00C9C24E /* SelectCityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D09E6E9D1703EE0F00C9C24E /* SelectCityViewController.m */; };
 		D0A035161709796300326F46 /* MessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = D0A035151709796300326F46 /* MessageView.m */; };
@@ -289,6 +290,7 @@
 		D088710D1712950F002834CF /* addTangShaoBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "addTangShaoBtn@2x.png"; path = "iPhoneDianCan/image/addTangShaoBtn@2x.png"; sourceTree = "<group>"; };
 		D08871101712A3D5002834CF /* calledWaiterBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "calledWaiterBtn@2x.png"; path = "iPhoneDianCan/image/calledWaiterBtn@2x.png"; sourceTree = "<group>"; };
 		D08BBFDB1720F90500ED781B /* calledWaiterToolBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "calledWaiterToolBtn@2x.png"; path = "iPhoneDianCan/image/calledWaiterToolBtn@2x.png"; sourceTree = "<group>"; };
+		D099A0421741E533001AFFBC /* appIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = appIcon.png; sourceTree = "<group>"; };
 		D09E6E9A1703CD6000C9C24E /* cityBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "cityBtn@2x.png"; path = "iPhoneDianCan/image/cityBtn@2x.png"; sourceTree = "<group>"; };
 		D09E6E9C1703EE0E00C9C24E /* SelectCityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectCityViewController.h; path = ViewControllers/SelectCityViewController.h; sourceTree = "<group>"; };
 		D09E6E9D1703EE0F00C9C24E /* SelectCityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectCityViewController.m; path = ViewControllers/SelectCityViewController.m; sourceTree = "<group>"; };
@@ -300,7 +302,7 @@
 		D0B03EF8170119DB00CB221C /* RecentBrowseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RecentBrowseViewController.m; path = ViewControllers/RecentBrowseViewController.m; sourceTree = "<group>"; };
 		D0B03EFA1701391800CB221C /* RestaurantCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestaurantCell.h; path = CustomUIControlls/RestaurantCell.h; sourceTree = "<group>"; };
 		D0B03EFB1701391800CB221C /* RestaurantCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestaurantCell.m; path = CustomUIControlls/RestaurantCell.m; sourceTree = "<group>"; };
-		D0B1E1A31692DAAE00FF07FC /* 淘吃客.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "淘吃客.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D0B1E1A31692DAAE00FF07FC /* 微特.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "微特.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0B1E1A71692DAAE00FF07FC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D0B1E1A91692DAAE00FF07FC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D0B1E1AB1692DAAE00FF07FC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -609,6 +611,7 @@
 		D0B1E1981692DAAE00FF07FC = {
 			isa = PBXGroup;
 			children = (
+				D099A0421741E533001AFFBC /* appIcon.png */,
 				D049A92016E6F6A500A068D6 /* appIcon@2x.png */,
 				D0B1E1E91692DBC900FF07FC /* image */,
 				D0B1E1AD1692DAAE00FF07FC /* iPhoneDianCan */,
@@ -620,7 +623,7 @@
 		D0B1E1A41692DAAE00FF07FC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D0B1E1A31692DAAE00FF07FC /* 淘吃客.app */,
+				D0B1E1A31692DAAE00FF07FC /* 微特.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -833,7 +836,7 @@
 			);
 			name = iPhoneDianCan;
 			productName = iPhoneDianCan;
-			productReference = D0B1E1A31692DAAE00FF07FC /* 淘吃客.app */;
+			productReference = D0B1E1A31692DAAE00FF07FC /* 微特.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -946,6 +949,7 @@
 				D0818280171D2FDE00BB66C1 /* payToolBtn@2x.png in Resources */,
 				D0818281171D2FDE00BB66C1 /* orderToolBtn@2x.png in Resources */,
 				D08BBFDC1720F90500ED781B /* calledWaiterToolBtn@2x.png in Resources */,
+				D099A0431741E533001AFFBC /* appIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1102,6 +1106,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer: FEI ZHAO (6Q629F22TZ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: FEI ZHAO (6Q629F22TZ)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhoneDianCan/iPhoneDianCan-Prefix.pch";
 				INFOPLIST_FILE = "iPhoneDianCan/iPhoneDianCan-Info.plist";
@@ -1110,8 +1115,10 @@
 					"\"$(SRCROOT)/iPhoneDianCan/ZBarSDK\"",
 					"$(inherited)",
 				);
-				PRODUCT_NAME = "淘吃客";
-				PROVISIONING_PROFILE = "609E92F8-1EE2-498F-A956-44870B94013C";
+				PRODUCT_NAME = "微特";
+				PROVISIONING_PROFILE = "4748F468-C69E-408C-BF98-727C5D523492";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "609E92F8-1EE2-498F-A956-44870B94013C";
+				SKIP_INSTALL = NO;
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1123,6 +1130,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer: FEI ZHAO (6Q629F22TZ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: FEI ZHAO (6Q629F22TZ)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhoneDianCan/iPhoneDianCan-Prefix.pch";
 				INFOPLIST_FILE = "iPhoneDianCan/iPhoneDianCan-Info.plist";
@@ -1131,8 +1139,10 @@
 					"\"$(SRCROOT)/iPhoneDianCan/ZBarSDK\"",
 					"$(inherited)",
 				);
-				PRODUCT_NAME = "淘吃客";
-				PROVISIONING_PROFILE = "609E92F8-1EE2-498F-A956-44870B94013C";
+				PRODUCT_NAME = "微特";
+				PROVISIONING_PROFILE = "4748F468-C69E-408C-BF98-727C5D523492";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "609E92F8-1EE2-498F-A956-44870B94013C";
+				SKIP_INSTALL = NO;
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};

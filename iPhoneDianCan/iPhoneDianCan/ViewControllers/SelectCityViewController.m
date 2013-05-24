@@ -43,9 +43,9 @@
             resultCities=[[NSMutableArray alloc] initWithArray:self.cities];
             [self.tableView reloadData];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            MessageView *mv=[[MessageView alloc] initWithMessageText:@"无法连接到服务器"];
+            MessageView *mv=[MessageView messageViewWithMessageText:@"无法连接到服务器"];
             [mv show];
-
+            
         }];
         
     }

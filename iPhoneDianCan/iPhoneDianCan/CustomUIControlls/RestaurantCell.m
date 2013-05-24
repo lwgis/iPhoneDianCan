@@ -77,13 +77,15 @@
         [[AFRestAPIClient sharedClient] postPath:pathStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSLog(@"%@",responseObject);
             self.favoriteBtn.userInteractionEnabled=YES;
-            MessageView *mv=[[MessageView alloc] initWithMessageText:@"已收藏"];
+            MessageView *mv=[MessageView messageViewWithMessageText:@"已收藏"];
             [mv showWithDuration:0.5];
+            
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"%@",error);
             self.favoriteBtn.userInteractionEnabled=YES;
-            MessageView *mv=[[MessageView alloc] initWithMessageText:@"无法连接到服务器"];
+            MessageView *mv=[MessageView messageViewWithMessageText:@"无法连接到服务器"];
             [mv show];
+            
         }];
     }
     else{
@@ -91,14 +93,15 @@
         [[AFRestAPIClient sharedClient] deletePath:pathStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSLog(@"%@",responseObject);
             self.favoriteBtn.userInteractionEnabled=YES;
-            MessageView *mv=[[MessageView alloc] initWithMessageText:@"已取消收藏"];
+            MessageView *mv=[MessageView messageViewWithMessageText:@"已取消收藏"];
             [mv showWithDuration:0.5];
+            
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"%@",error);
             self.favoriteBtn.userInteractionEnabled=YES;
-            MessageView *mv=[[MessageView alloc] initWithMessageText:@"无法连接到服务器"];
+            MessageView *mv=[MessageView messageViewWithMessageText:@"无法连接到服务器"];
             [mv show];
-
+            
         }];
 
     }

@@ -31,7 +31,6 @@
         self.navigationItem.backBarButtonItem = temporaryBarButtonItem;
         [temporaryBarButtonItem release];
         //初始化tableView
-        self.tableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-44)];
         self.tableView.separatorStyle=UITableViewCellSeparatorStyleNone;
         UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"recipeTableViewBg"]];
         self.tableView.backgroundView = bgImageView;
@@ -83,12 +82,13 @@
         [self.tableView reloadData];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [self.tableView reloadData];
-//        MessageView *mv=[[MessageView alloc] initWithMessageText:@"您还没有浏览过任何餐厅"];
+//        MessageView *mv=[MessageView messageViewWithMessageText:@"您还没有浏览过任何餐厅"];
 //        [mv show];
     }];
     if (allRestaurants.count==0) {
-        MessageView *mv=[[MessageView alloc] initWithMessageText:@"您还没有浏览过任何餐厅"];
+        MessageView *mv=[MessageView messageViewWithMessageText:@"您还没有浏览过任何餐厅"];
         [mv show];
+        
     }
 
 }

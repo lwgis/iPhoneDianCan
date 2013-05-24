@@ -283,6 +283,7 @@ static void AFSwizzleClassMethodWithClassAndSelectorUsingBlock(Class klass, SEL 
             if (success) {
                 dispatch_async(self.successCallbackQueue ?: dispatch_get_main_queue(), ^{
                     success(self, self.responseData);
+                    [UIApplication sharedApplication].networkActivityIndicatorVisible =NO;
                 });
             }
         }

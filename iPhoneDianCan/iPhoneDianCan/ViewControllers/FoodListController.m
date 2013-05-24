@@ -66,7 +66,7 @@
         [self.view addSubview:bgView];
         //初始化菜种类
         categoryTableViewController=[[CategoryTableViewController alloc] init];
-        categoreTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 30, 200, SCREENHEIGHT-TABBARHEIGHT-45)];
+        categoreTableView=[[UITableView alloc] initWithFrame:CGRectMake(0, 35, 200, SCREENHEIGHT-TABBARHEIGHT-45)];
         categoreTableView.separatorStyle=UITableViewCellSeparatorStyleNone;
         UIImageView *catagoreTableViewBgView=[[UIImageView alloc] initWithFrame:table.frame];
         [catagoreTableViewBgView setImage:[UIImage imageNamed:@"categoryTableViewBg"]];
@@ -103,7 +103,7 @@
         [rightItem release];
         //初始化搜索
         recipeSearchControllerViewController=[[RecipeSearchControllerViewController alloc] init];
-        searchBar=[[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, categoreTableView.frame.size.width-3, 30)];
+        searchBar=[[UISearchBar alloc] initWithFrame:CGRectMake(0, 5, categoreTableView.frame.size.width-3, 30)];
         searchBar.placeholder=@"输入菜名或简拼";
         recipeSearchControllerViewController.searchBar=self.searchBar;
 //        [self.view insertSubview:searchBar belowSubview:table];
@@ -257,6 +257,7 @@
                     [rightButton addTarget:self action:@selector(refreshOrder)forControlEvents:UIControlEventTouchUpInside];
                     UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
                     self.navigationItem.rightBarButtonItem= rightItem;
+                    [rightItem release];
                     UIButton*leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
                     [leftButton setFrame:CGRectMake(0, 0, 50, 30)];
                     [leftButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
@@ -265,6 +266,7 @@
                     [leftButton addTarget:self action:@selector(leftBarButtonTouch)forControlEvents:UIControlEventTouchUpInside];
                     UIBarButtonItem*leftButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
                     self.navigationItem.leftBarButtonItem=leftButtonItem;
+                    [leftButtonItem release];
                     self.title=[NSString stringWithFormat:@"%@-%@",self.title,order.desk.name];
                     [self.view addSubview: toolBarView];
                     [table setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-TABBARHEIGHT-44-44)];
@@ -278,15 +280,16 @@
             }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"错误: %@", error);
-            MessageView *mv=[[MessageView alloc] initWithMessageText:@"无法连接到服务器"];
+            MessageView *mv=[MessageView messageViewWithMessageText:@"无法连接到服务器"];
             [mv show];
+            
         }];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"错误: %@", error);
-        MessageView *mv=[[MessageView alloc] initWithMessageText:@"无法连接到服务器"];
+        MessageView *mv=[MessageView messageViewWithMessageText:@"无法连接到服务器"];
         [mv show];
-
+        
     }];
 
 }
@@ -464,16 +467,32 @@
                 [leftButton addTarget:self action:@selector(leftBarButtonTouch)forControlEvents:UIControlEventTouchUpInside];
                 UIBarButtonItem*leftButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
                 self.navigationItem.leftBarButtonItem=leftButtonItem;
+                [leftButtonItem release];
                 [self.view addSubview: toolBarView];
                 [table setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-TABBARHEIGHT-44-44)];
                 
             } failure:^{
-                MessageView *mv=[[MessageView alloc] initWithMessageText:@"开台码错误"];
+                MessageView *mv=[MessageView messageViewWithMessageText:@"开台码错误"];
                 [mv show];
+                
             }];
         }
         if ([alertView isKindOfClass:[MyAlertView class]]) {
             self.waiterBtn.enabled=NO;
+            NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
+            NSNumber *oidNum=[ud valueForKey:@"oid"];
+            NSNumber *ridNum=[ud valueForKey:@"rid"];
+            NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    @"呼叫", @"type",
+                                    nil];
+            NSString *pathStr=[NSString stringWithFormat:@"restaurants/%d/orders/%d/assistent",ridNum.integerValue,oidNum.integerValue];
+            [[AFRestAPIClient sharedClient] postPath:pathStr parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                NSLog(@"返回实体: %@", responseObject);
+                NSLog(@"返回头: %@", [operation.response allHeaderFields] );
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                NSLog(@"错误: %@", error);
+            }];
+
             [self performSelector:@selector(setWaiterBtnState) withObject:nil afterDelay:10];
         }
            }
@@ -510,6 +529,11 @@
     self.navigationItem.rightBarButtonItem.enabled=YES;
     }
 
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    if (!decelerate) {
+        self.navigationItem.rightBarButtonItem.enabled=YES;
+    }
+}
 
 
 -(void)dealloc{

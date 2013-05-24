@@ -78,6 +78,7 @@
     [Order rid:ridNum.integerValue Oid:oidNum.integerValue Order:^(Order *order) {
         NSString *message=[NSString stringWithFormat:@"您总共消费￥%.2f",order.priceDeposit];
         MyAlertView *myAlert=[[MyAlertView alloc] initWithTitle:@"结账确认" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"结账" ,nil];
+        myAlert.tag=0;
         [myAlert show];
         [myAlert release];
         [self.navigationItem.rightBarButtonItem setEnabled:YES];
@@ -102,6 +103,7 @@
             }
         }
         MyAlertView *myAlert=[[MyAlertView alloc] initWithTitle:@"下单确认" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"下单" ,nil];
+        myAlert.tag=1;
         [myAlert show];
         [myAlert release];
     } failure:^{
@@ -146,9 +148,9 @@
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"错误: %@", error);
-            MessageView *mv=[[MessageView alloc] initWithMessageText:@"无法连接到服务器"];
+            MessageView *mv=[MessageView messageViewWithMessageText:@"无法连接到服务器"];
             [mv show];
-
+            
         }];
         
     }
@@ -273,33 +275,50 @@
 #pragma mark - UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
     if (buttonIndex==1) {
-        [self.navigationItem.leftBarButtonItem setEnabled:NO];
-        NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
-        //        NSNumber *oidNum=[ud valueForKey:@"oid"];
-        //        NSNumber *ridNum=[ud valueForKey:@"rid"];
-        //        [Order CheckOrderWithRid:ridNum.integerValue Oid:oidNum.integerValue Order:^(Order *order) {
-        [ud removeObjectForKey:@"oid"];
-        [ud removeObjectForKey:@"rid"];
-        [ud synchronize];
-        self.title=@"";
-        AppDelegate *appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
-        UINavigationController *nav=(UINavigationController *)appDelegate.window.rootViewController;
-        [nav popToRootViewControllerAnimated:YES];
-        //        } failure:^{
-        //
-        //        }];
-    }
+        if (alertView.tag==0) {
+            [self.navigationItem.leftBarButtonItem setEnabled:NO];
+            NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
+           NSNumber *oidNum=[ud valueForKey:@"oid"];
+           NSNumber *ridNum=[ud valueForKey:@"rid"];
+           [Order CheckOrderWithRid:ridNum.integerValue Oid:oidNum.integerValue Order:^(Order *order) {
+            [ud removeObjectForKey:@"oid"];
+            [ud removeObjectForKey:@"rid"];
+            [ud synchronize];
+            self.title=@"";
+            AppDelegate *appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
+            UINavigationController *nav=(UINavigationController *)appDelegate.window.rootViewController;
+            [nav popToRootViewControllerAnimated:YES];
+           } failure:^{
+     
+           }];
+        }
+        if (alertView.tag==1) {
+            NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
+            NSNumber *oidNum=[ud valueForKey:@"oid"];
+            NSNumber *ridNum=[ud valueForKey:@"rid"];
+            [Order OrderWithRid:ridNum.integerValue Oid:oidNum.integerValue Order:^(Order *order) {
+                [self refreshOrder];
+            } failure:^{
+            }];
+        }
+          }
 }
 #pragma mark - UIScrollViewDelegate
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     self.navigationItem.rightBarButtonItem.enabled=NO;
 }
-
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     self.navigationItem.rightBarButtonItem.enabled=YES;
 
 }
-
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    if (!decelerate) {
+        self.navigationItem.rightBarButtonItem.enabled=YES;
+    }
+}
+-(void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(float)scale{
+    
+}
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

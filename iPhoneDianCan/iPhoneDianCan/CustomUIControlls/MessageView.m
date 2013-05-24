@@ -19,16 +19,15 @@
     }
     return self;
 }
--(id)initWithMessageText:(NSString *)message{
-    self = [super init];
-    if (self) {
++(id)messageViewWithMessageText:(NSString *)message{
+    MessageView *mv = [[[MessageView alloc] init] autorelease];
         UIView *bgView=[[UIView alloc] init];
         bgView.tag=1;
         bgView.backgroundColor=[UIColor blackColor];
         bgView.alpha=0.7;
         bgView.layer.cornerRadius = 5;
         bgView.layer.masksToBounds = YES;
-        [self addSubview:bgView];
+        [mv addSubview:bgView];
         UILabel *label=[[UILabel alloc] init];
         label.backgroundColor=[UIColor clearColor];
         label.textColor=[UIColor whiteColor];
@@ -44,16 +43,14 @@
         lbRect.origin.x=(bgRect.size.width-lbRect.size.width)/2;
         lbRect.origin.y=(bgRect.size.height-lbRect.size.height)/2;
         [label setFrame:lbRect];
-        [self addSubview:label];
+        [mv addSubview:label];
         [label release];
         [bgView release];
         bgRect.origin.x=(320-bgRect.size.width)/2;
         bgRect.origin.y=(SCREENHEIGHT-TABBARHEIGHT-bgRect.size.height)/2;
-        [self setFrame:bgRect];
-        self.alpha=0;
-    }
-    return self;
-
+        [mv setFrame:bgRect];
+        mv.alpha=0;
+    return mv;
 }
 -(void)show{
     AppDelegate *app=(AppDelegate *)[UIApplication sharedApplication].delegate;
@@ -65,7 +62,7 @@
             self.alpha=0;
         } completion:^(BOOL finished) {
             [self removeFromSuperview];
-            [self release];
+//            [self release];
         }];
     }];
 }
@@ -80,7 +77,7 @@
             self.alpha=0;
         } completion:^(BOOL finished) {
             [self removeFromSuperview];
-            [self release];
+//            [self release];
         }];
     }];
 }

@@ -225,7 +225,7 @@
     }
     NSString *imageUrlString=LARGEIMAGESERVERADDRESS;
     imageUrlString=[NSString stringWithFormat:@"%@%@",imageUrlString,_recipe.imageUrl];
-    UIImageView *zoomImageBgView=[[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 320, SCREENHEIGHT)];
+    UIImageView *zoomImageBgView=[[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 20.0f, 320, SCREENHEIGHT)];
     [zoomImageBgView setImage:[UIImage imageNamed:@"imageZoomBg"]];
     CGPoint point= tv.contentOffset;
     UIImageView *zoomImageView=[[UIImageView alloc] initWithFrame:CGRectMake(self.frame.origin.x-point.x+5,self.frame.origin.y-point.y+45+5, 70, 70)];
@@ -242,13 +242,19 @@
         [zoomImageView setFrame:CGRectMake(0.0f, (SCREENHEIGHT-320)/2.0f, 320.0f, 320.0f)];
     } completion:^(BOOL finished) {
     }];
+    UIActivityIndicatorView *av=[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    [av setFrame:CGRectMake(135, 0, 50, 50)];
+    [av startAnimating];
+    [zoomImageBgView addSubview:av];
     [appDelegate.window.rootViewController.view addSubview:zoomImageBgView];
     [zoomImageView release];
     [zoomImageBgView release];
-//    AFImageRequestOperation *ope=[AFImageRequestOperation imageRequestOperationWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrlString]] success:^(UIImage *image) {
-//        [zoomImageView setImage:image];
-//    }];
-//    [ope start];
+    AFImageRequestOperation *ope=[AFImageRequestOperation imageRequestOperationWithRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:imageUrlString]] success:^(UIImage *image) {
+        [av removeFromSuperview];
+        [av release];
+        [zoomImageView setImage:image];
+    }];
+    [ope start];
 }
 
 -(void)zoomClose:(UIButton *)sender{

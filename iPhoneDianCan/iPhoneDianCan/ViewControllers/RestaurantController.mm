@@ -58,7 +58,7 @@
                 coor.latitude=restaurant.y;
                 annotation.coordinate = coor;
                 annotation.title = restaurant.name;
-                annotation.subtitle=@"超级难吃";
+                annotation.subtitle=@"☆☆☆";
                 annotation.index=i;
                 [self.bmkMapView addAnnotation:annotation];
                 [annotation release];
@@ -87,8 +87,9 @@
                     }
                     [array release];
                     if (allRestaurants.count==0) {
-                        MessageView *mv=[[MessageView alloc] initWithMessageText:@"您还没有收藏的餐厅"];
+                        MessageView *mv=[MessageView messageViewWithMessageText:@"您还没有收藏的餐厅"];
                         [mv show];
+                        
                     }
                 }
                 [self.table reloadData];
@@ -97,8 +98,9 @@
             }];
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"错误: %@", error);
-            MessageView *mv=[[MessageView alloc] initWithMessageText:@"无法连接到服务器"];
+            MessageView *mv=[MessageView messageViewWithMessageText:@"无法连接到服务器"];
             [mv show];
+            
         }];
         
         if (showStyle==ShowNormal) {
@@ -322,8 +324,9 @@
         [self.restaurantResultController.searchResultsTableView reloadData];
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        MessageView *mv=[[MessageView alloc] initWithMessageText:@"无法连接到服务器"];
+        MessageView *mv=[MessageView messageViewWithMessageText:@"无法连接到服务器"];
         [mv show];
+        
     }];
 }
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{

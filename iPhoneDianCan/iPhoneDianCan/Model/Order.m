@@ -13,9 +13,9 @@
     NSString *path=[NSString stringWithFormat:@"restaurants/%d/orders/%d",rid,oid];
     [[AFRestAPIClient sharedClient] getPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"%@",responseObject);
-        Order *aOrder=[[Order alloc] initWithDictionary:responseObject];
+        Order *aOrder=[[[Order alloc] initWithDictionary:responseObject] autorelease];
         [self updataBadge:aOrder];
-        order([aOrder autorelease]);
+        order(aOrder);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"错误: %@", error);
         failure();
@@ -25,9 +25,9 @@
 +(void)rid:(NSInteger)rid Code:(NSInteger)code Order:(success)order failure:(failure)failure{
     NSString *path=[NSString stringWithFormat:@"restaurants/%d/orders/code/%d",rid,code];
     [[AFRestAPIClient sharedClient] postPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        Order *aOrder=[[Order alloc] initWithDictionary:responseObject];
+        Order *aOrder=[[[Order alloc] initWithDictionary:responseObject] autorelease];
         [self updataBadge:aOrder];
-        order([aOrder autorelease]);
+        order(aOrder);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"错误: %@", error);
         failure();
@@ -52,9 +52,9 @@
                             nil];
     [[AFRestAPIClient sharedClient] postPath:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"%@",responseObject);
-        Order *aOrder=[[Order alloc] initWithDictionary:responseObject];
+        Order *aOrder=[[[Order alloc] initWithDictionary:responseObject] autorelease];
         [self updataBadge:aOrder];
-        order([aOrder autorelease]);
+        order(aOrder);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"错误: %@", error);
         failure();
@@ -71,9 +71,9 @@
                             nil];
     [[AFRestAPIClient sharedClient] postPath:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"%@",responseObject);
-        Order *aOrder=[[Order alloc] initWithDictionary:responseObject];
+        Order *aOrder=[[[Order alloc] initWithDictionary:responseObject] autorelease];
         [self updataBadge:aOrder];
-        order([aOrder autorelease]);
+        order(aOrder);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"错误: %@", error);
         failure();
@@ -85,7 +85,7 @@
     NSString *path=[NSString stringWithFormat:@"restaurants/%d/orders/%d/tocheck",rid,oid];
     [[AFRestAPIClient sharedClient] putPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"%@",responseObject);
-        Order *aOrder=[[Order alloc] initWithDictionary:responseObject];
+        Order *aOrder=[[[Order alloc] initWithDictionary:responseObject] autorelease];
         order([aOrder autorelease]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"错误: %@", error);
@@ -97,8 +97,8 @@
     NSString *path=[NSString stringWithFormat:@"restaurants/%d/orders/%d/deposit",rid,oid];
     [[AFRestAPIClient sharedClient] putPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"%@",responseObject);
-        Order *aOrder=[[Order alloc] initWithDictionary:responseObject];
-        order([aOrder autorelease]);
+        Order *aOrder=[[[Order alloc] initWithDictionary:responseObject] autorelease];
+        order(aOrder);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"错误: %@", error);
         failure();

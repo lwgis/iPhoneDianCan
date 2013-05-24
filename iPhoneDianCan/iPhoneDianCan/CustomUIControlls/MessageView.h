@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MessageView : UIView
--(id)initWithMessageText:(NSString *)message;
++(id)messageViewWithMessageText:(NSString *)message;
 -(void)show;
 -(void)showWithDuration:(NSTimeInterval)duration;
 

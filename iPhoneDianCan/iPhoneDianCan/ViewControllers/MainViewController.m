@@ -246,8 +246,9 @@
     NSString *dataString=[NSString stringWithFormat:@"%@",symbol.data];
     NSArray *array = [dataString componentsSeparatedByString:@"_"];
     if (array.count==1) {
-        MessageView *mv=[[MessageView alloc] initWithMessageText:@"无效二维码"];
+        MessageView *mv=[MessageView messageViewWithMessageText:@"无效二维码"];
         [mv show];
+        
         return;
     }
     NSNumber *numRid=(NSNumber *)[array objectAtIndex:0];
@@ -267,13 +268,15 @@
             [self.navigationController pushViewController:foodListController animated:YES];
             [foodListController release];
         } failure:^{
-            MessageView *mv=[[MessageView alloc] initWithMessageText:@"无效二维码"];
+            MessageView *mv=[MessageView messageViewWithMessageText:@"无效二维码"];
             [mv show];
+            
 
         }];
     } failure:^{
-        MessageView *mv=[[MessageView alloc] initWithMessageText:@"无法连接到服务器"];
+        MessageView *mv=[MessageView messageViewWithMessageText:@"无法连接到服务器"];
         [mv show];
+        
     }];
 }
 -(void)btnHistory{
