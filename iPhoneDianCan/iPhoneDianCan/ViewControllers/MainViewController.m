@@ -87,7 +87,7 @@
         cityBtn.titleLabel.shadowOffset=CGSizeMake(0, 1.0);
         [cityBtn setTitle:@"北京" forState:UIControlStateNormal];
         [self.view addSubview:cityBtn];
-        self.title=@"淘吃客";
+        self.title=@"微特";
         // 下一个界面的返回按钮
         UIBarButtonItem *temporaryBarButtonItem = [[UIBarButtonItem alloc] init];
         temporaryBarButtonItem.title = @"返回";
