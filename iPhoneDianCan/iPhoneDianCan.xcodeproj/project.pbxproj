@@ -36,7 +36,6 @@
 		D039F9BE16F9E714004E3139 /* renren@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D039F9BB16F9E714004E3139 /* renren@2x.png */; };
 		D039F9C116F9FD61004E3139 /* LoginWithSnsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D039F9C016F9FD61004E3139 /* LoginWithSnsViewController.m */; };
 		D039F9C316FA3F6B004E3139 /* noHeadImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D039F9C216FA3F6B004E3139 /* noHeadImage@2x.png */; };
-		D03CAB4316F0E34C00AD7AEC /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D03CAB4216F0E34C00AD7AEC /* EGORefreshTableHeaderView.m */; };
 		D03CAB4616F0E99500AD7AEC /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = D03CAB4416F0E99500AD7AEC /* blueArrow.png */; };
 		D03CAB4716F0E99500AD7AEC /* blueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D03CAB4516F0E99500AD7AEC /* blueArrow@2x.png */; };
 		D040FA4B1694044B00B86C94 /* navButton.png in Resources */ = {isa = PBXBuildFile; fileRef = D040FA4A1694044B00B86C94 /* navButton.png */; };
@@ -181,8 +180,6 @@
 		D039F9BF16F9FD61004E3139 /* LoginWithSnsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginWithSnsViewController.h; path = ViewControllers/LoginWithSnsViewController.h; sourceTree = "<group>"; };
 		D039F9C016F9FD61004E3139 /* LoginWithSnsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginWithSnsViewController.m; path = ViewControllers/LoginWithSnsViewController.m; sourceTree = "<group>"; };
 		D039F9C216FA3F6B004E3139 /* noHeadImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "noHeadImage@2x.png"; path = "iPhoneDianCan/image/noHeadImage@2x.png"; sourceTree = "<group>"; };
-		D03CAB4116F0E34C00AD7AEC /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
-		D03CAB4216F0E34C00AD7AEC /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		D03CAB4416F0E99500AD7AEC /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blueArrow.png; path = iPhoneDianCan/image/blueArrow.png; sourceTree = "<group>"; };
 		D03CAB4516F0E99500AD7AEC /* blueArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "blueArrow@2x.png"; path = "iPhoneDianCan/image/blueArrow@2x.png"; sourceTree = "<group>"; };
 		D040FA4A1694044B00B86C94 /* navButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = navButton.png; path = iPhoneDianCan/image/navButton.png; sourceTree = "<group>"; };
@@ -431,16 +428,6 @@
 			name = AccountManage;
 			sourceTree = "<group>";
 		};
-		D03CAB4016F0E34C00AD7AEC /* RefreshTableHeaderView */ = {
-			isa = PBXGroup;
-			children = (
-				D03CAB4116F0E34C00AD7AEC /* EGORefreshTableHeaderView.h */,
-				D03CAB4216F0E34C00AD7AEC /* EGORefreshTableHeaderView.m */,
-			);
-			name = RefreshTableHeaderView;
-			path = CustomUIControlls/RefreshTableHeaderView;
-			sourceTree = "<group>";
-		};
 		D04FF2EA16F5FC4300C61F49 /* HistoryOrder */ = {
 			isa = PBXGroup;
 			children = (
@@ -585,7 +572,6 @@
 			children = (
 				D0818282171E4E1600BB66C1 /* MyNavigationBar.h */,
 				D0818283171E4E1600BB66C1 /* MyNavigationBar.m */,
-				D03CAB4016F0E34C00AD7AEC /* RefreshTableHeaderView */,
 				D003EED116A566E90082B35C /* UINavigationBar+Customized.h */,
 				D003EED216A566E90082B35C /* UINavigationBar+Customized.m */,
 				D003236A16AFC8C900F4DABB /* RecipeTableViewCell.h */,
@@ -993,7 +979,6 @@
 				D0A78A9216EDA027004123B9 /* RecipeSearchControllerViewController.m in Sources */,
 				D018C67216EF714F001EB2C9 /* MyBMKPointAnnotation.m in Sources */,
 				D01FDC9A16EF87DF00B14827 /* RestaurantResultController.m in Sources */,
-				D03CAB4316F0E34C00AD7AEC /* EGORefreshTableHeaderView.m in Sources */,
 				D04FF2E916F5EADE00C61F49 /* HistoryOrder.m in Sources */,
 				D04FF2ED16F5FCCD00C61F49 /* HistoryOrderControllerViewController.m in Sources */,
 				D00D1FFB16F77B64005F5046 /* AccountViewController.m in Sources */,
@@ -1030,7 +1015,7 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: FEI ZHAO (6Q629F22TZ)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1057,7 +1042,7 @@
 					"-w",
 				);
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "609E92F8-1EE2-498F-A956-44870B94013C";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = armv7;
 			};
@@ -1071,8 +1056,8 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: FEI ZHAO (6Q629F22TZ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_INPUT_FILETYPE = automatic;
@@ -1093,7 +1078,7 @@
 					"-w",
 				);
 				PROVISIONING_PROFILE = "";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "609E92F8-1EE2-498F-A956-44870B94013C";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = armv7;
@@ -1105,8 +1090,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: FEI ZHAO (6Q629F22TZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: FEI ZHAO (6Q629F22TZ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhoneDianCan/iPhoneDianCan-Prefix.pch";
 				INFOPLIST_FILE = "iPhoneDianCan/iPhoneDianCan-Info.plist";
@@ -1116,8 +1101,8 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "微特";
-				PROVISIONING_PROFILE = "4748F468-C69E-408C-BF98-727C5D523492";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "609E92F8-1EE2-498F-A956-44870B94013C";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SKIP_INSTALL = NO;
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
@@ -1129,8 +1114,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer: FEI ZHAO (6Q629F22TZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: FEI ZHAO (6Q629F22TZ)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhoneDianCan/iPhoneDianCan-Prefix.pch";
 				INFOPLIST_FILE = "iPhoneDianCan/iPhoneDianCan-Info.plist";
@@ -1140,8 +1125,8 @@
 					"$(inherited)",
 				);
 				PRODUCT_NAME = "微特";
-				PROVISIONING_PROFILE = "4748F468-C69E-408C-BF98-727C5D523492";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "609E92F8-1EE2-498F-A956-44870B94013C";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SKIP_INSTALL = NO;
 				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;

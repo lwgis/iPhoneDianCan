@@ -7,7 +7,6 @@
 //
 #import <UIKit/UIKit.h>
 #import "Order.h"
-#import "EGORefreshTableHeaderView.h"
 #import "BadgeButton.h"
 @interface OrderListController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIScrollViewDelegate>
 
