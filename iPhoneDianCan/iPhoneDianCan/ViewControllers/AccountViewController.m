@@ -11,12 +11,12 @@
 #import "MyAlertView.h"
 #import "RestaurantController.h"
 
-#define kSianWeibo @"https://open.weibo.cn/oauth2/authorize?client_id=1399451403&response_type=code&redirect_uri=http://taochike.sinaapp.com/rest/1/taochike/thirdlogin/weibo&display=mobile"
+#define kSianWeibo @"https://open.weibo.cn/oauth2/authorize?client_id=1399451403&response_type=code&redirect_uri=http://159.226.110.64:8080/chihuoapp/rest/thirdlogin/weibo&display=mobile"
 
-#define kQQ @"https://graph.qq.com/oauth2.0/authorize?client_id=100397130&response_type=code&state=121212&redirect_uri=http://taochike.sinaapp.com/rest/1/taochike/thirdlogin/qzone&display=mobile"
-#define kTencent @"https://open.t.qq.com/cgi-bin/oauth2/authorize?client_id=801329761&response_type=code&redirect_uri=http://taochike.sinaapp.com/rest/1/taochike/thirdlogin/tqq"
-#define kRenren @"https://graph.renren.com/oauth/authorize?client_id=fdd705c8e4ab47a2b9e979f0e3dcfe69&response_type=code&redirect_uri=http://taochike.sinaapp.com/rest/1/taochike/thirdlogin/renren&display=mobile"
-#define kDouban @"https://www.douban.com/service/auth2/auth?client_id=0c6305f3fefbe2f7252911dbfcf3a8e5&response_type=code&redirect_uri=http://taochike.sinaapp.com/rest/1/taochike/thirdlogin/douban"
+#define kQQ @"https://graph.qq.com/oauth2.0/authorize?client_id=100397130&response_type=code&state=121212&redirect_uri=http://159.226.110.64:8080/chihuoapp/rest/thirdlogin/qzone&display=mobile"
+#define kTencent @"https://open.t.qq.com/cgi-bin/oauth2/authorize?client_id=801329761&response_type=code&redirect_uri=http://159.226.110.64:8080/chihuoapp/rest/thirdlogin/tqq"
+#define kRenren @"https://graph.renren.com/oauth/authorize?client_id=fdd705c8e4ab47a2b9e979f0e3dcfe69&response_type=code&redirect_uri=http://159.226.110.64:8080/chihuoapp/rest/thirdlogin/renren&display=mobile"
+#define kDouban @"https://www.douban.com/service/auth2/auth?client_id=0c6305f3fefbe2f7252911dbfcf3a8e5&response_type=code&redirect_uri=http://159.226.110.64:8080/chihuoapp/rest/thirdlogin/douban"
 @interface AccountViewController ()
 
 @end

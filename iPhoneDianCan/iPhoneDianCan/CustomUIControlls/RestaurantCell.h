@@ -14,5 +14,6 @@
 @property(nonatomic)BOOL isFavorite;
 @property(nonatomic) BOOL isAllowRemoveCell;//是否允许UITableView将其移除
 @property(nonatomic,retain)NSIndexPath *indexPath;
+@property(nonatomic,retain)UIImageView *attendanceImageView;
 
 @end

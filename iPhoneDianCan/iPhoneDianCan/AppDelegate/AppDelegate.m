@@ -74,6 +74,41 @@
     else{
         [[AFRestAPIClient sharedClient] setDefaultHeader:@"X-device" value:udid];
     }
+    //设置默认城市
+    NSString *usCityName=[ud valueForKey:@"cityName"];
+    if (usCityName==nil) {
+        [ud setObject:@"北京" forKey:@"cityName"];
+        [ud setObject:@"1" forKey:@"cityId"];
+        [ud synchronize];
+    }
+    //检查新版本
+    
+//    [ud removeObjectForKey:@"isPrompt"];
+//    [ud synchronize];
+
+    
+    NSString *isPrompt=[ud valueForKey:@"isPrompt"];
+    if (![isPrompt isEqualToString:@"YES"]) {
+        
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+        CFShow(infoDictionary);
+    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleVersion"];
+    NSDictionary *VersionParams = [NSDictionary dictionaryWithObjectsAndKeys:
+                            @"1", @"type",
+                            app_Version, @"mark",
+                            nil];
+    [[AFRestAPIClient sharedClient] postPath:@"versions/client" parameters:VersionParams success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSDictionary *dn=(NSDictionary *)responseObject;
+        NSString *appMark=[dn objectForKey:@"mark"];
+        if (appMark!=nil) {
+            [ud setValue:@"YES" forKey:@"appUpdate"];
+            [ud synchronize];
+
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"错误: %@", error);
+    }];
+    }
         return YES;
 }
 

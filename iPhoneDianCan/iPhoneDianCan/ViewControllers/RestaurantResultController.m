@@ -8,6 +8,7 @@
 
 #import "RestaurantResultController.h"
 #import "Restaurant.h"
+#import "RestaurantCell.h"
 @implementation RestaurantResultController
 @synthesize resultRestaurants;
 -(id)initWithSearchBar:(UISearchBar *)searchBar contentsController:(UIViewController *)viewController{
@@ -35,14 +36,13 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSUInteger row = [indexPath row];
     static NSString *SectionsTableIdentifier = @"SectionsTableIdentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:
+    RestaurantCell *cell = [tableView dequeueReusableCellWithIdentifier:
 							 SectionsTableIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc]
-				 initWithStyle:UITableViewCellStyleDefault
+        cell = [[[RestaurantCell alloc]
+				 initWithStyle:UITableViewCellStyleSubtitle
 				 reuseIdentifier:SectionsTableIdentifier] autorelease];
         cell.backgroundColor=[UIColor grayColor];
-        [cell.imageView setImage:[UIImage imageNamed:@"dcs.jpg"]];
         UIImageView *bgImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"restaurantTableCellBg"]];
         cell.backgroundView = bgImageView;
         [bgImageView release];
@@ -52,8 +52,8 @@
         cell.textLabel.backgroundColor=[UIColor clearColor];
     }
     Restaurant *restaurant=[self.resultRestaurants objectAtIndex:row];
-    cell.textLabel.text = restaurant.name;
-    cell.detailTextLabel.text=restaurant.description;
+    cell.restaurant=restaurant;
+    cell.indexPath=indexPath;
      return cell;
 }
 

@@ -36,7 +36,7 @@
     self.title=@"载入中...";
     NSString *urlString=request.URL.absoluteString;
     NSLog(@"shouldStartLoadWithRequest=%@",urlString);
-    NSArray *array = [urlString componentsSeparatedByString:@"http://taochike.sinaapp.com/rest/1/taochike/thirdlogin/callback?"];
+    NSArray *array = [urlString componentsSeparatedByString:@"http://159.226.110.64:8080/chihuoapp/rest/thirdlogin/callback?"];
     if (array.count>1) {
         NSString *str=[array objectAtIndex:1];
         array=[str componentsSeparatedByString:@"&"];

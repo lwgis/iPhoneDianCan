@@ -10,9 +10,10 @@
 #import "Desk.h"
 #import "Restaurant.h"
 #import "OrderItem.h"
+#import "AFHTTPRequestOperation.h"
 @interface Order : NSObject
 typedef void (^success) (Order *order);
-typedef void(^failure)();
+typedef void(^failure)(AFHTTPRequestOperation *operation, NSError *error);
 @property NSInteger oid;
 @property(nonatomic,retain)Desk *desk;
 @property NSInteger number;

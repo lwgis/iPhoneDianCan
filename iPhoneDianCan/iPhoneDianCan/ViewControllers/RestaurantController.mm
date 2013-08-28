@@ -13,12 +13,15 @@
 #import "RestaurantCell.h"
 #import "UIImageView+AFNetworking.h"
 #import "MessageView.h"
-@implementation RestaurantController
+@implementation RestaurantController{
+    NSMutableArray *allAnnotationViews ;
+}
 @synthesize table,allRestaurants,bmkMapView,restaurantResultController,search;
 
 -(id)initWithShowStyle:(ShowStyle)showStyle{
     self=[super init];
     if (self) {
+        allAnnotationViews=[[NSMutableArray alloc] init];
         self.showStyle=showStyle;
         [self.view setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-49-45)];
         self.view.backgroundColor=[UIColor grayColor];
@@ -43,9 +46,12 @@
         [searchBar sizeToFit];
         searchBar.delegate=self;
         self.table.tableHeaderView=searchBar;
+        [searchBar release];
         restaurantResultController =[[RestaurantResultController alloc] initWithSearchBar:searchBar contentsController:self];
         //初始化餐厅列表
-        [[AFRestAPIClient sharedClient] getPath:@"restaurants?city=1" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
+        NSString *cityId=[ud valueForKey:@"cityId"];
+        [[AFRestAPIClient sharedClient] getPath:[NSString stringWithFormat:@"restaurants?city=%@",cityId] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             NSArray *list = (NSArray*)responseObject;
             NSInteger i=0;
             for (NSDictionary *dic in list) {
@@ -145,7 +151,6 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
     if (bmkMapView.delegate!=self) {
         [self.bmkMapView setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-TABBARHEIGHT-44)];
        self.bmkMapView.delegate=self;
@@ -155,6 +160,7 @@
     if (self.isSeachAll) {
         self.navigationItem.rightBarButtonItem= nil;
     }
+    [super viewWillAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning{
@@ -209,7 +215,6 @@
     NSUserDefaults *us=[NSUserDefaults standardUserDefaults];
     NSMutableDictionary *dictionary=[us valueForKey:@"recentBrowse"];
     NSMutableDictionary *recentBrowse=[[NSMutableDictionary alloc] initWithDictionary:dictionary];
-    NSLog(@"%@",recentBrowse);
     if (recentBrowse!=nil) {
         for (NSString *key in recentBrowse.allKeys) {
             NSDictionary *dic=[recentBrowse objectForKey:key];
@@ -271,7 +276,13 @@
 //添加标注
 - (BMKAnnotationView *)mapView:(BMKMapView *)mapView viewForAnnotation:(id <BMKAnnotation>)annotation{
     if ([annotation isKindOfClass:[BMKPointAnnotation class]]) {
-        BMKPinAnnotationView *newAnnotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"myAnnotation"];
+//       BMKPinAnnotationView  *newAnnotationView =(BMKPinAnnotationView *)[bmkMapView dequeueReusableAnnotationViewWithIdentifier:@"myAnnotation"];
+//        if (newAnnotationView==nil) {
+          BMKPinAnnotationView *newAnnotationView=[[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"myAnnotation"];
+            [allAnnotationViews addObject:newAnnotationView];
+            [newAnnotationView release];
+            newAnnotationView =[allAnnotationViews objectAtIndex:allAnnotationViews.count-1];
+//        }
         newAnnotationView.pinColor=BMKPinAnnotationColorRed;
         newAnnotationView.animatesDrop=YES;
         UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
@@ -284,10 +295,10 @@
         Restaurant *restaurant=[self.allRestaurants objectAtIndex:myBMKPointAnnotation.index];
         imageUrlString=[NSString stringWithFormat:@"%@%@",imageUrlString,restaurant.imageUrl];
         [headImage setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"imageWaiting"]];
-        [headImage setFrame:CGRectMake(0, 0, 30, 30)];
+        [headImage setFrame:CGRectMake(0, 0, 30, 30)]; 
         newAnnotationView.leftCalloutAccessoryView = headImage;
         [headImage release];
-        return [newAnnotationView autorelease];
+        return newAnnotationView;
     }
     return nil;
 }
@@ -303,7 +314,6 @@
             [self.restaurantResultController.resultRestaurants addObject:aRestaurant];
         }
     }
-    [self.restaurantResultController.searchResultsTableView reloadData];
 }
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     if (!self.isSeachAll) {
@@ -355,7 +365,14 @@
 }
 
 -(void)dealloc{
-    [bmkMapView release];
+    NSMutableArray *annotationMArray = [NSArray arrayWithArray:bmkMapView.annotations];
+    if (annotationMArray.count>0) {
+        [bmkMapView removeAnnotations:annotationMArray];
+    }
+    for (BMKPinAnnotationView *paView in allAnnotationViews) {
+        [paView release];
+    }
+    [allAnnotationViews release];
     [allRestaurants release];
     [table release];
     [restaurantResultController release];

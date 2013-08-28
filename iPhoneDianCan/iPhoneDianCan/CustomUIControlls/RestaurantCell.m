@@ -12,7 +12,7 @@
 #import "RestaurantController.h"
 #import "MessageView.h"
 @implementation RestaurantCell
-@synthesize indexPath;
+@synthesize indexPath,attendanceImageView,favoriteBtn;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -28,6 +28,8 @@
             [self addSubview:self.favoriteBtn];
         }
         self.isFavorite=NO;
+        attendanceImageView=[[UIImageView alloc] init];
+        [self addSubview:attendanceImageView];
     }
     return self;
 }
@@ -38,9 +40,19 @@
     imageUrlString=[NSString stringWithFormat:@"%@%@",imageUrlString,restaurant.imageUrl];
     [self.imageView setImageWithURL:[NSURL URLWithString:imageUrlString] placeholderImage:[UIImage imageNamed:@"imageWaiting"]];
     self.textLabel.text = restaurant.name;
-    self.detailTextLabel.text=restaurant.description;
+    self.detailTextLabel.text=restaurant.address;
     [self setFavoriteBtnHighLight:restaurant.isFavorite];
     self.isFavorite=restaurant.isFavorite;
+    NSString *attendanceImageString=@"attendanceFree";
+    switch (restaurant.attendance) {
+        case 1:attendanceImageString=@"attendanceNormal";
+            break;
+        case 2:attendanceImageString=@"attendanceBusy";
+            break;
+        default:;
+            break;
+    }
+    [self.attendanceImageView setImage:[UIImage imageNamed:attendanceImageString]];
 }
 
 -(void)setFavoriteBtnHighLight:(BOOL)hightLight{
@@ -120,12 +132,15 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
     [self.imageView setFrame:CGRectMake(5, 5, 70, 70)];
-    self.textLabel.frame = CGRectMake(80.0f, 10.0f, 150.0f, 20.0f);
+    [self.attendanceImageView setFrame:CGRectMake(80, 10, 20, 20)];
+    self.textLabel.frame = CGRectMake(100.0f, 10.0f, 150.0f, 20.0f);
     self.detailTextLabel.frame = CGRectMake(80.0f, 40.0f, 240.0f, 40.0f);
     [self.favoriteBtn setFrame:CGRectMake(270, 20, 35, 35)];
 }
 
 -(void)dealloc{
+    [attendanceImageView release];
+    [favoriteBtn release];
     [super dealloc];
 }
 @end

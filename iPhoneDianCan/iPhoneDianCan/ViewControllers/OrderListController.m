@@ -82,7 +82,7 @@
         [myAlert show];
         [myAlert release];
         [self.navigationItem.rightBarButtonItem setEnabled:YES];
-    } failure:^{
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error){
         [self.navigationItem.rightBarButtonItem setEnabled:YES];
     }];
 }
@@ -106,7 +106,7 @@
         myAlert.tag=1;
         [myAlert show];
         [myAlert release];
-    } failure:^{
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error){
         
     }];
 }
@@ -139,11 +139,20 @@
                 [category release];
             }
             [Order rid:ridNum.integerValue Oid:oidNum.integerValue Order:^(Order *order) {
+                if (order.status>2) {
+                    MessageView *mv=[MessageView messageViewWithMessageText:@"该订单已经申请结账了！"];
+                    [mv show];
+                    NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
+                    [ud removeObjectForKey:@"oid"];
+                    [ud synchronize];
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
                 [self synchronizeOrder:order];
                 self.table.userInteractionEnabled=YES;
                 self.table.scrollEnabled=YES;
 
-            } failure:^{
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error){
+       
             }];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -288,8 +297,10 @@
             AppDelegate *appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
             UINavigationController *nav=(UINavigationController *)appDelegate.window.rootViewController;
             [nav popToRootViewControllerAnimated:YES];
-           } failure:^{
-     
+           } failure:^(AFHTTPRequestOperation *operation, NSError *error){
+               AppDelegate *appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
+               UINavigationController *nav=(UINavigationController *)appDelegate.window.rootViewController;
+               [nav popToRootViewControllerAnimated:YES];
            }];
         }
         if (alertView.tag==1) {
@@ -298,7 +309,7 @@
             NSNumber *ridNum=[ud valueForKey:@"rid"];
             [Order OrderWithRid:ridNum.integerValue Oid:oidNum.integerValue Order:^(Order *order) {
                 [self refreshOrder];
-            } failure:^{
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error){
             }];
         }
           }
@@ -329,6 +340,9 @@
     [tilteLabel release];
     [rightItem release];
     [toolBarView release];
+    [currentOrder release];
+    [allCategores release];
+    [orderBtn release];
     [super dealloc];
 }
 @end

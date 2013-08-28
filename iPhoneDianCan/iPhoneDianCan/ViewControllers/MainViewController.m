@@ -18,13 +18,12 @@
 #import "HistoryOrder.h"
 #import "HistoryOrderControllerViewController.h"
 #import <QuartzCore/QuartzCore.h>
-#import "AccountViewController.h"
+#import "LoginWithMailViewController.h"
 #import "RecentBrowseViewController.h"
-#import "MyAlertView.h"
 #import "SelectCityViewController.h"
 #import "MessageView.h"
 @implementation MainViewController
-@synthesize bmkMapView,cityBtn,cityId,cityName,search;
+@synthesize bmkMapView,cityBtn,cityId,cityName,search,cityAlertView,appUpdateAlertView;
 
 -(id)init{
     self=[super init];
@@ -127,6 +126,16 @@
         [cityBtn setTitle:usCityName forState:UIControlStateNormal];
     }
 }
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
+    NSString *appUpdate=[ud valueForKey:@"appUpdate"];
+    NSString *isPrompt=[ud valueForKey:@"isPrompt"];
+    if (![isPrompt isEqualToString:@"YES"]&&[appUpdate isEqualToString:@"YES"]) {
+        appUpdateAlertView=[[MyAlertView alloc] initWithTitle:@"提示" message:@"亲，有新的版本可以更新咯！" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"更新" ,nil];
+        [appUpdateAlertView show];
+    }
+}
 -(void)selectCity{
     SelectCityViewController *svc=[[SelectCityViewController alloc] init];
     UINavigationController *nav = [[[UINavigationController alloc] initWithRootViewController:svc] autorelease];
@@ -166,9 +175,8 @@
                 NSRange range=[result.addressComponent.city rangeOfString:cityName];
                 if (range.location!=NSNotFound&&![usCityName isEqualToString:cityName]) {
                     NSString *message=[NSString stringWithFormat:@"您现在在%@，是否切换到所在城市",result.addressComponent.city];
-                    MyAlertView *myAlert=[[MyAlertView alloc] initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"切换" ,nil];
-                    [myAlert show];
-                    [myAlert release];
+                    cityAlertView=[[MyAlertView alloc] initWithTitle:@"提示" message:message delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"切换" ,nil];
+                    [cityAlertView show];
                     break;
                 }
             }
@@ -181,13 +189,23 @@
 }
 
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    if (buttonIndex==1) {
-        [self.cityBtn setTitle:cityName forState:UIControlStateNormal];
-        NSUserDefaults *us=[NSUserDefaults standardUserDefaults];
-        [us setObject:cityName forKey:@"cityName"];
-        [us setObject:cityId forKey:@"cityId"];
-        [us synchronize];
+    NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
+    if (alertView==self.cityAlertView) {
+        if (buttonIndex==1) {
+            [self.cityBtn setTitle:cityName forState:UIControlStateNormal];
+            [ud setObject:cityName forKey:@"cityName"];
+            [ud setObject:cityId forKey:@"cityId"];
+            [ud synchronize];
+        }
     }
+    if (alertView==self.appUpdateAlertView) {
+        if (buttonIndex==1) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://itunes.apple.com/cn/app/wei-te/id653334770?ls=1&mt=8"]];
+        }
+    [ud setValue:@"YES" forKey:@"isPrompt"];
+    [ud synchronize];
+    }
+
 }
 
 
@@ -228,9 +246,9 @@
     self.isbackWithNavAnimaton=NO;
 }
 -(void)btnAccount{
-    AccountViewController *acViewCon=[[AccountViewController alloc] init];
-    [self.navigationController pushViewController:acViewCon animated:YES];
-    [acViewCon release];
+    LoginWithMailViewController *loginView=[[LoginWithMailViewController alloc] init];
+    [self.navigationController pushViewController:loginView animated:YES];
+    [loginView release];
     self.isbackWithNavAnimaton=YES;
 }
 - (void) imagePickerController: (UIImagePickerController*) reader
@@ -273,7 +291,7 @@
             
 
         }];
-    } failure:^{
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error){
         MessageView *mv=[MessageView messageViewWithMessageText:@"无法连接到服务器"];
         [mv show];
         
@@ -304,6 +322,8 @@
     [cityName release];
     [cityId release];
     [search release];
+    [cityAlertView release];
+    [appUpdateAlertView release];
     [super dealloc];
 }
 

@@ -7,30 +7,33 @@
 //
 #import "Order.h"
 #import "AFRestAPIClient.h"
+#import "AFHTTPRequestOperation.h"
+
 @implementation Order
 @synthesize oid,desk,number,starttime,code,status,priceAll,priceConfirm,priceDeposit,restaurant,orderItems;
 +(void)rid:(NSInteger)rid Oid:(NSInteger)oid Order:(success)order failure:(failure)failure{
     NSString *path=[NSString stringWithFormat:@"restaurants/%d/orders/%d",rid,oid];
     [[AFRestAPIClient sharedClient] getPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@",responseObject);
         Order *aOrder=[[[Order alloc] initWithDictionary:responseObject] autorelease];
         [self updataBadge:aOrder];
         order(aOrder);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"错误: %@", error);
-        failure();
+        failure(operation,error);
     }];
 }
 
 +(void)rid:(NSInteger)rid Code:(NSInteger)code Order:(success)order failure:(failure)failure{
     NSString *path=[NSString stringWithFormat:@"restaurants/%d/orders/code/%d",rid,code];
     [[AFRestAPIClient sharedClient] postPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"responseObject======%@",responseObject);
+
         Order *aOrder=[[[Order alloc] initWithDictionary:responseObject] autorelease];
         [self updataBadge:aOrder];
         order(aOrder);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"错误: %@", error);
-        failure();
+        failure(operation,error);
     }];
 }
 
@@ -56,8 +59,8 @@
         [self updataBadge:aOrder];
         order(aOrder);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"错误: %@", error);
-        failure();
+        NSLog(@"错误: %@", operation.responseString);
+        failure(operation,error);
     }];
 
 }
@@ -76,7 +79,7 @@
         order(aOrder);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"错误: %@", error);
-        failure();
+        failure(operation,error);
     }];
     
 }
@@ -86,10 +89,10 @@
     [[AFRestAPIClient sharedClient] putPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"%@",responseObject);
         Order *aOrder=[[[Order alloc] initWithDictionary:responseObject] autorelease];
-        order([aOrder autorelease]);
+        order(aOrder);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"错误: %@", error);
-        failure();
+        failure(operation,error);
     }];
 }
 
@@ -101,7 +104,7 @@
         order(aOrder);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"错误: %@", error);
-        failure();
+        failure(operation,error);
     }];
 }
 

@@ -13,9 +13,10 @@
 @property(nonatomic,retain)UITableView *table;
 @property(nonatomic,retain)Order *currentOrder;
 @property(nonatomic,retain)NSMutableArray *allCategores;//所有已点种类
-@property(nonatomic)BOOL isUpdating;
 @property(nonatomic,retain)UIBarButtonItem *rightItem;
 @property(nonatomic,retain)UILabel *tilteLabel;
 @property(nonatomic,retain)UIToolbar *toolBarView;
 @property(nonatomic,retain)BadgeButton *orderBtn ;
+@property(nonatomic)BOOL isUpdating;
+
 @end

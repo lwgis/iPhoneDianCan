@@ -43,5 +43,10 @@ return self;
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void)dealloc{
+    for (UIView *aView in self.view.subviews) {
+        [aView removeFromSuperview];
+    }
+    [super dealloc];
+}
 @end

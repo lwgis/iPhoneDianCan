@@ -33,7 +33,7 @@
 }
 -(void)setHistoryOrder:(HistoryOrder *)historyOrder{
     _historyOrder=historyOrder;
-    [Order OrderWithRid:_historyOrder.rid Oid:_historyOrder.oid Order:^(Order *order) {
+    [Order rid:_historyOrder.rid Oid:_historyOrder.oid Order:^(Order *order) {
         for (OrderItem *oItem in order.orderItems) {
             if (oItem.countDeposit!=0) {
                 [allOrderItems addObject:oItem];
@@ -42,7 +42,7 @@
      self.title=[NSString stringWithFormat:@"%@(￥%.2f)",historyOrder.restaurantName,order.priceDeposit];
      [self.tableView reloadData];
     
-    } failure:^{
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error){
         
     }];
 }

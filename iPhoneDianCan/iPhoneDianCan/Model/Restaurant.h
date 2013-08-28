@@ -24,6 +24,7 @@ typedef void(^restaurantFailure)();
 @property(nonatomic,retain)NSDictionary *restaurantDictionary;
 @property (nonatomic,retain)NSString *imageUrl;
 @property(nonatomic)BOOL isFavorite;
+@property NSInteger attendance;//餐厅人数状态（0=少，1=较多，2=满）
 //方法
 -(id)initWithID:(NSInteger)aRid name:(NSString *)aName address:(NSString *)anAddress telephone:(NSString *)aTelephone  RestaurantUser:(RestaurantUser *)aRestaurantUser x:(double)aX y:(double)aY;
 -(id)initWithDictionary:(NSDictionary *)dictionary;

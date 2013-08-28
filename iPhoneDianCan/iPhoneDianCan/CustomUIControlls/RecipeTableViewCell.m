@@ -14,6 +14,7 @@
 #import "Category.h"
 #import <QuartzCore/QuartzCore.h>
 #import "FoodListController.h"
+#import "MessageView.h"
 @implementation RecipeTableViewCell
 @synthesize recipe = _recipe,zoomButton,addRecipeBtn,removeRecipeBtn,countLabel,firstBadgeLabel,secondBadgeLabel,recipeCount=_recipeCount,indexPath,isAllowRemoveCell;
 -(id)init{
@@ -119,48 +120,15 @@
     [self setNeedsLayout];
 }
 
--(void)addRecipe{
-    NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
-    NSNumber *numRid=[ud valueForKey:@"rid"];
-    NSNumber *numOid=[ud valueForKey:@"oid"];
-    if (numOid==nil) {
-        return;
-    }
-    Recipe *aRecipe=self.recipe;
-    aRecipe.countNew++;
-    self.recipe=aRecipe;
-//    self.recipeCount++;
-//    self.recipe.orderedCount++;
-    [Order addRicpeWithRid:numRid.integerValue RecipeId:self.recipe.rid Oid:numOid.integerValue Order:^(Order *order) {
-        UITableView *tv=(UITableView *)self.superview;
-        OrderListController *olCon=(OrderListController *)tv.delegate;
-//        [flCon synchronizeOrder:order];
-        if (isAllowRemoveCell) {
-            NSInteger newCount=0;
-            for (OrderItem *oItem in order.orderItems) {
-                newCount+=oItem.countNew;
-            }
-            if (newCount>0) {
-                olCon.title=[NSString stringWithFormat:@"总价:￥%.2f\n%d份未下单",order.priceAll,newCount];
-                olCon.orderBtn.enabled=YES;
-                [olCon.orderBtn setBadgeValue:newCount];
-            }
-            else{
-                olCon.title=[NSString stringWithFormat:@"总价:￥%.2f",order.priceAll];
-                olCon.orderBtn.enabled=NO;
-                [olCon.orderBtn setBadgeValue:0];
-            }
-        }
-    } failure:^{
-    }];
+- (void)addAnimation {
     UIImageView *animationImageView=[[UIImageView alloc] initWithImage:self.imageView.image];
     UITableView *tv=(UITableView *)self.superview;
     CGPoint point= tv.contentOffset;
     [animationImageView setFrame:CGRectMake(self.frame.origin.x-point.x+5,self.frame.origin.y-point.y+45+5, 25, 25)];
     animationImageView.tag=100;
     [tv.superview addSubview:animationImageView];
-
-
+    
+    
     CGMutablePathRef thePath =  CGPathCreateMutable();
     CGPathMoveToPoint(thePath, NULL, animationImageView.frame.origin.x, animationImageView.frame.origin.y);
     CGPathAddLineToPoint(thePath, NULL, animationImageView.frame.origin.x+102, animationImageView.frame.origin.y-60);
@@ -182,21 +150,19 @@
     [animationImageView release];
 }
 
--(void)removeRecipe{
-//    self.recipeCount--;
-    Recipe *aRecipe=self.recipe;
-    aRecipe.countNew--;
-    self.recipe=aRecipe;
-    if (self.recipe.countNew<0) {
-        self.recipe.countNew=0;
-    }
+-(void)addRecipe{
     NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
     NSNumber *numRid=[ud valueForKey:@"rid"];
     NSNumber *numOid=[ud valueForKey:@"oid"];
-    [Order removeRicpeWithRid:numRid.integerValue RecipeId:self.recipe.rid Oid:numOid.integerValue Order:^(Order *order) {
+    if (numOid==nil) {
+        return;
+    }
+    [Order addRicpeWithRid:numRid.integerValue RecipeId:self.recipe.rid Oid:numOid.integerValue Order:^(Order *order) {
+        Recipe *aRecipe=self.recipe;
+        aRecipe.countNew++;
+        self.recipe=aRecipe;
         UITableView *tv=(UITableView *)self.superview;
         OrderListController *olCon=(OrderListController *)tv.delegate;
-//        [flCon synchronizeOrder:order];
         if (isAllowRemoveCell) {
             NSInteger newCount=0;
             for (OrderItem *oItem in order.orderItems) {
@@ -213,7 +179,67 @@
                 [olCon.orderBtn setBadgeValue:0];
             }
         }
-    } failure:^{
+        [self addAnimation];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error){
+        if (operation.responseString) {
+            MessageView *mv=[MessageView messageViewWithMessageText:operation.responseString];
+            [mv show];
+            NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
+            [ud removeObjectForKey:@"oid"];
+            [ud removeObjectForKey:@"rid"];
+            [ud synchronize];
+            AppDelegate *appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
+            UINavigationController *nav=(UINavigationController *)appDelegate.window.rootViewController;
+            [nav popToRootViewControllerAnimated:YES];
+        }
+
+    }];
+
+}
+
+-(void)removeRecipe{
+//    self.recipeCount--;
+    Recipe *aRecipe=self.recipe;
+    aRecipe.countNew--;
+    self.recipe=aRecipe;
+    if (self.recipe.countNew<0) {
+        self.recipe.countNew=0;
+    }
+    NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
+    NSNumber *numRid=[ud valueForKey:@"rid"];
+    NSNumber *numOid=[ud valueForKey:@"oid"];
+    [Order removeRicpeWithRid:numRid.integerValue RecipeId:self.recipe.rid Oid:numOid.integerValue Order:^(Order *order) {
+        UITableView *tv=(UITableView *)self.superview;
+        OrderListController *olCon=(OrderListController *)tv.delegate;
+        if (isAllowRemoveCell) {
+            NSInteger newCount=0;
+            for (OrderItem *oItem in order.orderItems) {
+                newCount+=oItem.countNew;
+            }
+            if (newCount>0) {
+                olCon.title=[NSString stringWithFormat:@"总价:￥%.2f\n%d份未下单",order.priceAll,newCount];
+                olCon.orderBtn.enabled=YES;
+                [olCon.orderBtn setBadgeValue:newCount];
+            }
+            else{
+                olCon.title=[NSString stringWithFormat:@"总价:￥%.2f",order.priceAll];
+                olCon.orderBtn.enabled=NO;
+                [olCon.orderBtn setBadgeValue:0];
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error){
+        if (operation.responseString) {
+            MessageView *mv=[MessageView messageViewWithMessageText:operation.responseString];
+            [mv show];
+            NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
+            [ud removeObjectForKey:@"oid"];
+            [ud removeObjectForKey:@"rid"];
+            [ud synchronize];
+            AppDelegate *appDelegate=(AppDelegate*)[[UIApplication sharedApplication] delegate];
+            UINavigationController *nav=(UINavigationController *)appDelegate.window.rootViewController;
+            [nav popToRootViewControllerAnimated:YES];
+        }
+
     }];
 
 }

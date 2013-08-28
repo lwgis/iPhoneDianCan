@@ -18,7 +18,7 @@ typedef enum{
 @interface RestaurantController : UIViewController<UITableViewDataSource,UITableViewDelegate,BMKMapViewDelegate,UISearchBarDelegate,UISearchDisplayDelegate,BMKSearchDelegate>{
     bool isShowMapView;//是否显示地图
 }
-@property(nonatomic,retain)BMKMapView *bmkMapView;
+@property(nonatomic,assign)BMKMapView *bmkMapView;
 @property(nonatomic,retain)UITableView *table;
 @property(nonatomic,retain)NSMutableArray *allRestaurants;
 @property(nonatomic,retain)RestaurantResultController *restaurantResultController;

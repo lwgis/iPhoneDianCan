@@ -22,7 +22,9 @@
 #import "OrderListController.h"
 #import "AppDelegate.h"
 #import "MyAlertView.h"
-@interface FoodListController ()
+@interface FoodListController (){
+    NSString *restaurantName;
+}
 
 @end
 
@@ -60,7 +62,8 @@
     self=[super init];
     if (self) {
         self.rid=restaurant.rid;
-        self.title=restaurant.name;
+        restaurantName=restaurant.name;
+        self.title=restaurantName;
         [self.view setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-TABBARHEIGHT-44)];
         UIView *bgView=[[UIView alloc] initWithFrame:self.view.frame];
         [self.view addSubview:bgView];
@@ -209,6 +212,17 @@
 
 -(void)viewDidLoad{
     [super viewDidLoad];
+
+}
+
+
+-(void)viewWillAppear:(BOOL)animated{
+//    NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
+//    NSNumber *oidNum=[ud valueForKey:@"oid"];
+//    if (oidNum!=nil) {
+//        [self.navigationItem setHidesBackButton:YES];
+//    }
+//    [self refreshOrder];
     NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
     NSString *pathCategory=[NSString stringWithFormat:@"restaurants/%d/categories",self.rid];
     NSString *pathRepice=[NSString stringWithFormat:@"restaurants/%d/recipes",self.rid];
@@ -218,6 +232,7 @@
     [[AFRestAPIClient sharedClient] getPath:pathCategory parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"返回头: %@", [operation.response allHeaderFields]);
         NSArray *list = (NSArray*)responseObject;
+        [allCategores removeAllObjects];
         for (int i=0; i<list.count;i++) {
             NSDictionary *dn=[list objectAtIndex:i];
             Category *category=[[Category alloc] initWithDictionary:dn];
@@ -233,7 +248,6 @@
         recipeSearchControllerViewController.locationToCellDelegate=self;
         //请求所有菜
         [[AFRestAPIClient sharedClient] getPath:pathRepice parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            
             NSArray *list = (NSArray*)responseObject;
             for (int i=0; i<list.count;i++) {
                 NSDictionary *dn=[list objectAtIndex:i];
@@ -249,34 +263,64 @@
             NSNumber *oidNum=[ud valueForKey:@"oid"];
             if (oidNum!=nil) {
                 [Order rid:self.rid Oid:oidNum.integerValue Order:^(Order *order) {
-                    [self.navigationItem setHidesBackButton:YES];
-                    [self synchronizeOrder:order];
-                    UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                    [rightButton setFrame:CGRectMake(0, 0, 35, 35)];
-                    [rightButton setBackgroundImage:[UIImage imageNamed:@"refreshOrder"]forState:UIControlStateNormal];
-                    [rightButton addTarget:self action:@selector(refreshOrder)forControlEvents:UIControlEventTouchUpInside];
-                    UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
-                    self.navigationItem.rightBarButtonItem= rightItem;
-                    [rightItem release];
-                    UIButton*leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
-                    [leftButton setFrame:CGRectMake(0, 0, 50, 30)];
-                    [leftButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
-                    [leftButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
-                    [leftButton setTitle:@"种类" forState:UIControlStateNormal];
-                    [leftButton addTarget:self action:@selector(leftBarButtonTouch)forControlEvents:UIControlEventTouchUpInside];
-                    UIBarButtonItem*leftButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
-                    self.navigationItem.leftBarButtonItem=leftButtonItem;
-                    [leftButtonItem release];
-                    self.title=[NSString stringWithFormat:@"%@-%@",self.title,order.desk.name];
-                    [self.view addSubview: toolBarView];
-                    [table setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-TABBARHEIGHT-44-44)];
-
-                } failure:^{
+                    if (order.status<3) {
+                        [self.navigationItem setHidesBackButton:YES];
+                        UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                        [rightButton setFrame:CGRectMake(0, 0, 35, 35)];
+                        [rightButton setBackgroundImage:[UIImage imageNamed:@"refreshOrder"]forState:UIControlStateNormal];
+                        [rightButton addTarget:self action:@selector(refreshOrder)forControlEvents:UIControlEventTouchUpInside];
+                        UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+                        self.navigationItem.rightBarButtonItem= rightItem;
+                        [rightItem release];
+                        UIButton*leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                        [leftButton setFrame:CGRectMake(0, 0, 50, 30)];
+                        [leftButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
+                        [leftButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
+                        [leftButton setTitle:@"种类" forState:UIControlStateNormal];
+                        [leftButton addTarget:self action:@selector(leftBarButtonTouch)forControlEvents:UIControlEventTouchUpInside];
+                        UIBarButtonItem*leftButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
+                        self.navigationItem.leftBarButtonItem=leftButtonItem;
+                        [leftButtonItem release];
+                        self.title=[NSString stringWithFormat:@"%@-%@",restaurantName,order.desk.name];
+                        [self.view addSubview: toolBarView];
+                        [table setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-TABBARHEIGHT-44-44)];
+                        [self synchronizeOrder:order];
+                    }
+                    else{
+                        self.navigationItem.leftBarButtonItem=nil;
+                        [toolBarView removeFromSuperview];
+                        [self.navigationItem setHidesBackButton:NO];
+                        UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                        [rightButton setFrame:CGRectMake(0, 0, 50, 30)];
+                        [rightButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
+                        [rightButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
+                        [rightButton setTitle:@"开台" forState:UIControlStateNormal];
+                        [rightButton addTarget:self action:@selector(rightBarButtonTouch)forControlEvents:UIControlEventTouchUpInside];
+                        UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+                        self.navigationItem.rightBarButtonItem= rightItem;
+                        [rightItem release];
+                        [table setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-TABBARHEIGHT-44)];
+                        [self synchronizeOrder:nil];
+                    }
+                } failure:^(AFHTTPRequestOperation *operation, NSError *error){
                     [table reloadData];
                 }];
             }
             else{
-                [table reloadData];
+                self.navigationItem.leftBarButtonItem=nil;
+                [toolBarView removeFromSuperview];
+                [self.navigationItem setHidesBackButton:NO];
+                UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                [rightButton setFrame:CGRectMake(0, 0, 50, 30)];
+                [rightButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
+                [rightButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
+                [rightButton setTitle:@"开台" forState:UIControlStateNormal];
+                [rightButton addTarget:self action:@selector(rightBarButtonTouch)forControlEvents:UIControlEventTouchUpInside];
+                UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+                self.navigationItem.rightBarButtonItem= rightItem;
+                [rightItem release];
+                [table setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-TABBARHEIGHT-44)];
+                [self synchronizeOrder:nil];
             }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             NSLog(@"错误: %@", error);
@@ -292,16 +336,6 @@
         
     }];
 
-}
-
-
--(void)viewWillAppear:(BOOL)animated{
-    NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
-    NSNumber *oidNum=[ud valueForKey:@"oid"];
-    if (oidNum!=nil) {
-        [self.navigationItem setHidesBackButton:YES];
-    }
-    [self refreshOrder];
     [super viewWillAppear:animated];
   }
 
@@ -458,7 +492,7 @@
                 self.navigationItem.rightBarButtonItem= rightItem;
                 [rightItem release];
                 [self synchronizeOrder:order];
-                self.title=[NSString stringWithFormat:@"%@-%@",self.title,order.desk.name];
+                self.title=[NSString stringWithFormat:@"%@-%@",restaurantName,order.desk.name];
                 UIButton*leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
                 [leftButton setFrame:CGRectMake(0, 0, 50, 30)];
                 [leftButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
@@ -471,7 +505,7 @@
                 [self.view addSubview: toolBarView];
                 [table setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-TABBARHEIGHT-44-44)];
                 
-            } failure:^{
+            } failure:^(AFHTTPRequestOperation *operation, NSError *error){
                 MessageView *mv=[MessageView messageViewWithMessageText:@"开台码错误"];
                 [mv show];
                 
@@ -508,11 +542,30 @@
     if (oidNum!=nil) {
         self.table.scrollEnabled=NO;
         [Order rid:self.rid Oid:oidNum.integerValue Order:^(Order *order) {
-            [self synchronizeOrder:order];
-            self.table.scrollEnabled=YES;
-        } failure:^{
+            if (order.status<3) {
+                [self synchronizeOrder:order];
+                self.table.scrollEnabled=YES;
+            }
+            else{         
+                self.navigationItem.leftBarButtonItem=nil;
+                [toolBarView removeFromSuperview];
+                [self.navigationItem setHidesBackButton:NO];
+                UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+                [rightButton setFrame:CGRectMake(0, 0, 50, 30)];
+                [rightButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
+                [rightButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
+                [rightButton setTitle:@"开台" forState:UIControlStateNormal];
+                [rightButton addTarget:self action:@selector(rightBarButtonTouch)forControlEvents:UIControlEventTouchUpInside];
+                UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+                self.navigationItem.rightBarButtonItem= rightItem;
+                [rightItem release];
+                [table setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-TABBARHEIGHT-44)];
+                [self synchronizeOrder:nil];
+            }
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error){
         }];
     }
+
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -547,6 +600,7 @@
     [toolBarView release];
     [orderBtn release];
     [waiterBtn release];
+    [restaurantName release];
     [super dealloc];
 }
 
