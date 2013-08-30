@@ -15,7 +15,7 @@
     if (self) {
         self.restaurantName=[dictionary valueForKey:@"restaurant"];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"GMT"]];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Shanghai"]];
         [dateFormatter setDateFormat: @"yyyy-MM-dd HH:mm:ss"];
         self.starttime= [dateFormatter dateFromString:[dictionary valueForKey:@"time"]];
         [dateFormatter release];
