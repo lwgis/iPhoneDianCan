@@ -73,7 +73,6 @@
             }
             self.bmkMapView.showsUserLocation=YES;
             [[AFRestAPIClient sharedClient] getPath:@"user/favorites" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                NSLog(@"%@",responseObject);
                 NSArray *arr=(NSArray *)responseObject;
                 for (Restaurant *res in allRestaurants) {
                     for (NSDictionary *dic in arr) {
@@ -254,13 +253,6 @@
     [mapView setRegion:newRegion animated:YES];
     [table reloadData];
     mapView.showsUserLocation=NO;
-    
-    NSLog(@"%f--%f",userLocation.coordinate.latitude,userLocation.coordinate.longitude);
-    
-//	CLLocationCoordinate2D pt = (CLLocationCoordinate2D){0, 0};
-//	if (_coordinateXText.text != nil && _coordinateYText.text != nil) {
-//		pt = (CLLocationCoordinate2D){[_coordinateYText.text floatValue], [_coordinateXText.text floatValue]};
-//	}
 	BOOL flag = [search reverseGeocode:userLocation.coordinate];
 	if (!flag) {
 		NSLog(@"search failed!");

@@ -113,7 +113,6 @@
                             passWordTextView.text, @"password",
                             nil];
     [[AFRestAPIClient sharedClient] postPath:@"user/login" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"responseObject======%@",operation.response.allHeaderFields);
         if (operation) {
             NSUserDefaults *ns=[NSUserDefaults standardUserDefaults];
             NSMutableDictionary *userInfoDic=[[NSMutableDictionary alloc] initWithDictionary:operation.response.allHeaderFields];

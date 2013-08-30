@@ -77,7 +77,6 @@
 +(void)historyOrder:(historyOrderSuccess)order failue:(historyOrderFailure)failure{
     NSString *path=[NSString stringWithFormat:@"user/history"];
     [[AFRestAPIClient sharedClient] getPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@",responseObject);
         NSArray *tempOrders=(NSArray *)responseObject;
         NSMutableArray *orders=[[NSMutableArray alloc] init];
         for (NSDictionary *dictionary in tempOrders) {

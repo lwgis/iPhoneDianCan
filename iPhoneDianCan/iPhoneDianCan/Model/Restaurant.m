@@ -52,7 +52,6 @@
 +(void)rid:(NSInteger)rid Restaurant:(restaurantSuccess)restaurant failure:(restaurantFailure)failure{
     NSString *path=[NSString stringWithFormat:@"restaurants/%d",rid];
     [[AFRestAPIClient sharedClient] getPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@",responseObject);
         Restaurant *aRestaurant=[[Restaurant alloc] initWithDictionary:responseObject];
         restaurant([aRestaurant autorelease]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

@@ -230,7 +230,6 @@
     [[AFRestAPIClient sharedClient] setDefaultHeader:@"X-device" value:udid];
     //请求所有菜种类
     [[AFRestAPIClient sharedClient] getPath:pathCategory parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"返回头: %@", [operation.response allHeaderFields]);
         NSArray *list = (NSArray*)responseObject;
         [allCategores removeAllObjects];
         for (int i=0; i<list.count;i++) {
@@ -521,8 +520,6 @@
                                     nil];
             NSString *pathStr=[NSString stringWithFormat:@"restaurants/%d/orders/%d/assistent",ridNum.integerValue,oidNum.integerValue];
             [[AFRestAPIClient sharedClient] postPath:pathStr parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                NSLog(@"返回实体: %@", responseObject);
-                NSLog(@"返回头: %@", [operation.response allHeaderFields] );
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 NSLog(@"错误: %@", error);
             }];

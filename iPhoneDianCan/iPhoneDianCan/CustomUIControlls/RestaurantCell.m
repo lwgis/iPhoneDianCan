@@ -87,7 +87,6 @@
     self.favoriteBtn.userInteractionEnabled=NO;
     if (self.isFavorite) {
         [[AFRestAPIClient sharedClient] postPath:pathStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"%@",responseObject);
             self.favoriteBtn.userInteractionEnabled=YES;
             MessageView *mv=[MessageView messageViewWithMessageText:@"已收藏"];
             [mv showWithDuration:0.5];
@@ -103,7 +102,6 @@
     else{
         pathStr=[NSString stringWithFormat:@"user/favorites/%d",self.restaurant.rid];
         [[AFRestAPIClient sharedClient] deletePath:pathStr parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"%@",responseObject);
             self.favoriteBtn.userInteractionEnabled=YES;
             MessageView *mv=[MessageView messageViewWithMessageText:@"已取消收藏"];
             [mv showWithDuration:0.5];

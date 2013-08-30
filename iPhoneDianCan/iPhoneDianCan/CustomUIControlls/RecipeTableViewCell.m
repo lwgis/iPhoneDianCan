@@ -139,7 +139,6 @@
     CAKeyframeAnimation *theAnimation =[CAKeyframeAnimation animationWithKeyPath:@"position"];
     theAnimation.path=thePath;
     theAnimation.duration=(SCREENHEIGHT-(self.frame.origin.y-point.y))/800;
-    NSLog(@"duration=%f",theAnimation.duration);
     theAnimation.repeatCount = 1; 
     theAnimation.autoreverses=NO;
     theAnimation.cumulative=YES;

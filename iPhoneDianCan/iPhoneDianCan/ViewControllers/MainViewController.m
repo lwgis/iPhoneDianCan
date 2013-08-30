@@ -165,9 +165,7 @@
 	if (error == 0) {
         NSUserDefaults *us=[NSUserDefaults standardUserDefaults];
         NSString *usCityName=[us valueForKey:@"cityName"];
-        NSLog(@"------%@",result.addressComponent.city);
         [[AFRestAPIClient sharedClient] getPath:@"city" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            NSLog(@"%@",responseObject);
             NSArray *cities=(NSArray *)responseObject;
             for (NSDictionary *dic in cities) {
                 self.cityName=[dic valueForKey:@"name"];
@@ -260,7 +258,6 @@
         break;
     
     [reader dismissModalViewControllerAnimated: YES];
-    NSLog(@"scandata===%@",symbol.data) ;
     NSString *dataString=[NSString stringWithFormat:@"%@",symbol.data];
     NSArray *array = [dataString componentsSeparatedByString:@"_"];
     if (array.count==1) {

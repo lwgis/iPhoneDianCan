@@ -35,7 +35,6 @@
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     self.title=@"载入中...";
     NSString *urlString=request.URL.absoluteString;
-    NSLog(@"shouldStartLoadWithRequest=%@",urlString);
     NSArray *array = [urlString componentsSeparatedByString:@"http://159.226.110.64:8080/chihuoapp/rest/thirdlogin/callback?"];
     if (array.count>1) {
         NSString *str=[array objectAtIndex:1];
@@ -60,7 +59,6 @@
         } success:^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
             [userInfoDic setObject:UIImagePNGRepresentation(image) forKey:@"image"];
             [ns setObject:userInfoDic forKey:@"userInfo"];
-            NSLog(@"webViewDidFinishLoad:%@",userInfoDic);
             [ns synchronize];
             [userInfoDic release];
             [self.loginDelegate loginIn];

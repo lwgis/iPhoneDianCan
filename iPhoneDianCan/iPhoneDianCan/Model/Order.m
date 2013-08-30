@@ -26,8 +26,6 @@
 +(void)rid:(NSInteger)rid Code:(NSInteger)code Order:(success)order failure:(failure)failure{
     NSString *path=[NSString stringWithFormat:@"restaurants/%d/orders/code/%d",rid,code];
     [[AFRestAPIClient sharedClient] postPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"responseObject======%@",responseObject);
-
         Order *aOrder=[[[Order alloc] initWithDictionary:responseObject] autorelease];
         [self updataBadge:aOrder];
         order(aOrder);
@@ -54,7 +52,6 @@
                             @"1", @"count",
                             nil];
     [[AFRestAPIClient sharedClient] postPath:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@",responseObject);
         Order *aOrder=[[[Order alloc] initWithDictionary:responseObject] autorelease];
         [self updataBadge:aOrder];
         order(aOrder);
@@ -73,7 +70,6 @@
                             @"-1", @"count",
                             nil];
     [[AFRestAPIClient sharedClient] postPath:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@",responseObject);
         Order *aOrder=[[[Order alloc] initWithDictionary:responseObject] autorelease];
         [self updataBadge:aOrder];
         order(aOrder);
@@ -87,7 +83,6 @@
 +(void)CheckOrderWithRid:(NSInteger)rid Oid:(NSInteger)oid Order:(success)order failure:(failure)failure{
     NSString *path=[NSString stringWithFormat:@"restaurants/%d/orders/%d/tocheck",rid,oid];
     [[AFRestAPIClient sharedClient] putPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@",responseObject);
         Order *aOrder=[[[Order alloc] initWithDictionary:responseObject] autorelease];
         order(aOrder);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -99,7 +94,6 @@
 +(void)OrderWithRid:(NSInteger)rid Oid:(NSInteger)oid Order:(success)order failure:(failure)failure{
     NSString *path=[NSString stringWithFormat:@"restaurants/%d/orders/%d/deposit",rid,oid];
     [[AFRestAPIClient sharedClient] putPath:path parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@",responseObject);
         Order *aOrder=[[[Order alloc] initWithDictionary:responseObject] autorelease];
         order(aOrder);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

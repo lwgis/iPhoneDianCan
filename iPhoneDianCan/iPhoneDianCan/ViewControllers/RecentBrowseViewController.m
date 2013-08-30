@@ -60,7 +60,6 @@
     for (int i=dates.count-1; i>=0; i--) {
         [alldates addObject:[dates objectAtIndex:i]];
     }
-    NSLog(@"alldates=%@",alldates);
     allRestaurants=[[NSMutableArray alloc] init];
     for (NSString *str in alldates) {
         NSDictionary *dic=[recentBrowse valueForKey:str];
@@ -69,7 +68,6 @@
         [restaurant release];
     }
     [[AFRestAPIClient sharedClient] getPath:@"user/favorites" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@",responseObject);
         NSArray *arr=(NSArray *)responseObject;
         for (Restaurant *res in allRestaurants) {
             for (NSDictionary *dic in arr) {
@@ -167,7 +165,6 @@
     NSUserDefaults *us=[NSUserDefaults standardUserDefaults];
     NSMutableDictionary *dictionary=[us valueForKey:@"recentBrowse"];
     NSMutableDictionary *recentBrowse=[[NSMutableDictionary alloc] initWithDictionary:dictionary];
-    NSLog(@"%@",recentBrowse);
     if (recentBrowse!=nil) {
         for (NSString *key in recentBrowse.allKeys) {
             NSDictionary *dic=[recentBrowse objectForKey:key];

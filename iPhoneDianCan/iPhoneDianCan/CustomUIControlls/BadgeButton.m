@@ -31,7 +31,6 @@
     if (_badgeValue>0) {
         [buttonCount setTitle:[NSString stringWithFormat:@"%d",_badgeValue] forState:UIControlStateNormal];
 //        [buttonCount sizeToFit];
-        NSLog(@"w=%f",buttonCount.frame.size.width);
         CGFloat width=0;
         if (_badgeValue<10) {
             width=16;
