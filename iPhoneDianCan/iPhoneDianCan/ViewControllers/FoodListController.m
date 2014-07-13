@@ -159,9 +159,10 @@
 }
 -(void)rightBarButtonTouch{
     TextAlertView *tat=[[TextAlertView alloc] init];
-    [tat setDelegate:self];
+    tat.textAlertViewDelegate=self;
     [tat show];
     [tat release];
+    self.navigationItem.rightBarButtonItem.enabled=NO;
 }
 
 -(void)leftBarButtonTouch{
@@ -585,7 +586,45 @@
     }
 }
 
+#pragma mark - textAlertViewDelegate 
+-(void)checkIn:(NSInteger)checkNum{
+    [Order rid:self.rid Code:checkNum Order:^(Order *order) {
+        NSUserDefaults *ud=[NSUserDefaults standardUserDefaults];
+        NSNumber *numoid=[NSNumber numberWithInteger:order.oid];
+        [ud setValue:numoid forKey:@"oid"];
+        NSNumber *numrid=[NSNumber numberWithInteger:self.rid];
+        [ud setValue:numrid forKey:@"rid"];
+        [ud synchronize];
+        [self.navigationItem setHidesBackButton:YES];
+        self.currentOrder=order;
+        UIButton*rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [rightButton setFrame:CGRectMake(0, 0, 35, 35)];
+        [rightButton setBackgroundImage:[UIImage imageNamed:@"refreshOrder"]forState:UIControlStateNormal];
+        [rightButton addTarget:self action:@selector(refreshOrder)forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem*rightItem = [[UIBarButtonItem alloc]initWithCustomView:rightButton];
+        self.navigationItem.rightBarButtonItem= rightItem;
+        [rightItem release];
+        [self synchronizeOrder:order];
+        self.title=[NSString stringWithFormat:@"%@-%@",restaurantName,order.desk.name];
+        UIButton*leftButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [leftButton setFrame:CGRectMake(0, 0, 50, 30)];
+        [leftButton setBackgroundImage:[UIImage imageNamed:@"navRightBtn"]forState:UIControlStateNormal];
+        [leftButton.titleLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0]];
+        [leftButton setTitle:@"种类" forState:UIControlStateNormal];
+        [leftButton addTarget:self action:@selector(leftBarButtonTouch)forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem*leftButtonItem = [[UIBarButtonItem alloc]initWithCustomView:leftButton];
+        self.navigationItem.leftBarButtonItem=leftButtonItem;
+        [leftButtonItem release];
+        [self.view addSubview: toolBarView];
+        [table setFrame:CGRectMake(0, 0, 320, SCREENHEIGHT-TABBARHEIGHT-44-44)];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error){
+        MessageView *mv=[MessageView messageViewWithMessageText:@"开台码错误"];
+        [mv show];
+        
+    }];
 
+}
 -(void)dealloc{
     [table release];
     [categoreTableView release];

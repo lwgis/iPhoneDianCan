@@ -56,6 +56,7 @@
 		D04FF2ED16F5FCCD00C61F49 /* HistoryOrderControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D04FF2EC16F5FCCD00C61F49 /* HistoryOrderControllerViewController.m */; };
 		D04FF31816F63B6F00C61F49 /* accountBtn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D04FF31716F63B6E00C61F49 /* accountBtn@2x.png */; };
 		D05537A916A6B3AE00160BB7 /* RestaurantUser.m in Sources */ = {isa = PBXBuildFile; fileRef = D05537A816A6B3AE00160BB7 /* RestaurantUser.m */; };
+		D0566D94183C6A6000EC413C /* appIcon-h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D0566D93183C6A6000EC413C /* appIcon-h@2x.png */; };
 		D06B9D7016AA174A00D9C826 /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = D06B9D6F16AA174A00D9C826 /* mapapi.bundle */; };
 		D06B9D7516AA1AB600D9C826 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D06B9D7416AA1AB600D9C826 /* CoreLocation.framework */; };
 		D06B9D7716AA1ABF00D9C826 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D06B9D7616AA1ABF00D9C826 /* QuartzCore.framework */; };
@@ -216,6 +217,7 @@
 		D04FF31716F63B6E00C61F49 /* accountBtn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "accountBtn@2x.png"; path = "iPhoneDianCan/image/accountBtn@2x.png"; sourceTree = "<group>"; };
 		D05537A716A6B3AE00160BB7 /* RestaurantUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RestaurantUser.h; path = Model/RestaurantUser.h; sourceTree = "<group>"; };
 		D05537A816A6B3AE00160BB7 /* RestaurantUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RestaurantUser.m; path = Model/RestaurantUser.m; sourceTree = "<group>"; };
+		D0566D93183C6A6000EC413C /* appIcon-h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appIcon-h@2x.png"; sourceTree = "<group>"; };
 		D06B9D5116AA173700D9C826 /* BMapKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMapKit.h; sourceTree = "<group>"; };
 		D06B9D5216AA173700D9C826 /* BMKAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMKAnnotation.h; sourceTree = "<group>"; };
 		D06B9D5316AA173700D9C826 /* BMKAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMKAnnotationView.h; sourceTree = "<group>"; };
@@ -621,6 +623,7 @@
 		D0B1E1981692DAAE00FF07FC = {
 			isa = PBXGroup;
 			children = (
+				D0566D93183C6A6000EC413C /* appIcon-h@2x.png */,
 				D099A0421741E533001AFFBC /* appIcon.png */,
 				D049A92016E6F6A500A068D6 /* appIcon@2x.png */,
 				D0B1E1E91692DBC900FF07FC /* image */,
@@ -864,6 +867,11 @@
 			attributes = {
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = ztb;
+				TargetAttributes = {
+					D0B1E1A21692DAAE00FF07FC = {
+						DevelopmentTeam = 73AAN9795Q;
+					};
+				};
 			};
 			buildConfigurationList = D0B1E19D1692DAAE00FF07FC /* Build configuration list for PBXProject "iPhoneDianCan" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -907,6 +915,7 @@
 				D01C2FAA169AA5EE0071FA43 /* payButtonSelected@2x.png in Resources */,
 				D01C2FAB169AA5EE0071FA43 /* payButton@2x.png in Resources */,
 				D01C2FAC169AA5EE0071FA43 /* waiterButtonSelected@2x.png in Resources */,
+				D0566D94183C6A6000EC413C /* appIcon-h@2x.png in Resources */,
 				D01C2FAD169AA5EE0071FA43 /* waiterButton@2x.png in Resources */,
 				D0C1F8DD169E7CA30080A9FE /* navBackButton@2x.png in Resources */,
 				D0E7741D16A0B5FA005764D8 /* CustomizedNavBg@2x.png in Resources */,
@@ -1054,7 +1063,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: CHEN YANQIONG (5KP65D7Q8S)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1081,9 +1090,9 @@
 					"-all_load",
 					"-w",
 				);
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "CED6736E-3192-4BC2-8A06-B67EF15EC2B1";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos6.0;
 				VALID_ARCHS = armv7;
 			};
 			name = Debug;
@@ -1096,7 +1105,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: CHEN YANQIONG (73AAN9795Q)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1117,9 +1126,9 @@
 					"-all_load",
 					"-w",
 				);
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "4A2D9D1C-DB3B-4FCC-BBAD-6CF81A3FA835";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos;
+				SDKROOT = iphoneos6.0;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = armv7;
 			};
@@ -1130,7 +1139,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: CHEN YANQIONG (5KP65D7Q8S)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhoneDianCan/iPhoneDianCan-Prefix.pch";
@@ -1154,8 +1163,8 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: CHEN YANQIONG (73AAN9795Q)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iPhoneDianCan/iPhoneDianCan-Prefix.pch";
 				INFOPLIST_FILE = "iPhoneDianCan/iPhoneDianCan-Info.plist";

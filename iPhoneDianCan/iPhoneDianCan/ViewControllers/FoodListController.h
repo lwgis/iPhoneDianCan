@@ -11,7 +11,8 @@
 #import "CategoryTableViewController.h"
 #import "RecipeSearchControllerViewController.h"
 #import "BadgeButton.h"
-@interface FoodListController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIScrollViewDelegate,LocationToCellDelegate,UIGestureRecognizerDelegate>
+#import "TextAlertView.h"
+@interface FoodListController : UIViewController<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate,UIScrollViewDelegate,LocationToCellDelegate,UIGestureRecognizerDelegate,TextAlertViewDelegate>
 @property NSInteger rid;// 餐厅id
 @property(nonatomic,retain)UITableView *table;//所有菜列表
 @property(nonatomic,retain)UITableView *categoreTableView;//菜类列表

@@ -31,6 +31,15 @@
     return self;
 }
 
+-(void)codeYesBtnClick{
+    [self.textAlertViewDelegate checkIn:self.code];
+    [self codeNoBtnClick];
+}
+-(void)codeNoBtnClick{
+    UIViewController *sc=(UIViewController *)self.textAlertViewDelegate;
+    sc.navigationItem.rightBarButtonItem.enabled=YES;
+    [self removeFromSuperview];
+}
 -(void)layoutSubviews{
     //屏蔽系统的ImageView 和 UIButton
     for (UIView *v in [self subviews]) {
@@ -63,6 +72,7 @@
     codeNoBtn.titleLabel.font=[UIFont boldSystemFontOfSize:20];
     [codeNoBtn setTitle:@"取消" forState:UIControlStateNormal];
     [codeNoBtn setFrame:CGRectMake(20, 90, 120, 45)];
+    [codeNoBtn addTarget:self action:@selector(codeNoBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:codeNoBtn];
     UIButton *codeYesBtn=[UIButton buttonWithType:UIButtonTypeCustom];
     codeYesBtn.tag=1;
@@ -71,17 +81,23 @@
     codeYesBtn.titleLabel.font=[UIFont boldSystemFontOfSize:20];
     [codeYesBtn setTitle:@"开台" forState:UIControlStateNormal];
     [codeYesBtn setFrame:CGRectMake(160, 90, 120, 45)];
+    [codeYesBtn addTarget:self action:@selector(codeYesBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:codeYesBtn];
 }
 
 -(void)buttonTouch:(UIButton *)sender{
-    [self.delegate alertView:self clickedButtonAtIndex:sender.tag];
-    [self dismissWithClickedButtonIndex:sender.tag animated:YES];
+//    [self.delegate alertView:self clickedButtonAtIndex:sender.tag];
+//    [self dismissWithClickedButtonIndex:sender.tag animated:YES];
 }
 
 - (void) show {
-    [super show];
-    self.bounds = CGRectMake(0, 0, 300,150);
+//    [super show];
+    UIViewController *sc=(UIViewController *)self.textAlertViewDelegate;
+    self.frame = CGRectMake(10, -320, 300,150);
+    [sc.view addSubview:self];
+    [UIView animateWithDuration:0.5 animations:^{
+        self.frame = CGRectMake(10, 10, 300,150);
+    }];
 }
 /*
 // Only override drawRect: if you perform custom drawing.

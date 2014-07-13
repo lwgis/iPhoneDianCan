@@ -7,8 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol TextAlertViewDelegate;
 
-@interface TextAlertView : UIAlertView<UITextViewDelegate>
+@interface TextAlertView : UIView<UITextViewDelegate>
 @property NSInteger code;
 @property(nonatomic,retain)UITextView *codeTexView;
+@property(nonatomic,assign)id<TextAlertViewDelegate> textAlertViewDelegate;
+-(void)show;
+@end
+@protocol TextAlertViewDelegate <NSObject>
+
+-(void)checkIn:(NSInteger) checkNum;
+
 @end
